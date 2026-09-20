@@ -5,6 +5,8 @@ Ce document décrit l’architecture cible. Aucun code n’est écrit à l’ÉT
 > **État réel au terme de l’ÉTAPE 1** (socle technique livré) : Next.js 16 (App Router, Turbopack), React 19, TypeScript strict (avec `noUncheckedIndexedAccess`), Tailwind CSS v4 (configuration par CSS, `@theme`), Vitest. Le dossier `/content` vit à la racine du dépôt (hors de `src/`), avec un alias `@content/*` dédié dans `tsconfig.json`, pour garder la séparation code / contenu strictement visible dans l’arborescence. Détail complet dans `docs/rapports/ETAPE_01.md`.
 >
 > **État réel au terme de l’ÉTAPE 2** (sauvegarde et progression) : Zod ajouté comme dépendance de production pour valider `.mcjson` (`src/lib/schemas/`) ; `fake-indexeddb` ajouté comme dépendance de développement pour tester le cache IndexedDB sans navigateur (`test/progression-db.test.ts`). L’API File System Access n’étant que partiellement couverte par les types `lib.dom` livrés avec TypeScript à cette date, un complément de types minimal a été ajouté dans `src/types/file-system-access.d.ts`. Détail complet dans `docs/rapports/ETAPE_02.md`.
+>
+> **État réel au terme de l’ÉTAPE 3** (moteur pédagogique) : dix-huit composants génériques dans `src/components/mission/` (voir § 5). `next.config.ts` déclare désormais `agentRules: false` : Next.js 16 insère par défaut un bloc d’instructions pour agents IA dans `AGENTS.md` au démarrage de `next dev`, ce qui entrait en conflit avec l’usage de ce fichier comme unique source des règles permanentes du projet (`docs/SPEC.md` § 63). Détail complet dans `docs/rapports/ETAPE_03.md`.
 
 ## 1. Technologies retenues
 
@@ -54,7 +56,7 @@ Chaque mission possède des métadonnées structurées reprenant les champs déf
 
 Aucun contenu pédagogique important n’est écrit directement dans les composants React.
 
-## 5. Composants génériques du moteur pédagogique (ÉTAPE 3)
+## 5. Composants génériques du moteur pédagogique (ÉTAPE 3, livré)
 
 - `SituationReelle`
 - `SimulationPedagogique`
@@ -75,7 +77,7 @@ Aucun contenu pédagogique important n’est écrit directement dans les composa
 - `BilanMission`
 - `MissionTimer`
 
-`SituationReelle` et `SimulationPedagogique` portent visuellement la distinction obligatoire entre réel et simulation (bandeaux « Situation réelle » / « Simulation pédagogique »).
+`SituationReelle` et `SimulationPedagogique` portent visuellement la distinction obligatoire entre réel et simulation (bandeaux « Situation réelle » / « Simulation pédagogique »), avec des jetons de couleur dédiés (`--real` / `--sim`) et leur propre couleur de texte de contraste (`--real-contrast` / `--sim-contrast`) pour rester lisibles en mode clair comme en mode sombre. Neuf de ces composants (`Observe`, `Hypothese`, `Consigne`, `Manipule`, `Mesure`, `Compare`, `ARetenir`, `LimitesDuModele`, `BilanMission`) partagent un même bloc interne (`PhaseBlock`) pour une présentation cohérente. Aucun de ces composants ne contient de texte de mission : tout le contenu réel arrive en `children` ou en props à partir de l’ÉTAPE 6. Emplacement : `src/components/mission/` (import groupé via `src/components/mission/index.ts`).
 
 ## 6. Sécurité web
 

@@ -65,3 +65,146 @@ export function ShieldIcon({ className }: IconProps) {
     </svg>
   );
 }
+
+export function MapPinIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
+  );
+}
+
+export function FlaskIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <line x1="10" y1="3" x2="14" y2="3" />
+      <line x1="10" y1="3" x2="10" y2="9" />
+      <line x1="14" y1="3" x2="14" y2="9" />
+      <path d="M10 9l-5 10a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3L14 9" />
+    </svg>
+  );
+}
+
+export function QuestionIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+      <line x1="12" y1="17" x2="12.01" y2="17" />
+    </svg>
+  );
+}
+
+export function TargetIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="5" />
+      <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+export function EyeIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+
+export function LightbulbIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <path d="M12 3a6 6 0 0 0-4 10.5c.5.5 1 1.5 1 2.5h6c0-1 .5-2 1-2.5A6 6 0 0 0 12 3z" />
+      <path d="M9 18h6" />
+      <path d="M10 21h4" />
+    </svg>
+  );
+}
+
+export function FlagIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <line x1="5" y1="21" x2="5" y2="3" />
+      <path d="M5 4h13l-3 4 3 4H5" />
+    </svg>
+  );
+}
+
+export function SlidersIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <line x1="4" y1="7" x2="20" y2="7" />
+      <circle cx="9" cy="7" r="2" fill="currentColor" stroke="none" />
+      <line x1="4" y1="16" x2="20" y2="16" />
+      <circle cx="16" cy="16" r="2" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+export function CompareIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <rect x="4" y="10" width="5" height="10" />
+      <rect x="14" y="5" width="5" height="15" />
+    </svg>
+  );
+}
+
+export function PencilIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+    </svg>
+  );
+}
+
+export function StarIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z" />
+    </svg>
+  );
+}
+
+export function WarningIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+      <line x1="12" y1="9" x2="12" y2="13" />
+      <line x1="12" y1="17" x2="12.01" y2="17" />
+    </svg>
+  );
+}
+
+export function BookIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21.5z" />
+      <path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5A2.5 2.5 0 0 1 20 21.5z" />
+    </svg>
+  );
+}
+
+export function CheckCircleIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M8 12.5l2.5 2.5L16 9.5" />
+    </svg>
+  );
+}
+
+export function ClockIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <circle cx="12" cy="12" r="9" />
+      <line x1="12" y1="12" x2="12" y2="7" />
+      <line x1="12" y1="12" x2="15.5" y2="14" />
+    </svg>
+  );
+}

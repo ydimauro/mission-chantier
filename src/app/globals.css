@@ -19,7 +19,9 @@
   --brand-contrast: #ffffff;
   --accent: #f59e0b;
   --real: #1d4ed8;
+  --real-contrast: #ffffff;
   --sim: #6d28d9;
+  --sim-contrast: #ffffff;
   --focus-ring: #c2410c;
   --font-sans-stack: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
@@ -39,7 +41,9 @@
     --brand-contrast: #171a21;
     --accent: #fbbf24;
     --real: #60a5fa;
+    --real-contrast: #0f1115;
     --sim: #c4b5fd;
+    --sim-contrast: #0f1115;
     --focus-ring: #fb923c;
   }
 }
@@ -55,7 +59,9 @@
   --brand-contrast: #171a21;
   --accent: #fbbf24;
   --real: #60a5fa;
+  --real-contrast: #0f1115;
   --sim: #c4b5fd;
+  --sim-contrast: #0f1115;
   --focus-ring: #fb923c;
 }
 
@@ -70,7 +76,9 @@
   --color-brand-contrast: var(--brand-contrast);
   --color-accent: var(--accent);
   --color-real: var(--real);
+  --color-real-contrast: var(--real-contrast);
   --color-sim: var(--sim);
+  --color-sim-contrast: var(--sim-contrast);
   --font-sans: var(--font-sans-stack);
 }
 

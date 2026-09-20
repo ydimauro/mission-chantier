@@ -5,6 +5,7 @@ import * as navigation from "@content/navigation";
 import * as privacy from "@content/pages/privacy";
 import * as placeholders from "@content/pages/placeholders";
 import * as progression from "@content/pages/progression";
+import * as engine from "@content/engine";
 
 /**
  * Typographie française obligatoire (docs/SPEC.md § 49, AGENTS.md règle 19) :
@@ -18,6 +19,7 @@ describe("typographie française des contenus", () => {
     privacy,
     placeholders,
     progression,
+    engine,
   };
 
   for (const [moduleName, moduleExports] of Object.entries(modules)) {
