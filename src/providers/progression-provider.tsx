@@ -28,6 +28,7 @@ import {
   createInitialStudentFile,
   isWrongFile,
   markMissionCompleted,
+  recordAssessmentSubmission,
   recordMissionResponses,
   resolveConflict,
   touchStudentFile,
@@ -35,6 +36,8 @@ import {
 } from "@/lib/progression/model";
 import { parseStudentFileJson, type StudentFileParseError } from "@/lib/schemas/migrations";
 import type { StudentFile } from "@/lib/schemas/student-file";
+import type { AssessmentKind } from "@/lib/schemas/proof";
+import { createSeed } from "@/lib/evaluations/seed";
 
 type ConflictKind = "cache-newer" | "file-newer" | "diverged";
 
@@ -80,6 +83,12 @@ type ProgressionContextValue = {
   switchStudent: () => void;
   saveNow: () => Promise<ActionResult>;
   recordResponses: (missionId: string, responses: Record<string, unknown>) => void;
+  submitAssessment: (
+    missionId: string,
+    itemId: string,
+    kind: AssessmentKind,
+    responses: unknown,
+  ) => Promise<ActionResult>;
   completeMission: (missionId: string) => Promise<ActionResult>;
   exportFile: () => void;
   importFile: (raw: string) => Promise<ImportOutcome>;
@@ -222,6 +231,38 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
     [],
   );
 
+  /**
+   * Dépose une évaluation (docs/SPEC.md § 23) : jamais corrigée côté élève,
+   * toujours "pending" jusqu’à la correction dans `/teacher` (ÉTAPE 5). La
+   * graine est calculée ici, à partir du code élève, pour rester la seule
+   * source de vérité (mêmes règles que la sélection de variante, ÉTAPE 4).
+   */
+  const submitAssessment = useCallback(
+    async (
+      missionId: string,
+      itemId: string,
+      kind: AssessmentKind,
+      responses: unknown,
+    ): Promise<ActionResult> => {
+      if (!loadedState?.file) {
+        return { ok: false, reason: "no-identity" };
+      }
+      const seed = createSeed(loadedState.file.studentCode, missionId, itemId);
+      const submission = {
+        missionId,
+        itemId,
+        kind,
+        seed,
+        responses,
+        submittedAt: new Date().toISOString(),
+        status: "pending" as const,
+      };
+      await persistFile(recordAssessmentSubmission(loadedState.file, submission));
+      return { ok: true };
+    },
+    [loadedState, persistFile],
+  );
+
   const completeMission = useCallback(
     async (missionId: string): Promise<ActionResult> => {
       if (!loadedState?.file) {
@@ -345,6 +386,7 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
       switchStudent,
       saveNow,
       recordResponses,
+      submitAssessment,
       completeMission,
       exportFile,
       importFile,
@@ -361,6 +403,7 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
       switchStudent,
       saveNow,
       recordResponses,
+      submitAssessment,
       completeMission,
       exportFile,
       importFile,

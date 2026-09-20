@@ -54,3 +54,17 @@ export const MISSION_TIMER_LABEL = "Temps sur cette mission";
 
 export const MISSION_TERMINEE_BUTTON_LABEL = "Mission terminée";
 export const MISSION_TERMINEE_CONFIRMED_MESSAGE = "Mission terminée. Ta progression a été enregistrée.";
+
+export const ACTIVITY_LABELS = {
+  verifyButton: "Vérifier",
+  retryButton: "Recommencer",
+  successMessage: "Bravo, toutes tes réponses sont correctes.",
+  partialMessageTemplate: "Tu as {correct} bonne réponse sur {total}. Regarde les réponses entourées et corrige-les.",
+  choicePlaceholder: "Choisis une réponse",
+} as const;
+
+export const SOMMATIVE_LABELS = {
+  justificationLabel: "Explique ton choix.",
+  submitButton: "Remettre mon évaluation",
+} as const;
+

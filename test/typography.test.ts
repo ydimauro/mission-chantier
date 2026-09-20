@@ -13,6 +13,12 @@ import * as missionHub from "@content/pages/mission-hub";
 import * as givorsMedia from "@content/givors/media";
 import * as missionRegistry from "@content/missions/registry";
 import * as mission5e00 from "@content/5e/5e-00";
+import * as mission5e01 from "@content/5e/5e-01";
+import * as mission5e02 from "@content/5e/5e-02";
+import * as mission5e03 from "@content/5e/5e-03";
+import * as mission5e04 from "@content/5e/5e-04";
+import * as mission5e05 from "@content/5e/5e-05";
+import * as mission5e06 from "@content/5e/5e-06";
 import * as mission4e00 from "@content/4e/4e-00";
 
 /**
@@ -35,6 +41,12 @@ describe("typographie française des contenus", () => {
     givorsMedia,
     missionRegistry,
     mission5e00,
+    mission5e01,
+    mission5e02,
+    mission5e03,
+    mission5e04,
+    mission5e05,
+    mission5e06,
     mission4e00,
   };
 

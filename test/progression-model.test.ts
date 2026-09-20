@@ -4,10 +4,12 @@ import {
   createInitialStudentFile,
   isWrongFile,
   markMissionCompleted,
+  recordAssessmentSubmission,
   recordMissionResponses,
   resolveConflict,
   touchStudentFile,
 } from "@/lib/progression/model";
+import type { AssessmentSubmission } from "@/lib/schemas/assessment-submission";
 
 describe("modèle de progression", () => {
   it("crée un fichier initial à la révision 0", () => {
@@ -53,6 +55,38 @@ describe("modèle de progression", () => {
       const step1 = recordMissionResponses(file, "5E-00", { a: 1 });
       const step2 = recordMissionResponses(step1, "5E-01", { b: 2 });
       expect(step2.responses).toEqual({ "5E-00": { a: 1 }, "5E-01": { b: 2 } });
+    });
+  });
+
+  describe("dépôt d'évaluation (docs/SPEC.md § 23, § 38)", () => {
+    function submission(overrides: Partial<AssessmentSubmission> = {}): AssessmentSubmission {
+      return {
+        missionId: "5E-04",
+        itemId: "choix-engin",
+        kind: "summative",
+        responses: { choiceId: "pelle" },
+        submittedAt: "2026-09-20T10:00:00.000Z",
+        status: "pending",
+        ...overrides,
+      };
+    }
+
+    it("ajoute un nouveau dépôt et augmente la révision", () => {
+      const file = createInitialStudentFile({ studentCode: "4E2-017", classe: "4E2", niveau: "4e" });
+      const updated = recordAssessmentSubmission(file, submission());
+      expect(updated.assessments).toEqual([submission()]);
+      expect(updated.revision).toBe(file.revision + 1);
+    });
+
+    it("remplace un dépôt existant pour le même item plutôt que de le dupliquer", () => {
+      const file = createInitialStudentFile({ studentCode: "4E2-017", classe: "4E2", niveau: "4e" });
+      const first = recordAssessmentSubmission(file, submission({ responses: { choiceId: "pelle" } }));
+      const second = recordAssessmentSubmission(
+        first,
+        submission({ responses: { choiceId: "grue" } }),
+      );
+      expect(second.assessments).toHaveLength(1);
+      expect(second.assessments[0]?.responses).toEqual({ choiceId: "grue" });
     });
   });
 

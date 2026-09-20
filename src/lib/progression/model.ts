@@ -1,4 +1,5 @@
 import { CURRENT_SCHEMA_VERSION, type StudentFile } from "@/lib/schemas/student-file";
+import type { AssessmentSubmission } from "@/lib/schemas/assessment-submission";
 import type { Level } from "@content/config";
 
 export type NewStudentIdentity = {
@@ -57,6 +58,24 @@ export function recordMissionResponses(
     ...file,
     responses: { ...file.responses, [missionId]: merged },
   };
+}
+
+/**
+ * Enregistre un dépôt d’évaluation (docs/SPEC.md § 23) : remplace un dépôt
+ * existant pour le même item plutôt que de le dupliquer, et augmente la
+ * révision (« réponses sauvegardées » avant remise du fichier, § 38).
+ */
+export function recordAssessmentSubmission(
+  file: StudentFile,
+  submission: AssessmentSubmission,
+): StudentFile {
+  const withoutPrevious = file.assessments.filter(
+    (existing) => !(existing.missionId === submission.missionId && existing.itemId === submission.itemId),
+  );
+  return touchStudentFile({
+    ...file,
+    assessments: [...withoutPrevious, submission],
+  });
 }
 
 /**

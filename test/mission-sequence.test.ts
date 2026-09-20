@@ -8,7 +8,10 @@ describe("prochaine mission d'un niveau", () => {
   });
 
   it("passe à la mission suivante une fois la précédente terminée", () => {
-    expect(findNextMission("5e", ["5E-00"])).toBeNull();
+    expect(findNextMission("5e", ["5E-00"])?.id).toBe("5E-01");
+    expect(
+      findNextMission("5e", ["5E-00", "5E-01", "5E-02", "5E-03", "5E-04", "5E-05", "5E-06"]),
+    ).toBeNull();
   });
 
   it("ignore les missions terminées d'un autre niveau", () => {
