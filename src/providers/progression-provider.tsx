@@ -27,6 +27,8 @@ import {
   buildStudentFileName,
   createInitialStudentFile,
   isWrongFile,
+  markMissionCompleted,
+  recordMissionResponses,
   resolveConflict,
   touchStudentFile,
   type NewStudentIdentity,
@@ -77,6 +79,8 @@ type ProgressionContextValue = {
   createIdentity: (identity: NewStudentIdentity) => Promise<void>;
   switchStudent: () => void;
   saveNow: () => Promise<ActionResult>;
+  recordResponses: (missionId: string, responses: Record<string, unknown>) => void;
+  completeMission: (missionId: string) => Promise<ActionResult>;
   exportFile: () => void;
   importFile: (raw: string) => Promise<ImportOutcome>;
   chooseFolder: () => Promise<ActionResult>;
@@ -168,32 +172,66 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
     setWrongFile(null);
   }, []);
 
+  /** Écrit un fichier déjà transformé dans IndexedDB et, si lié, dans le
+   * dossier choisi (File System Access) ; utilisé par `saveNow` et
+   * `completeMission` pour ne pas dupliquer cette logique. */
+  const persistFile = useCallback(
+    async (saved: StudentFile): Promise<void> => {
+      await putStudentFile(saved);
+
+      let folderLinked = loadedState?.folderLinked ?? false;
+      if (folderLinked && loadedState?.activeStudentCode) {
+        const handle = await getDirectoryHandle(loadedState.activeStudentCode);
+        if (handle) {
+          const permitted = await ensureReadWritePermission(handle);
+          if (permitted) {
+            await writeStudentFileToDirectory(handle, saved);
+          } else {
+            folderLinked = false;
+          }
+        } else {
+          folderLinked = false;
+        }
+      }
+
+      setLoadedState((prev) => (prev ? { ...prev, file: saved, folderLinked } : prev));
+    },
+    [loadedState],
+  );
+
   const saveNow = useCallback(async (): Promise<ActionResult> => {
     if (!loadedState?.file) {
       return { ok: false, reason: "no-identity" };
     }
-
-    const saved = touchStudentFile(loadedState.file);
-    await putStudentFile(saved);
-
-    let folderLinked = loadedState.folderLinked;
-    if (folderLinked && loadedState.activeStudentCode) {
-      const handle = await getDirectoryHandle(loadedState.activeStudentCode);
-      if (handle) {
-        const permitted = await ensureReadWritePermission(handle);
-        if (permitted) {
-          await writeStudentFileToDirectory(handle, saved);
-        } else {
-          folderLinked = false;
-        }
-      } else {
-        folderLinked = false;
-      }
-    }
-
-    setLoadedState((prev) => (prev ? { ...prev, file: saved, folderLinked } : prev));
+    await persistFile(touchStudentFile(loadedState.file));
     return { ok: true };
-  }, [loadedState]);
+  }, [loadedState, persistFile]);
+
+  /**
+   * Enregistre les réponses d’une mission dans l’état en mémoire, sans
+   * augmenter `revision` : ce n’est qu’au moment de `completeMission` (ou
+   * d’un `saveNow` explicite) que la sauvegarde devient significative
+   * (docs/SPEC.md § 33).
+   */
+  const recordResponses = useCallback(
+    (missionId: string, responses: Record<string, unknown>) => {
+      setLoadedState((prev) =>
+        prev?.file ? { ...prev, file: recordMissionResponses(prev.file, missionId, responses) } : prev,
+      );
+    },
+    [],
+  );
+
+  const completeMission = useCallback(
+    async (missionId: string): Promise<ActionResult> => {
+      if (!loadedState?.file) {
+        return { ok: false, reason: "no-identity" };
+      }
+      await persistFile(markMissionCompleted(loadedState.file, missionId));
+      return { ok: true };
+    },
+    [loadedState, persistFile],
+  );
 
   const exportFile = useCallback(() => {
     if (!loadedState?.file) return;
@@ -306,6 +344,8 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
       createIdentity,
       switchStudent,
       saveNow,
+      recordResponses,
+      completeMission,
       exportFile,
       importFile,
       chooseFolder,
@@ -320,6 +360,8 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
       createIdentity,
       switchStudent,
       saveNow,
+      recordResponses,
+      completeMission,
       exportFile,
       importFile,
       chooseFolder,

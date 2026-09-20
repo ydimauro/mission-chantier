@@ -9,6 +9,11 @@ import * as engine from "@content/engine";
 import * as competencies from "@content/competencies";
 import * as evaluations from "@content/evaluations";
 import * as teacher from "@content/pages/teacher";
+import * as missionHub from "@content/pages/mission-hub";
+import * as givorsMedia from "@content/givors/media";
+import * as missionRegistry from "@content/missions/registry";
+import * as mission5e00 from "@content/5e/5e-00";
+import * as mission4e00 from "@content/4e/4e-00";
 
 /**
  * Typographie française obligatoire (docs/SPEC.md § 49, AGENTS.md règle 19) :
@@ -26,6 +31,11 @@ describe("typographie française des contenus", () => {
     competencies,
     evaluations,
     teacher,
+    missionHub,
+    givorsMedia,
+    missionRegistry,
+    mission5e00,
+    mission4e00,
   };
 
   for (const [moduleName, moduleExports] of Object.entries(modules)) {

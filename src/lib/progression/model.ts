@@ -38,6 +38,45 @@ export function touchStudentFile(file: StudentFile): StudentFile {
 }
 
 /**
+ * Enregistre les réponses brutes d’une mission (choix diagnostiques,
+ * réponses non corrigées, docs/SPEC.md § 24.1 champ `responses`). Fusionne
+ * avec les réponses déjà présentes pour cette mission plutôt que de les
+ * remplacer entièrement.
+ */
+export function recordMissionResponses(
+  file: StudentFile,
+  missionId: string,
+  responses: Record<string, unknown>,
+): StudentFile {
+  const existing = file.responses[missionId];
+  const merged = {
+    ...(existing !== null && typeof existing === "object" ? existing : {}),
+    ...responses,
+  };
+  return {
+    ...file,
+    responses: { ...file.responses, [missionId]: merged },
+  };
+}
+
+/**
+ * Marque une mission comme terminée (ajout à `completedMissionIds`, mission
+ * courante remise à `null`) et augmente la révision : c’est une sauvegarde
+ * significative (docs/SPEC.md § 33, § 38 « fin de mission »).
+ */
+export function markMissionCompleted(file: StudentFile, missionId: string): StudentFile {
+  const completedMissionIds = file.completedMissionIds.includes(missionId)
+    ? file.completedMissionIds
+    : [...file.completedMissionIds, missionId];
+
+  return touchStudentFile({
+    ...file,
+    completedMissionIds,
+    currentMissionId: null,
+  });
+}
+
+/**
  * Un fichier importé n’est jamais fusionné automatiquement (docs/SPEC.md
  * § 35) : il appartient à un autre code élève que la session en cours.
  */

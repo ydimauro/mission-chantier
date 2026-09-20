@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import { PlaceholderSection } from "@/components/ui/PlaceholderSection";
-import { MISSION_PLACEHOLDER } from "@content/pages/placeholders";
+import { MISSION_HUB_TITLE } from "@content/pages/mission-hub";
+import { RequireStudentIdentity } from "@/components/progression/RequireStudentIdentity";
+import { MissionHub } from "@/components/mission/MissionHub";
 
-export const metadata: Metadata = { title: MISSION_PLACEHOLDER.title };
+export const metadata: Metadata = { title: MISSION_HUB_TITLE };
 
 export default function MissionPage() {
   return (
-    <PlaceholderSection title={MISSION_PLACEHOLDER.title} body={MISSION_PLACEHOLDER.body} />
+    <RequireStudentIdentity>
+      <MissionHub />
+    </RequireStudentIdentity>
   );
 }

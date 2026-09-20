@@ -51,3 +51,6 @@ export const INDICE_PROGRESSIF_LABELS = {
 export const FEEDBACK_RETRY_BUTTON_LABEL = "Nouvel essai";
 
 export const MISSION_TIMER_LABEL = "Temps sur cette mission";
+
+export const MISSION_TERMINEE_BUTTON_LABEL = "Mission terminée";
+export const MISSION_TERMINEE_CONFIRMED_MESSAGE = "Mission terminée. Ta progression a été enregistrée.";

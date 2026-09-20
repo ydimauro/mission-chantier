@@ -18,11 +18,6 @@ export const HOME_CONTENT = {
   ctaLabel: "Découvrir ma mission",
 } as const;
 
-export const MISSION_PLACEHOLDER = {
-  title: "Ma mission",
-  body: "Les missions seront disponibles ici au fil du développement de l’application. Reviens un peu plus tard.",
-} as const;
-
 export const CARNET_PLACEHOLDER = {
   title: "Mon carnet",
   body: "Cet espace rappellera, mission après mission, ce que tu dois écrire dans ton cahier papier. L’application ne remplace jamais le cahier.",

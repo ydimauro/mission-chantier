@@ -3,6 +3,8 @@ import {
   buildStudentFileName,
   createInitialStudentFile,
   isWrongFile,
+  markMissionCompleted,
+  recordMissionResponses,
   resolveConflict,
   touchStudentFile,
 } from "@/lib/progression/model";
@@ -30,6 +32,44 @@ describe("modèle de progression", () => {
   it("construit le nom de fichier attendu, y compris la copie .bak", () => {
     expect(buildStudentFileName("4E2-017")).toBe("mission-chantier-4E2-017.mcjson");
     expect(buildStudentFileName("4E2-017", ".bak")).toBe("mission-chantier-4E2-017.mcjson.bak");
+  });
+
+  describe("réponses de mission (docs/SPEC.md § 24.1)", () => {
+    it("enregistre les réponses d'une mission", () => {
+      const file = createInitialStudentFile({ studentCode: "4E2-017", classe: "4E2", niveau: "4e" });
+      const updated = recordMissionResponses(file, "5E-00", { diagnostic: ["on-demolit"] });
+      expect(updated.responses["5E-00"]).toEqual({ diagnostic: ["on-demolit"] });
+    });
+
+    it("fusionne avec les réponses déjà présentes pour la même mission", () => {
+      const file = createInitialStudentFile({ studentCode: "4E2-017", classe: "4E2", niveau: "4e" });
+      const step1 = recordMissionResponses(file, "5E-00", { diagnostic: ["on-demolit"] });
+      const step2 = recordMissionResponses(step1, "5E-00", { hypotheseEcrite: true });
+      expect(step2.responses["5E-00"]).toEqual({ diagnostic: ["on-demolit"], hypotheseEcrite: true });
+    });
+
+    it("ne touche pas les réponses d'une autre mission", () => {
+      const file = createInitialStudentFile({ studentCode: "4E2-017", classe: "4E2", niveau: "4e" });
+      const step1 = recordMissionResponses(file, "5E-00", { a: 1 });
+      const step2 = recordMissionResponses(step1, "5E-01", { b: 2 });
+      expect(step2.responses).toEqual({ "5E-00": { a: 1 }, "5E-01": { b: 2 } });
+    });
+  });
+
+  describe("fin de mission (docs/SPEC.md § 33, § 38)", () => {
+    it("ajoute la mission aux missions terminées et augmente la révision", () => {
+      const file = createInitialStudentFile({ studentCode: "4E2-017", classe: "4E2", niveau: "4e" });
+      const updated = markMissionCompleted(file, "5E-00");
+      expect(updated.completedMissionIds).toEqual(["5E-00"]);
+      expect(updated.revision).toBe(file.revision + 1);
+      expect(updated.currentMissionId).toBeNull();
+    });
+
+    it("ne duplique pas une mission déjà marquée terminée", () => {
+      const file = { ...createInitialStudentFile({ studentCode: "4E2-017", classe: "4E2", niveau: "4e" }), completedMissionIds: ["5E-00"] };
+      const updated = markMissionCompleted(file, "5E-00");
+      expect(updated.completedMissionIds).toEqual(["5E-00"]);
+    });
   });
 
   describe("résolution des conflits cache / fichier (docs/SPEC.md § 34)", () => {
