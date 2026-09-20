@@ -41,6 +41,8 @@ Conséquence directe pour les missions à ancrage réel (5E-00, 5E-01, 5E-02, 5E
 
 Aucune donnée réelle n’a été inventée pour combler ce manque, conformément à la règle 5 de `AGENTS.md`.
 
+> **Mise à jour (2026-09-20)** : une première photographie réelle est désormais disponible (`public/givors/mission_chantier_givors.png`), suffisante pour amorcer 5E-00. Les missions 5E-01, 5E-02, 5E-07 et 4E-00 restent en attente de sources complémentaires. Détail et métadonnées provisoires dans `docs/QUESTIONS_OUVERTES.md`.
+
 ## 5. Contraintes non négociables retenues pour la suite du projet
 
 - Durée : aucune mission obligatoire ne dépasse 45 minutes pour l’élève le plus lent ; avertissement interne si l’estimation lente dépasse 43 minutes.
