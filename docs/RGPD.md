@@ -51,7 +51,7 @@ Exemple de formulation de référence à reprendre sur cette page : « Aucune do
 
 ## 6. `.mcconfig` (fichier classe)
 
-Contient uniquement des paramètres collectifs (classe, niveau, durée standard, missions activées, politique de correction, autres réglages communs non sensibles). Ne contient jamais de liste d’élèves aménagés, de donnée médicale, ni d’information individuelle sensible. Un test automatique dédié est prévu dès l’ÉTAPE 4 pour vérifier cette règle (`docs/SPEC.md` § 64, test n° 24).
+Contient uniquement des paramètres collectifs (classe, niveau, durée standard, missions activées, politique de correction, autres réglages communs non sensibles). Ne contient jamais de liste d’élèves aménagés, de donnée médicale, ni d’information individuelle sensible : le schéma (`src/lib/schemas/class-config.ts`, ÉTAPE 5) ne définit tout simplement aucun champ de ce type. Un test automatique dédié vérifie cette règle (`docs/SPEC.md` § 64, test n° 24).
 
 ## 7. `.mctkey` (fichier enseignant)
 

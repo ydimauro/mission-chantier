@@ -41,11 +41,24 @@ describe("aucun corrigé sommative exposé dans le build élève (docs/SPEC.md �
     expect(offenders).toEqual([]);
   });
 
-  it("le schéma .mctkey n'est importé par aucune route applicative (src/app)", () => {
+  it("le schéma .mctkey n'est importé que par l'espace professeur (src/app/teacher), jamais par une route élève", () => {
     const appFiles = listSourceFiles(join(projectRoot, "src", "app"), codeExtensions);
-    const offenders = appFiles.filter((file) =>
+    const studentFacingFiles = appFiles.filter(
+      (file) => !file.includes(join("src", "app", "teacher")),
+    );
+    const offenders = studentFacingFiles.filter((file) =>
       readFileSync(file, "utf-8").includes("schemas/teacher-key"),
     );
+    expect(offenders).toEqual([]);
+  });
+
+  it("le module de correction professeur (src/lib/teacher) n'est importé par aucune route élève", () => {
+    const appFiles = listSourceFiles(join(projectRoot, "src", "app"), codeExtensions);
+    const studentFacingFiles = appFiles.filter(
+      (file) => !file.includes(join("src", "app", "teacher")),
+    );
+    const importPattern = /(?:from\s+|require\()\s*["']@\/lib\/teacher\//;
+    const offenders = studentFacingFiles.filter((file) => importPattern.test(readFileSync(file, "utf-8")));
     expect(offenders).toEqual([]);
   });
 });

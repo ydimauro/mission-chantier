@@ -130,4 +130,12 @@ Ne figure jamais dans `.mcconfig` (fichier collectif). Deux méthodes d’applic
 
 ## 10. Corrections et évaluation humaine
 
-Pour les réponses ouvertes, `/teacher` permet un barème simple par défaut (0 / 0,5 / 1 point) ou un barème défini dans `.mctkey`. Le détail du flux de correction est décrit dans `docs/ARCHITECTURE.md` (espace `/teacher`) et sera implémenté à l’ÉTAPE 5.
+Pour les réponses ouvertes, `/teacher` permet un barème simple par défaut (0 / 0,5 / 1 point) ou un barème défini dans `.mctkey`. Le détail du flux de correction est décrit dans `docs/ARCHITECTURE.md` (espace `/teacher`).
+
+> **Implémentation (ÉTAPE 5)**, `src/lib/teacher/` :
+>
+> - chaque item du `.mctkey` déclare la compétence évaluée, s’il constitue une situation de transfert, son barème (`auto` ou `human`, en points), et ses corrigés par variante (un tableau, retrouvé avec la même fonction `pickVariant` que celle qui a présenté la variante à l’élève, garantissant que les deux côtés retrouvent toujours la même variante à partir de la même graine) ;
+> - la correction automatique compare la réponse déposée à la variante attendue (égalité structurelle) ; la correction humaine attribue un score en points, ramené sur l’échelle 0 à 1 du fichier élève ;
+> - le score d’une mission sommative est la moyenne de ses items corrigés, pondérée par leurs points respectifs ;
+> - chaque item corrigé produit ou met à jour une preuve de compétence (docs/EVALUATIONS.md § 5) ;
+> - **aucune donnée n’est persistée entre deux ouvertures de `/teacher`** : ni le `.mctkey`, ni les fichiers élèves importés, ni les corrections en cours ne sont écrits en `localStorage` ou IndexedDB. L’enseignant réimporte ses fichiers à chaque session de correction. Ce choix limite la durée de vie des corrigés sur un poste potentiellement partagé.
