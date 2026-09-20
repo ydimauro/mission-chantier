@@ -1,0 +1,16 @@
+{
+  "name": "Mission Chantier",
+  "short_name": "Mission Chantier",
+  "description": "Application pédagogique de technologie, cycle 4, collège REP - Givors",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#C2410C",
+  "lang": "fr",
+  "icons": [
+    { "src": "/icons/icon-16.svg", "sizes": "16x16", "type": "image/svg+xml" },
+    { "src": "/icons/icon-32.svg", "sizes": "32x32", "type": "image/svg+xml" },
+    { "src": "/icons/icon-180.svg", "sizes": "180x180", "type": "image/svg+xml" },
+    { "src": "/icons/icon-512.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

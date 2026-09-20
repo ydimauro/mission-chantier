@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+/*
+ * Jetons de couleur : définis une fois en clair, redéfinis pour le mode
+ * sombre (système puis choix explicite), conformément au fonctionnement
+ * attendu pour /docs/ARCHITECTURE.md et à l’accessibilité (docs/SPEC.md § 43).
+ * Aucune information n’est jamais portée par la seule couleur : chaque
+ * composant qui utilise --real / --sim l’associe aussi à un texte et une
+ * icône (voir SituationReelle / SimulationPedagogique, à partir de l’ÉTAPE 3).
+ */
+:root {
+  --background: #ffffff;
+  --surface: #ffffff;
+  --surface-muted: #f4f5f7;
+  --border: #e2e4e9;
+  --ink: #1e293b;
+  --ink-muted: #52606d;
+  --brand: #c2410c;
+  --brand-contrast: #ffffff;
+  --accent: #f59e0b;
+  --real: #1d4ed8;
+  --sim: #6d28d9;
+  --focus-ring: #c2410c;
+  --font-sans-stack: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-dyslexia-stack: "OpenDyslexic", "Comic Sans MS", "Century Gothic",
+    ui-sans-serif, system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background: #0f1115;
+    --surface: #171a21;
+    --surface-muted: #1e222b;
+    --border: #2a2e38;
+    --ink: #f1f5f9;
+    --ink-muted: #a0aab8;
+    --brand: #fb923c;
+    --brand-contrast: #171a21;
+    --accent: #fbbf24;
+    --real: #60a5fa;
+    --sim: #c4b5fd;
+    --focus-ring: #fb923c;
+  }
+}
+
+:root[data-theme="dark"] {
+  --background: #0f1115;
+  --surface: #171a21;
+  --surface-muted: #1e222b;
+  --border: #2a2e38;
+  --ink: #f1f5f9;
+  --ink-muted: #a0aab8;
+  --brand: #fb923c;
+  --brand-contrast: #171a21;
+  --accent: #fbbf24;
+  --real: #60a5fa;
+  --sim: #c4b5fd;
+  --focus-ring: #fb923c;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-brand: var(--brand);
+  --color-brand-contrast: var(--brand-contrast);
+  --color-accent: var(--accent);
+  --color-real: var(--real);
+  --color-sim: var(--sim);
+  --font-sans: var(--font-sans-stack);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--ink);
+  font-family: var(--font-sans-stack);
+}
+
+/* Focus clavier toujours visible (docs/SPEC.md § 43). */
+:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/*
+ * Taille du texte (zoom applicatif 125 % / 150 %, docs/SPEC.md § 43).
+ * S’ajoute au zoom natif du navigateur, ne le remplace pas.
+ */
+html[data-text-scale="125"] {
+  font-size: 125%;
+}
+
+html[data-text-scale="150"] {
+  font-size: 150%;
+}
+
+/*
+ * Police adaptée : augmente l’espacement des lettres, des mots et des
+ * lignes, et propose une police alternative si elle est disponible sur le
+ * poste. Aucune police n’est téléchargée à distance (docs/SPEC.md § 62).
+ */
+html[data-dyslexia="true"] body {
+  font-family: var(--font-dyslexia-stack);
+  letter-spacing: 0.02em;
+  word-spacing: 0.12em;
+  line-height: 1.75;
+}
+
+/*
+ * Mode vidéoprojecteur : contrastes et tailles renforcés pour une lecture
+ * à distance en salle de classe (docs/SPEC.md § 43).
+ */
+html[data-projector="true"] body {
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+
+html[data-projector="true"] {
+  --border: #94a3b8;
+}
+
+html[data-projector="true"][data-theme="dark"],
+html[data-projector="true"]:not([data-theme="light"]) {
+  --ink-muted: var(--ink);
+}
+
+/*
+ * Mode performance et réduction des animations : désactive transitions,
+ * animations et ombres portées (docs/SPEC.md § 45 et § 59).
+ */
+html[data-performance="true"] *,
+html[data-performance="true"] *::before,
+html[data-performance="true"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  box-shadow: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
