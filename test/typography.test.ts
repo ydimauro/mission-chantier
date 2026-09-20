@@ -6,6 +6,8 @@ import * as privacy from "@content/pages/privacy";
 import * as placeholders from "@content/pages/placeholders";
 import * as progression from "@content/pages/progression";
 import * as engine from "@content/engine";
+import * as competencies from "@content/competencies";
+import * as evaluations from "@content/evaluations";
 
 /**
  * Typographie française obligatoire (docs/SPEC.md § 49, AGENTS.md règle 19) :
@@ -20,6 +22,8 @@ describe("typographie française des contenus", () => {
     placeholders,
     progression,
     engine,
+    competencies,
+    evaluations,
   };
 
   for (const [moduleName, moduleExports] of Object.entries(modules)) {

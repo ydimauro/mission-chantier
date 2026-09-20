@@ -123,3 +123,5 @@ Règles retenues pour l’ÉTAPE 4 (implémentation ultérieure, décrites ici p
 6. Le détail du barème (seuils numériques) est fixé dans `.mctkey`, jamais codé en dur côté élève.
 
 Ce point est détaillé également dans `docs/EVALUATIONS.md`.
+
+> **Implémentation (ÉTAPE 4)**, `src/lib/evaluations/mastery.ts` : seules les preuves de type sommatif ou final comptent (règle 1). Les seuils numériques sont un paramètre de la fonction, jamais une constante figée : des valeurs par défaut (0,40 / 0,65 / 0,80) servent uniquement à l’aperçu côté élève dans « Ma progression » tant qu’aucun `.mctkey` n’a défini ses propres seuils (règle 6) ; `/teacher` (ÉTAPE 5) fournira les seuils réels. La « divergence » de la règle 5 est détectée lorsqu’une preuve est au moins 0,35 point en dessous de la moyenne des autres preuves : dans ce cas, le niveau est plafonné à « Maîtrise fragile ».

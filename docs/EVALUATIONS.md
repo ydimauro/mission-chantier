@@ -95,6 +95,14 @@ Pondération par défaut : sommatives intermédiaires 40 %, finale 60 %, diagnos
 
 Une absence n’est jamais transformée automatiquement en zéro : état « Non passée » utilisé explicitement. Tant que toutes les évaluations obligatoires nécessaires ne sont pas corrigées, la note affichée porte la mention « Note provisoire ». Affichage recommandé au demi-point (exemple : « 14,5 / 20 »), le calcul interne conservant sa précision réelle.
 
+> **Décision d’implémentation (ÉTAPE 4)**, `src/lib/evaluations/grade.ts` :
+>
+> - chaque sommative intermédiaire et la finale ont un état : « non passée », « en attente de correction » ou « corrigée » (avec un score) ;
+> - une sommative « non passée » est exclue du calcul de la moyenne intermédiaire (jamais comptée comme 0) ;
+> - la note reste « provisoire » tant qu’une sommative intermédiaire est en attente de correction, ou tant que la finale n’est pas corrigée (elle pèse à elle seule 60 %) ;
+> - avant que la finale existe, une note provisoire peut déjà être calculée sur la seule base des sommatives intermédiaires corrigées (usage courant d’une note provisoire en cours d’année) ;
+> - si aucune sommative n’est encore corrigée, aucune note n’est calculable (« Note non calculable pour le moment », à distinguer de « Non passée » qui concerne un item individuel).
+
 ## 7. Niveaux de maîtrise
 
 Cinq niveaux : Non évaluée, Maîtrise insuffisante, Maîtrise fragile, Maîtrise satisfaisante, Très bonne maîtrise. Jamais dépendants uniquement d’une couleur à l’affichage (icône ou texte systématique en complément). Algorithme détaillé dans `docs/COMPETENCES.md` § 5.

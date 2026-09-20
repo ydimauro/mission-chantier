@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { assessmentSubmissionSchema } from "@/lib/schemas/assessment-submission";
+import { competencyProofSchema } from "@/lib/schemas/proof";
 
 /**
  * Schéma du fichier élève .mcjson (docs/SPEC.md § 24.1, docs/SAUVEGARDE.md).
@@ -27,13 +29,13 @@ export const studentFileSchemaV1 = z.object({
   niveau: z.enum(["5e", "4e"]),
   currentMissionId: z.string().min(1).nullable(),
   completedMissionIds: z.array(z.string().min(1)),
-  // Réponses, évaluations et preuves : structures génériques tant que le
-  // contenu des missions n’existe pas (ÉTAPE 6 et suivantes). Le format
-  // précis de chaque entrée sera fixé au fil des étapes, sans que cela ne
-  // nécessite de changer la forme générale du fichier.
+  // Réponses brutes par mission : structure générique tant que le contenu
+  // des missions n’existe pas (ÉTAPE 6 et suivantes).
   responses: z.record(z.string(), z.unknown()),
-  assessments: z.record(z.string(), z.unknown()),
-  proofs: z.array(z.unknown()),
+  // Dépôts d’évaluation (diagnostic, formatif, sommatif, final) et preuves
+  // de compétence : forme fixée à l’ÉTAPE 4 (docs/rapports/ETAPE_04.md).
+  assessments: z.array(assessmentSubmissionSchema),
+  proofs: z.array(competencyProofSchema),
   accommodation: z.enum(ASSESSMENT_ACCOMMODATIONS),
 });
 

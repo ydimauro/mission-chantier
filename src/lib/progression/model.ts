@@ -18,7 +18,7 @@ export function createInitialStudentFile(identity: NewStudentIdentity): StudentF
     currentMissionId: null,
     completedMissionIds: [],
     responses: {},
-    assessments: {},
+    assessments: [],
     proofs: [],
     accommodation: "standard",
   };

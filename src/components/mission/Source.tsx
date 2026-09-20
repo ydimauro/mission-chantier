@@ -1,5 +1,6 @@
 import { BookIcon } from "@/components/ui/icons";
 import { SOURCE_FICTIVE_LABEL, SOURCE_LABEL } from "@content/engine";
+import { isProperlySourced } from "@/lib/pedagogy/sourcing";
 
 type SourceProps = {
   /** Référence exacte de la source (ex. « Selon la Ville de Givors, 2026 »).
@@ -11,7 +12,7 @@ export function Source({ citation }: SourceProps) {
   return (
     <p className="flex items-center gap-2 text-sm text-ink-muted">
       <BookIcon />
-      {citation ? (
+      {isProperlySourced(citation) ? (
         <span>
           {SOURCE_LABEL} : {citation}
         </span>
