@@ -14,6 +14,7 @@ export const STORAGE_PREFIX = "mission-chantier:";
 export const STORAGE_KEYS = {
   preferences: `${STORAGE_PREFIX}preferences`,
   level: `${STORAGE_PREFIX}level`,
+  activeStudentCode: `${STORAGE_PREFIX}active-student-code`,
 } as const;
 
 function isStorageAvailable(): boolean {

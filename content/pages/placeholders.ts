@@ -32,8 +32,3 @@ export const RESSOURCES_PLACEHOLDER = {
   title: "Ressources",
   body: "Tu trouveras ici le lexique, les sources utilisées et des informations sur des métiers liés au chantier et à la ville.",
 } as const;
-
-export const PROGRESSION_PLACEHOLDER = {
-  title: "Ma progression",
-  body: "Cet espace affichera tes missions terminées, tes résultats disponibles et tes compétences, sans classement ni comparaison avec les autres élèves.",
-} as const;

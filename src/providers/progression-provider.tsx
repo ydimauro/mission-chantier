@@ -1,0 +1,342 @@
+"use client";
+
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
+import { readStoredJson, writeStoredJson, STORAGE_KEYS } from "@/lib/storage";
+import {
+  getDirectoryHandle,
+  getStudentFile,
+  putDirectoryHandle,
+  putStudentFile,
+} from "@/lib/db/progression-db";
+import {
+  ensureReadWritePermission,
+  isFileSystemAccessSupported,
+  pickProgressDirectory,
+  writeStudentFileToDirectory,
+} from "@/lib/fs/file-system-access";
+import { triggerTextDownload } from "@/lib/download";
+import {
+  buildStudentFileName,
+  createInitialStudentFile,
+  isWrongFile,
+  resolveConflict,
+  touchStudentFile,
+  type NewStudentIdentity,
+} from "@/lib/progression/model";
+import { parseStudentFileJson, type StudentFileParseError } from "@/lib/schemas/migrations";
+import type { StudentFile } from "@/lib/schemas/student-file";
+
+type ConflictKind = "cache-newer" | "file-newer" | "diverged";
+
+type ConflictState = {
+  kind: ConflictKind;
+  cache: StudentFile;
+  incoming: StudentFile;
+};
+
+type WrongFileState = {
+  sessionCode: string;
+  incoming: StudentFile;
+};
+
+type LoadedState = {
+  activeStudentCode: string | null;
+  file: StudentFile | null;
+  folderLinked: boolean;
+  fileSystemAccessSupported: boolean;
+};
+
+export type ProgressionSnapshot =
+  | { status: "loading" }
+  | { status: "no-identity" }
+  | { status: "ready"; file: StudentFile }
+  | { status: "conflict"; kind: ConflictKind; cache: StudentFile; incoming: StudentFile }
+  | { status: "wrong-file"; sessionCode: string; incoming: StudentFile };
+
+export type ImportOutcome =
+  | { type: "adopted" }
+  | { type: "up-to-date" }
+  | { type: "conflict" }
+  | { type: "wrong-file" }
+  | { type: "error"; error: StudentFileParseError };
+
+export type ActionResult = { ok: true } | { ok: false; reason: string };
+
+type ProgressionContextValue = {
+  snapshot: ProgressionSnapshot;
+  fileSystemAccessSupported: boolean;
+  folderLinked: boolean;
+  createIdentity: (identity: NewStudentIdentity) => Promise<void>;
+  switchStudent: () => void;
+  saveNow: () => Promise<ActionResult>;
+  exportFile: () => void;
+  importFile: (raw: string) => Promise<ImportOutcome>;
+  chooseFolder: () => Promise<ActionResult>;
+  resolveConflictChoice: (choice: "use-file" | "keep-cache") => Promise<void>;
+  acknowledgeDiverged: () => void;
+  cancelWrongFile: () => void;
+  confirmSwitchToWrongFile: () => Promise<void>;
+};
+
+const ProgressionContext = createContext<ProgressionContextValue | null>(null);
+
+export function ProgressionProvider({ children }: { children: ReactNode }) {
+  const [loadedState, setLoadedState] = useState<LoadedState | null>(null);
+  const [conflict, setConflict] = useState<ConflictState | null>(null);
+  const [wrongFile, setWrongFile] = useState<WrongFileState | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    void (async () => {
+      const storedCode = readStoredJson<string>(STORAGE_KEYS.activeStudentCode);
+      const fileSystemAccessSupported = isFileSystemAccessSupported();
+      let next: LoadedState = {
+        activeStudentCode: null,
+        file: null,
+        folderLinked: false,
+        fileSystemAccessSupported,
+      };
+
+      if (storedCode) {
+        const cached = await getStudentFile(storedCode);
+        if (cached) {
+          const handle = await getDirectoryHandle(storedCode);
+          next = {
+            activeStudentCode: storedCode,
+            file: cached,
+            folderLinked: Boolean(handle),
+            fileSystemAccessSupported,
+          };
+        }
+      }
+
+      if (!cancelled) {
+        // Lecture asynchrone de localStorage/IndexedDB au montage : le
+        // premier rendu (serveur puis client) reste "loading" dans les deux
+        // cas, ce qui évite toute divergence d’hydratation (même principe
+        // qu’à l’ÉTAPE 1 pour les préférences d’affichage). Détecter la
+        // prise en charge de File System Access ici, et pas au premier
+        // rendu, pour la même raison.
+        setLoadedState(next);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const adoptFile = useCallback(async (file: StudentFile) => {
+    await putStudentFile(file);
+    writeStoredJson(STORAGE_KEYS.activeStudentCode, file.studentCode);
+    const handle = await getDirectoryHandle(file.studentCode);
+    setLoadedState((prev) => ({
+      activeStudentCode: file.studentCode,
+      file,
+      folderLinked: Boolean(handle),
+      fileSystemAccessSupported: prev?.fileSystemAccessSupported ?? false,
+    }));
+  }, []);
+
+  const createIdentity = useCallback(
+    async (identity: NewStudentIdentity) => {
+      const code = identity.studentCode.trim();
+      const existing = await getStudentFile(code);
+      await adoptFile(existing ?? createInitialStudentFile(identity));
+    },
+    [adoptFile],
+  );
+
+  const switchStudent = useCallback(() => {
+    writeStoredJson(STORAGE_KEYS.activeStudentCode, null);
+    setLoadedState((prev) => ({
+      activeStudentCode: null,
+      file: null,
+      folderLinked: false,
+      fileSystemAccessSupported: prev?.fileSystemAccessSupported ?? false,
+    }));
+    setConflict(null);
+    setWrongFile(null);
+  }, []);
+
+  const saveNow = useCallback(async (): Promise<ActionResult> => {
+    if (!loadedState?.file) {
+      return { ok: false, reason: "no-identity" };
+    }
+
+    const saved = touchStudentFile(loadedState.file);
+    await putStudentFile(saved);
+
+    let folderLinked = loadedState.folderLinked;
+    if (folderLinked && loadedState.activeStudentCode) {
+      const handle = await getDirectoryHandle(loadedState.activeStudentCode);
+      if (handle) {
+        const permitted = await ensureReadWritePermission(handle);
+        if (permitted) {
+          await writeStudentFileToDirectory(handle, saved);
+        } else {
+          folderLinked = false;
+        }
+      } else {
+        folderLinked = false;
+      }
+    }
+
+    setLoadedState((prev) => (prev ? { ...prev, file: saved, folderLinked } : prev));
+    return { ok: true };
+  }, [loadedState]);
+
+  const exportFile = useCallback(() => {
+    if (!loadedState?.file) return;
+    triggerTextDownload(
+      buildStudentFileName(loadedState.file.studentCode),
+      JSON.stringify(loadedState.file, null, 2),
+    );
+  }, [loadedState]);
+
+  const chooseFolder = useCallback(async (): Promise<ActionResult> => {
+    if (!loadedState?.activeStudentCode) {
+      return { ok: false, reason: "no-identity" };
+    }
+    const handle = await pickProgressDirectory();
+    if (!handle) {
+      return { ok: false, reason: "cancelled" };
+    }
+    const permitted = await ensureReadWritePermission(handle);
+    if (!permitted) {
+      return { ok: false, reason: "permission-denied" };
+    }
+
+    await putDirectoryHandle(loadedState.activeStudentCode, handle);
+    if (loadedState.file) {
+      await writeStudentFileToDirectory(handle, loadedState.file);
+    }
+    setLoadedState((prev) => (prev ? { ...prev, folderLinked: true } : prev));
+    return { ok: true };
+  }, [loadedState]);
+
+  const importFile = useCallback(
+    async (raw: string): Promise<ImportOutcome> => {
+      const parsed = parseStudentFileJson(raw);
+      if (!parsed.ok) {
+        return { type: "error", error: parsed.error };
+      }
+      const incoming = parsed.file;
+
+      if (loadedState?.activeStudentCode && isWrongFile(loadedState.activeStudentCode, incoming.studentCode)) {
+        setWrongFile({ sessionCode: loadedState.activeStudentCode, incoming });
+        return { type: "wrong-file" };
+      }
+
+      const cache = await getStudentFile(incoming.studentCode);
+      const resolution = resolveConflict(cache, incoming);
+
+      if (resolution.type === "no-cache") {
+        await adoptFile(incoming);
+        return { type: "adopted" };
+      }
+
+      if (resolution.type === "up-to-date") {
+        return { type: "up-to-date" };
+      }
+
+      setConflict({ kind: resolution.kind, cache: resolution.cache, incoming: resolution.incoming });
+      return { type: "conflict" };
+    },
+    [loadedState, adoptFile],
+  );
+
+  const resolveConflictChoice = useCallback(
+    async (choice: "use-file" | "keep-cache") => {
+      if (!conflict) return;
+      const chosen = choice === "use-file" ? conflict.incoming : conflict.cache;
+      setConflict(null);
+      await adoptFile(chosen);
+    },
+    [conflict, adoptFile],
+  );
+
+  const acknowledgeDiverged = useCallback(() => {
+    setConflict(null);
+  }, []);
+
+  const cancelWrongFile = useCallback(() => {
+    setWrongFile(null);
+  }, []);
+
+  const confirmSwitchToWrongFile = useCallback(async () => {
+    if (!wrongFile) return;
+    const incoming = wrongFile.incoming;
+    setWrongFile(null);
+
+    const cache = await getStudentFile(incoming.studentCode);
+    const resolution = resolveConflict(cache, incoming);
+
+    if (resolution.type === "conflict") {
+      setConflict({ kind: resolution.kind, cache: resolution.cache, incoming: resolution.incoming });
+      return;
+    }
+    await adoptFile(incoming);
+  }, [wrongFile, adoptFile]);
+
+  const snapshot: ProgressionSnapshot = useMemo(() => {
+    if (!loadedState) return { status: "loading" };
+    if (wrongFile) return { status: "wrong-file", ...wrongFile };
+    if (conflict) return { status: "conflict", ...conflict };
+    if (loadedState.activeStudentCode && loadedState.file) {
+      return { status: "ready", file: loadedState.file };
+    }
+    return { status: "no-identity" };
+  }, [loadedState, conflict, wrongFile]);
+
+  const value = useMemo<ProgressionContextValue>(
+    () => ({
+      snapshot,
+      fileSystemAccessSupported: loadedState?.fileSystemAccessSupported ?? false,
+      folderLinked: loadedState?.folderLinked ?? false,
+      createIdentity,
+      switchStudent,
+      saveNow,
+      exportFile,
+      importFile,
+      chooseFolder,
+      resolveConflictChoice,
+      acknowledgeDiverged,
+      cancelWrongFile,
+      confirmSwitchToWrongFile,
+    }),
+    [
+      snapshot,
+      loadedState,
+      createIdentity,
+      switchStudent,
+      saveNow,
+      exportFile,
+      importFile,
+      chooseFolder,
+      resolveConflictChoice,
+      acknowledgeDiverged,
+      cancelWrongFile,
+      confirmSwitchToWrongFile,
+    ],
+  );
+
+  return <ProgressionContext.Provider value={value}>{children}</ProgressionContext.Provider>;
+}
+
+export function useProgression(): ProgressionContextValue {
+  const context = useContext(ProgressionContext);
+  if (!context) {
+    throw new Error("useProgression doit être utilisé dans un ProgressionProvider.");
+  }
+  return context;
+}

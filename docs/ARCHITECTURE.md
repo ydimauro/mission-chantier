@@ -3,6 +3,8 @@
 Ce document décrit l’architecture cible. Aucun code n’est écrit à l’ÉTAPE 0 ; la mise en œuvre commence à l’ÉTAPE 1.
 
 > **État réel au terme de l’ÉTAPE 1** (socle technique livré) : Next.js 16 (App Router, Turbopack), React 19, TypeScript strict (avec `noUncheckedIndexedAccess`), Tailwind CSS v4 (configuration par CSS, `@theme`), Vitest. Le dossier `/content` vit à la racine du dépôt (hors de `src/`), avec un alias `@content/*` dédié dans `tsconfig.json`, pour garder la séparation code / contenu strictement visible dans l’arborescence. Détail complet dans `docs/rapports/ETAPE_01.md`.
+>
+> **État réel au terme de l’ÉTAPE 2** (sauvegarde et progression) : Zod ajouté comme dépendance de production pour valider `.mcjson` (`src/lib/schemas/`) ; `fake-indexeddb` ajouté comme dépendance de développement pour tester le cache IndexedDB sans navigateur (`test/progression-db.test.ts`). L’API File System Access n’étant que partiellement couverte par les types `lib.dom` livrés avec TypeScript à cette date, un complément de types minimal a été ajouté dans `src/types/file-system-access.d.ts`. Détail complet dans `docs/rapports/ETAPE_02.md`.
 
 ## 1. Technologies retenues
 

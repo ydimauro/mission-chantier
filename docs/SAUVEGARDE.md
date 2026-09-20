@@ -4,6 +4,8 @@
 
 La progression doit survivre entre les séances, entre plusieurs postes si nécessaire, et aux mises à jour raisonnables de l’application. Elle ne dépend jamais uniquement de `localStorage`. Le fichier élève `.mcjson` constitue le support portable principal ; IndexedDB sert de cache local et de sauvegarde de travail.
 
+> **Décision d’implémentation (ÉTAPE 2)** : un poste de salle informatique est partagé par plusieurs élèves au fil de la journée. Le cache IndexedDB est donc indexé par `studentCode` (et non par un emplacement unique) : chaque élève retrouve sa propre progression sur ce poste sans jamais écraser celle d’un autre élève qui aurait utilisé la même machine. Seul un pointeur non sensible (le code élève actif) est conservé dans `localStorage` pour reconnaître automatiquement l’élève tant qu’il ne clique pas sur « Changer d’élève ». Ce choix rend aussi le mécanisme de conflit cache / fichier (§ 7) directement utile : il ne se déclenche qu’entre deux versions d’un même code élève, jamais entre deux élèves différents. Détail technique dans `src/lib/db/progression-db.ts`.
+
 ## 2. Révision et horodatage
 
 Chaque fichier élève contient :

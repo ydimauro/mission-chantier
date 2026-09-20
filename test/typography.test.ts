@@ -4,6 +4,7 @@ import * as config from "@content/config";
 import * as navigation from "@content/navigation";
 import * as privacy from "@content/pages/privacy";
 import * as placeholders from "@content/pages/placeholders";
+import * as progression from "@content/pages/progression";
 
 /**
  * Typographie française obligatoire (docs/SPEC.md § 49, AGENTS.md règle 19) :
@@ -11,7 +12,13 @@ import * as placeholders from "@content/pages/placeholders";
  * contenu destiné aux élèves ou au professeur.
  */
 describe("typographie française des contenus", () => {
-  const modules: Record<string, unknown> = { config, navigation, privacy, placeholders };
+  const modules: Record<string, unknown> = {
+    config,
+    navigation,
+    privacy,
+    placeholders,
+    progression,
+  };
 
   for (const [moduleName, moduleExports] of Object.entries(modules)) {
     const strings = collectStrings(moduleExports);

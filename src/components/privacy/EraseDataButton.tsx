@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { clearLocalData } from "@/lib/storage";
+import { eraseAllLocalData } from "@/lib/privacy";
 import {
   PRIVACY_ERASE_BUTTON_LABEL,
   PRIVACY_ERASE_CANCEL_BUTTON_LABEL,
@@ -31,8 +31,13 @@ export function EraseDataButton() {
           <button
             type="button"
             onClick={() => {
-              clearLocalData();
-              setStatus("done");
+              void eraseAllLocalData().then(() => {
+                setStatus("done");
+                // Réinitialise entièrement l’état en mémoire (identité élève,
+                // préférences) : un rechargement est le seul moyen fiable de
+                // garantir qu’aucune donnée effacée ne persiste côté écran.
+                window.setTimeout(() => window.location.reload(), 1200);
+              });
             }}
             className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-brand-contrast"
           >

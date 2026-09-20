@@ -1,14 +1,9 @@
 import type { Metadata } from "next";
-import { PlaceholderSection } from "@/components/ui/PlaceholderSection";
-import { PROGRESSION_PLACEHOLDER } from "@content/pages/placeholders";
+import { PROGRESSION_PAGE_TITLE } from "@content/pages/progression";
+import { ProgressionPageClient } from "@/components/progression/ProgressionPageClient";
 
-export const metadata: Metadata = { title: PROGRESSION_PLACEHOLDER.title };
+export const metadata: Metadata = { title: PROGRESSION_PAGE_TITLE };
 
 export default function ProgressionPage() {
-  return (
-    <PlaceholderSection
-      title={PROGRESSION_PLACEHOLDER.title}
-      body={PROGRESSION_PLACEHOLDER.body}
-    />
-  );
+  return <ProgressionPageClient />;
 }

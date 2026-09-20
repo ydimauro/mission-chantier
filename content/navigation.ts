@@ -35,3 +35,5 @@ export const ACCESSIBILITY_LABELS = {
 } as const;
 
 export const FOOTER_PRIVACY_LINK_LABEL = "Confidentialité de mes données";
+
+export const CANCEL_LABEL = "Annuler";
