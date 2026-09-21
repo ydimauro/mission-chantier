@@ -31,7 +31,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className="h-full" suppressHydrationWarning>
+    <html lang="fr" className="h-full" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="flex min-h-full flex-col bg-background text-ink antialiased">
         <AppProviders>
           <SkipLink />

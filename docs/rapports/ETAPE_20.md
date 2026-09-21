@@ -35,7 +35,7 @@ Un seul test E2E existait avant cette étape (`test/e2e/mission-new-student.spec
 2. import du `.mctkey` puis du `.mcjson` exporté ;
 3. correction humaine d'un item en attente (le composant affiche toute réponse en attente même sans entrée de corrigé exacte, seul le barème provient du `.mctkey`) ;
 4. vérification que « Aucune réponse en attente de correction humaine. » s'affiche ensuite ;
-5. **retour des résultats corrigés** : export du fichier élève corrigé, contenu vérifié (le dépôt corrigé passe au statut `corrected` avec le score attribué) ;
+5. **retour des résultats corrigés** : export du fichier élève corrigé, réimport réel dans `/progression`, puis vérification de la note provisoire et de la maîtrise de compétence affichées à l’élève ; le contenu du fichier est également vérifié (`corrected`, score attribué) ;
 6. compétences et synthèse de classe : les trois exports (CSV synthèse, CSV Pronote, ZIP des fichiers corrigés) sont déclenchés et leur nom de fichier vérifié.
 
 ## 5. Sauvegarde Edge/Chrome, Firefox, conflit, mauvais fichier
@@ -56,7 +56,7 @@ Un seul test E2E existait avant cette étape (`test/e2e/mission-new-student.spec
 - **Firefox réel** non testé automatiquement dans cette session (limitation d'environnement documentée, pas de l'application) ; le chemin de repli est vérifié par simulation ciblée sur Chromium plutôt qu'ignoré.
 - Le bouton « Choisir mon dossier de sauvegarde » n'est jamais cliqué automatiquement : ouvrir un vrai sélecteur de dossier natif bloquerait un test headless. Sa présence conditionnelle est vérifiée, pas le contenu du dossier réellement écrit sur disque.
 - Le corrigé `.mctkey` utilisé est minimal et construit pour ce test (schéma valide, une seule entrée) : il ne couvre pas la correction automatique multi-variantes, déjà testée unitairement (`test/teacher-correction.test.ts`).
-- Une exécution en parallèle avec une autre session Claude Code active sur ce même dépôt a empêché Playwright de démarrer son propre serveur `next dev` (verrou Next.js au niveau du répertoire de projet, pas du port). Les tests ont été exécutés en pointant temporairement `playwright.config.ts` vers le serveur de développement déjà lancé par cette autre session (`reuseExistingServer: true`, même port), sans jamais l'arrêter ; la configuration a été restaurée à l'identique aussitôt après ([[feedback_verify_git_state_before_resuming]]).
+- L’audit a révélé que `/progression` acceptait les fichiers corrigés sans présenter leurs résultats. `ProgressionDashboard` affiche désormais la note provisoire ou finale et les compétences évaluées après réimport. Le calcul par mission est centralisé dans `src/lib/evaluations/student-summary.ts` et couvert par trois tests unitaires.
 
 ## 8. Pipeline qualité
 
@@ -64,7 +64,7 @@ Un seul test E2E existait avant cette étape (`test/e2e/mission-new-student.spec
 | --- | --- |
 | `npm run lint` | réussi |
 | `npm run typecheck` | réussi |
-| `npx vitest run` | 53 fichiers, 302 tests réussis (inchangé, aucun test unitaire ajouté à cette étape) |
+| `npx vitest run` | 54 fichiers, 305 tests réussis |
 | `npx playwright test` | **8 tests réussis** (1 existant + 7 nouveaux répartis sur 5 fichiers) |
 | `npm run build` | réussi, 36 routes statiques |
 

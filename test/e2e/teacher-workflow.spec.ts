@@ -113,4 +113,20 @@ test("un professeur configure sa classe, corrige une élève et exporte les rés
   const zipPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: "Exporter tous les fichiers corrigés (ZIP)" }).click();
   expect((await zipPromise).suggestedFilename()).toBe("mission-chantier-5E1-corriges.zip");
+
+  // Retour réel côté élève : réimport du fichier corrigé puis affichage de la
+  // note provisoire et de la compétence associée dans « Ma progression ».
+  await page.goto("/progression");
+  await page.getByLabel("Importer un fichier .mcjson").setInputFiles({
+    name: "eleve-corrige.mcjson",
+    mimeType: "application/json",
+    buffer: Buffer.from(correctedContent),
+  });
+  const useFileButton = page.getByRole("button", { name: "Utiliser le fichier" });
+  if (await useFileButton.isVisible()) await useFileButton.click();
+  await expect(page.getByRole("heading", { name: "Mes résultats corrigés" })).toBeVisible();
+  await expect(page.getByText("15 / 20")).toBeVisible();
+  await expect(page.getByText("Note provisoire")).toBeVisible();
+  await expect(page.getByText("C4", { exact: true })).toBeVisible();
+  await expect(page.getByText("Maîtrise fragile")).toBeVisible();
 });

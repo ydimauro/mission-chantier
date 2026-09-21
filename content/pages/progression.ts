@@ -83,6 +83,12 @@ export const IMPORT_RESULT_MESSAGES = {
   adopted: "Fichier importé avec succès.",
 } as const;
 
+export const RESULTS_LABELS = {
+  title: "Mes résultats corrigés",
+  intro: "Ces résultats apparaissent après la correction et la réimportation du fichier remis par ton professeur ou ta professeure.",
+  competencies: "Compétences évaluées",
+} as const;
+
 export const PROGRESSION_PAGE_TITLE = "Ma progression";
 
 export const LOADING_LABEL = "Chargement de ta progression…";

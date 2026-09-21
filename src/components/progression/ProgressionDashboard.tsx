@@ -8,11 +8,16 @@ import {
   FIREFOX_FALLBACK,
   FOLDER_LABELS,
   IMPORT_RESULT_MESSAGES,
+  RESULTS_LABELS,
   SWITCH_STUDENT_CONFIRM,
 } from "@content/pages/progression";
 import { LEVEL_LABELS } from "@content/config";
 import { CANCEL_LABEL } from "@content/navigation";
 import type { StudentFile } from "@/lib/schemas/student-file";
+import { COMPETENCIES } from "@content/competencies";
+import { GradeDisplay, MasteryBadge } from "@/components/evaluation";
+import { computeMasteryLevel } from "@/lib/evaluations/mastery";
+import { computeStudentGrade } from "@/lib/evaluations/student-summary";
 
 const dateFormatter = new Intl.DateTimeFormat("fr-FR", {
   dateStyle: "long",
@@ -40,6 +45,11 @@ export function ProgressionDashboard({ file }: { file: StudentFile }) {
   const [notice, setNotice] = useState<Notice>(null);
   const [confirmingSwitch, setConfirmingSwitch] = useState(false);
   const [firefoxSaved, setFirefoxSaved] = useState(false);
+  const hasCorrectedResults = file.assessments.some((assessment) => assessment.status === "corrected");
+  const assessedCompetencies = COMPETENCIES.map((competency) => ({
+    ...competency,
+    level: computeMasteryLevel(file.proofs, competency.id),
+  })).filter((competency) => competency.level !== "non-evaluee");
 
   async function handleSave() {
     const result = await saveNow();
@@ -114,6 +124,27 @@ export function ProgressionDashboard({ file }: { file: StudentFile }) {
         <dt className="text-sm text-ink-muted">{DASHBOARD_LABELS.updatedAt}</dt>
         <dd className="text-sm font-semibold text-ink">{formatUpdatedAt(file.updatedAt)}</dd>
       </dl>
+
+      {hasCorrectedResults ? (
+        <section aria-labelledby="corrected-results-title" className="rounded-md border border-border bg-surface p-5">
+          <h2 id="corrected-results-title" className="text-xl font-bold text-ink">{RESULTS_LABELS.title}</h2>
+          <p className="mt-2 text-sm text-ink-muted">{RESULTS_LABELS.intro}</p>
+          <div className="mt-4"><GradeDisplay grade={computeStudentGrade(file.niveau, file.assessments)} /></div>
+          {assessedCompetencies.length > 0 ? (
+            <div className="mt-5">
+              <h3 className="font-semibold text-ink">{RESULTS_LABELS.competencies}</h3>
+              <ul className="mt-3 space-y-3">
+                {assessedCompetencies.map((competency) => (
+                  <li key={competency.id} className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-sm text-ink"><strong>{competency.id}</strong> : {competency.title}</span>
+                    <MasteryBadge level={competency.level} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+        </section>
+      ) : null}
 
       {notice ? (
         <p
