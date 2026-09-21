@@ -81,3 +81,18 @@ describe("aucune dépendance réseau externe imprévue (docs/SPEC.md § 64, test
     expect(offenders).toEqual([]);
   });
 });
+
+describe("configuration de sécurité Vercel", () => {
+  it("autorise les scripts inline requis par l’hydratation de l’export statique Next.js", () => {
+    const vercelConfig = JSON.parse(readFileSync(join(projectRoot, "vercel.json"), "utf-8")) as {
+      headers: Array<{ headers: Array<{ key: string; value: string }> }>;
+    };
+    const csp = vercelConfig.headers[0]?.headers.find(
+      (header) => header.key === "Content-Security-Policy",
+    )?.value;
+
+    expect(csp).toContain("script-src 'self' 'unsafe-inline'");
+    expect(csp).toContain("object-src 'none'");
+    expect(csp).toContain("frame-ancestors 'none'");
+  });
+});

@@ -33,6 +33,12 @@ Pour un nouvel élève, l’enchaînement est donc : chargement, formulaire d’
 
 Cette correction s’applique à **toutes** les pages protégées par `RequireStudentIdentity` (toutes les missions 5e, `/progression`), pas seulement `/mission` : la même cause aurait produit le même symptôme partout.
 
+### Correctif de production : hydratation bloquée par la CSP
+
+Un signalement ultérieur a permis de reproduire le blocage sur la version Vercel, alors que le même parcours fonctionnait en développement local. La console du navigateur indiquait que la directive `script-src 'self'` bloquait deux scripts inline produits par Next.js, puis une erreur React d’hydratation. Les composants client, dont `ProgressionProvider`, ne s’exécutaient donc pas : l’interface restait sur le HTML initial et son message « Chargement de ta progression… ».
+
+`vercel.json` autorise maintenant `'unsafe-inline'` dans `script-src`. Cette dérogation est limitée aux scripts, nécessaire à l’export statique Next.js et ne permet aucune source externe : `default-src`, `connect-src`, `object-src`, `base-uri`, `form-action` et `frame-ancestors` restent restrictifs. `test/static-safety.test.ts` vérifie cette configuration pour empêcher une régression.
+
 ### Autres `return null` du code : audit et verdict
 
 - `MissionHub.tsx` et `ProgressionPageClient.tsx` (`if (snapshot.status !== "ready") return null;`) : code mort inoffensif, ces composants ne sont jamais rendus par `RequireStudentIdentity` avant que `snapshot.status` ne soit `"ready"`. Laissés tels quels (garde défensive raisonnable), non modifiés.
