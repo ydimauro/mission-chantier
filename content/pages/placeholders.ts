@@ -7,15 +7,15 @@
  */
 
 export const HOME_CONTENT = {
-  title: "Bienvenue sur Mission Chantier",
-  intro:
-    "Cette application t’accompagne pour comprendre les objets et les systèmes techniques à travers un exemple concret : la transformation du centre-ville de Givors.",
-  bullets: [
-    "Tu observeras des situations réelles et des simulations clairement identifiées.",
-    "Tu écriras régulièrement dans ton cahier, en plus de ce que tu fais à l’écran.",
-    "Tu pourras suivre ta progression et tes résultats dans l’espace « Ma progression ».",
+  realBadge: "Situation réelle",
+  title: "Givors se transforme",
+  intro: "Observe une transformation réelle de la ville, puis découvre les systèmes techniques qui permettent de la réaliser.",
+  ctaLabel: "Commencer ma mission",
+  steps: [
+    { title: "Observer", body: "Regarde une situation réelle et formule tes premières idées." },
+    { title: "Comprendre", body: "Manipule des simulations clairement identifiées." },
+    { title: "Écrire", body: "Garde une trace dans ton cahier, à chaque mission." },
   ],
-  ctaLabel: "Découvrir ma mission",
 } as const;
 
 export const CARNET_PLACEHOLDER = {
