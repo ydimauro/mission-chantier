@@ -1,5 +1,5 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ProgressionProvider } from "@/providers/progression-provider";
 import { RequireStudentIdentity } from "@/components/progression/RequireStudentIdentity";
@@ -41,6 +41,10 @@ describe("ProgressionProvider : échec du chargement initial (audit ÉTAPE 10 §
     getStudentFile.mockReset();
   });
 
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("affiche un message d’erreur explicite, jamais une zone vide, si le chargement échoue", async () => {
     getStudentFile.mockRejectedValue(new Error("Panne IndexedDB simulée"));
 
@@ -73,5 +77,46 @@ describe("ProgressionProvider : échec du chargement initial (audit ÉTAPE 10 §
     await user.click(screen.getByRole("button", { name: "Réessayer" }));
 
     expect(await screen.findByRole("heading", { name: "Qui es-tu ?" })).toBeInTheDocument();
+  });
+
+  it("permet de reprendre après un échec via « Commencer une nouvelle progression » sans rester bloqué en erreur", async () => {
+    const user = userEvent.setup();
+    getStudentFile.mockRejectedValue(new Error("Panne IndexedDB simulée"));
+
+    render(
+      <ProgressionProvider>
+        <RequireStudentIdentity>
+          <p>Contenu protégé</p>
+        </RequireStudentIdentity>
+      </ProgressionProvider>,
+    );
+
+    await screen.findByRole("alert");
+    await user.click(screen.getByRole("button", { name: "Commencer une nouvelle progression" }));
+
+    expect(await screen.findByRole("heading", { name: "Qui es-tu ?" })).toBeInTheDocument();
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  });
+
+  it("sort de l’état de chargement grâce au délai de sécurité, même si la lecture ne se résout jamais", async () => {
+    vi.useFakeTimers();
+    getStudentFile.mockReturnValue(new Promise(() => {}));
+
+    render(
+      <ProgressionProvider>
+        <RequireStudentIdentity>
+          <p>Contenu protégé</p>
+        </RequireStudentIdentity>
+      </ProgressionProvider>,
+    );
+
+    expect(screen.getByRole("status")).toHaveTextContent("Chargement de ta progression…");
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(8000);
+    });
+
+    expect(screen.getByRole("alert")).toHaveTextContent("Impossible de charger ta progression");
+    expect(screen.queryByText("Contenu protégé")).not.toBeInTheDocument();
   });
 });

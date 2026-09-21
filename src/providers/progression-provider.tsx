@@ -104,6 +104,15 @@ type ProgressionContextValue = {
 
 const ProgressionContext = createContext<ProgressionContextValue | null>(null);
 
+/**
+ * Délai de sécurité au-delà duquel le chargement initial est considéré en
+ * échec même s’il n’a ni réussi ni levé d’erreur (audit ÉTAPE 10 bis) :
+ * l’interface ne doit jamais rester indéfiniment sur « Chargement… », y
+ * compris dans un cas non anticipé (ex. une requête IndexedDB « onblocked »
+ * qui ne se résout ni ne rejette jamais).
+ */
+const LOAD_TIMEOUT_MS = 8000;
+
 export function ProgressionProvider({ children }: { children: ReactNode }) {
   const [loadedState, setLoadedState] = useState<LoadedState | null>(null);
   const [loadError, setLoadError] = useState(false);
@@ -113,6 +122,19 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let cancelled = false;
+    // Le chargement peut se conclure une seule fois : par son propre
+    // dénouement (succès ou erreur) ou par le délai de sécurité, selon ce
+    // qui survient en premier. Empêche le second de contredire le premier.
+    let settled = false;
+
+    const timeoutId = window.setTimeout(() => {
+      if (cancelled || settled) return;
+      settled = true;
+      console.error(
+        `Chargement de la progression au-delà de ${LOAD_TIMEOUT_MS} ms : passage en erreur pour ne jamais rester bloqué sur « Chargement… ».`,
+      );
+      setLoadError(true);
+    }, LOAD_TIMEOUT_MS);
 
     void (async () => {
       try {
@@ -138,13 +160,14 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
           }
         }
 
-        if (!cancelled) {
+        if (!cancelled && !settled) {
           // Lecture asynchrone de localStorage/IndexedDB au montage : le
           // premier rendu (serveur puis client) reste "loading" dans les deux
           // cas, ce qui évite toute divergence d’hydratation (même principe
           // qu’à l’ÉTAPE 1 pour les préférences d’affichage). Détecter la
           // prise en charge de File System Access ici, et pas au premier
           // rendu, pour la même raison.
+          settled = true;
           setLoadedState(next);
         }
       } catch (error) {
@@ -155,14 +178,18 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
         // `RequireStudentIdentity` reste bloquée sur "loading" (donc vide)
         // indéfiniment, sans aucun message (audit ÉTAPE 10 § 2, § 11).
         console.error("Échec du chargement de la progression enregistrée :", error);
-        if (!cancelled) {
+        if (!cancelled && !settled) {
+          settled = true;
           setLoadError(true);
         }
+      } finally {
+        window.clearTimeout(timeoutId);
       }
     })();
 
     return () => {
       cancelled = true;
+      window.clearTimeout(timeoutId);
     };
   }, [loadAttempt]);
 
@@ -201,6 +228,11 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
       folderLinked: false,
       fileSystemAccessSupported: prev?.fileSystemAccessSupported ?? false,
     }));
+    // `loadError` prime sur `loadedState` dans le calcul de `snapshot` : sans
+    // cette remise à zéro, « Commencer une nouvelle progression » depuis
+    // l’écran d’erreur resterait bloqué sur "error" malgré un `loadedState`
+    // désormais valide (audit ÉTAPE 10 bis).
+    setLoadError(false);
     setConflict(null);
     setWrongFile(null);
   }, []);

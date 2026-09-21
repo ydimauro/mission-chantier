@@ -16,6 +16,7 @@ export const IDENTITY_FORM = {
   submitLabel: "Commencer",
   studentCodeRequired: "Indique ton code élève.",
   classeRequired: "Indique ta classe.",
+  createError: "Impossible de créer ta progression. Réessaie dans quelques instants.",
 } as const;
 
 export const DASHBOARD_LABELS = {
@@ -91,4 +92,7 @@ export const LOAD_ERROR_MESSAGES = {
   body: "Une erreur technique a empêché l’application de lire ta progression enregistrée sur cet ordinateur. Tes données ne sont pas perdues : elles restent enregistrées sur cet ordinateur.",
   retry: "Réessayer",
   reload: "Recharger la page",
+  startNew: "Commencer une nouvelle progression",
+  startNewHelp:
+    "Ton ancienne progression reste enregistrée sur cet ordinateur. Tu pourras la retrouver plus tard en entrant à nouveau le même code élève.",
 } as const;

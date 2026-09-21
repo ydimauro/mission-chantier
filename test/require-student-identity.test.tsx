@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { RequireStudentIdentity } from "@/components/progression/RequireStudentIdentity";
 
 const retryLoad = vi.fn();
+const switchStudent = vi.fn();
 let mockSnapshot: { status: string; [key: string]: unknown } = { status: "loading" };
 
 vi.mock("@/providers/progression-provider", () => ({
@@ -11,6 +12,7 @@ vi.mock("@/providers/progression-provider", () => ({
     snapshot: mockSnapshot,
     createIdentity: vi.fn(),
     retryLoad,
+    switchStudent,
   }),
 }));
 
@@ -50,6 +52,9 @@ describe("RequireStudentIdentity (audit ÉTAPE 10 § 11)", () => {
 
     await user.click(screen.getByRole("button", { name: "Réessayer" }));
     expect(retryLoad).toHaveBeenCalledTimes(1);
+
+    await user.click(screen.getByRole("button", { name: "Commencer une nouvelle progression" }));
+    expect(switchStudent).toHaveBeenCalledTimes(1);
   });
 
   it("affiche le contenu protégé une fois la progression prête", () => {

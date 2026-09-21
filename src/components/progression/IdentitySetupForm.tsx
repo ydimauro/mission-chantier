@@ -30,8 +30,14 @@ export function IdentitySetupForm() {
 
     setError(null);
     setSubmitting(true);
-    await createIdentity({ studentCode, classe, niveau });
-    setSubmitting(false);
+    try {
+      await createIdentity({ studentCode, classe, niveau });
+    } catch (creationError) {
+      console.error("Échec de la création de la progression :", creationError);
+      setError(IDENTITY_FORM.createError);
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (

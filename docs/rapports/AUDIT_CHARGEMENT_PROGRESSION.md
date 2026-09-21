@@ -21,6 +21,16 @@ Reproduite en simulant une lecture IndexedDB en échec (navigation privée restr
 - `src/components/progression/LoadErrorNotice.tsx` (nouveau) : suit le même patron que `WrongFileNotice`/`ConflictDialog` déjà existants.
 - `content/pages/progression.ts` : nouveaux libellés `LOADING_LABEL`, `LOAD_ERROR_MESSAGES`.
 
+### Complément : blocage persistant sur « Chargement de ta progression… »
+
+Un second signalement indiquait que le message de chargement pouvait rester affiché plus de quelques secondes. Le cas normal a été reproduit avec un navigateur neuf, un cache IndexedDB vide, une progression existante et un rechargement de page : il se conclut correctement. Néanmoins, une promesse IndexedDB qui ne se résout ni ne rejette pas restait théoriquement possible et échappait au `try/catch`.
+
+- `src/providers/progression-provider.tsx` : ajout d’un délai de sécurité de 8 secondes. Le premier dénouement entre la lecture et ce délai est le seul pris en compte. Ainsi, succès, absence de progression, erreur levée et promesse bloquée sortent tous de l’état « loading ».
+- `src/components/progression/IdentitySetupForm.tsx` : une erreur de création de la première progression est maintenant affichée et le bouton « Commencer » est réactivé dans tous les cas grâce à `finally`.
+- `LoadErrorNotice` propose « Réessayer », « Recharger la page » et « Commencer une nouvelle progression ». Cette dernière action efface seulement l’identité active du poste, sans supprimer de fichier IndexedDB existant.
+
+Pour un nouvel élève, l’enchaînement est donc : chargement, formulaire d’identité, création et sauvegarde du fichier vierge, affichage de « Parcours 5e » puis de 5E-00. La création ne peut pas être automatique avant la saisie du code élève, de la classe et du niveau, car ces données font partie du fichier de progression.
+
 Cette correction s’applique à **toutes** les pages protégées par `RequireStudentIdentity` (toutes les missions 5e, `/progression`), pas seulement `/mission` : la même cause aurait produit le même symptôme partout.
 
 ### Autres `return null` du code : audit et verdict
@@ -51,10 +61,9 @@ Déjà vérifiés en détail lors des ÉTAPES 8, 9 et 10 (voir `docs/rapports/ET
 
 - `npm run lint` : ✅ aucun problème.
 - `npm run typecheck` : ✅ aucune erreur.
-- `npm run test` (`vitest run`) : ✅ **247/247 tests**, 43 fichiers (9 nouveaux tests : `test/require-student-identity.test.tsx` reproduit le défaut au niveau du composant, `test/progression-provider-load-error.test.tsx` reproduit le défaut de bout en bout avec le vrai `ProgressionProvider` et une lecture IndexedDB simulée en échec, `test/mission-hub.test.tsx` verrouille le nouveau contenu de `/mission`).
+- `npm run test` (`vitest run`) : ✅ **249/249 tests**, 43 fichiers. Le test de chargement couvre aussi une lecture IndexedDB qui ne se résout jamais et vérifie le passage au message d’erreur après le délai de sécurité.
 - `npm run build` : ✅ export statique généré, 24 pages.
-
-Aucun test Playwright automatisé n’a été ajouté au dépôt : conformément à `docs/ARCHITECTURE.md` § 1, les tests de bout en bout en navigateur réel sont prévus à l’ÉTAPE 20 (pas encore atteinte). La reproduction et la vérification manuelles de cet audit ont été faites avec des scripts Playwright ponctuels (hors dépôt), comme à chaque étape précédente ; la couverture automatique permanente du défaut réside dans les tests Vitest ci-dessus, qui font échouer la suite si le même bogue réapparaît.
+- `npm run test:e2e` : ✅ test Playwright ajouté dans `test/e2e/mission-new-student.spec.ts`. Il crée un nouvel élève de 5e, vérifie l’affichage de 5E-00 dans le hub avant 5 secondes, recharge la page pour relire IndexedDB, puis ouvre 5E-00 et vérifie la situation réelle, la problématique et « Écris dans ton cours ». Il échoue si le chargement persiste.
 
 ## 8. Parcours manuel pour retester 5E-00 à 5E-12 et 5E-FINAL
 
