@@ -16,6 +16,8 @@ Ce document décrit l’architecture cible. Aucun code n’est écrit à l’ÉT
 >
 > **État réel au terme de l’ÉTAPE 7** (premières missions 5e, 5E-01 à 5E-06) : quatre nouveaux composants génériques dans `src/components/mission/` — `AssociationActivity` et `SequencingActivity` (formatifs, correction immédiate et indices progressifs), `SommativeAssociation` et `SommativeChoiceJustified` (sommatifs, aucune aide ni correction, dépôt `submitAssessment` en attente de correction dans `/teacher`). **Décision d’implémentation** : les interactions « association », « classement » et « séquencement » sont réalisées avec un menu déroulant natif par élément plutôt qu’un glisser-déposer avec repli clavier, pour rester accessible sans code séparé (docs/SPEC.md § 23). Une seule implémentation d’`AssociationActivity` est donc réutilisée par 5E-01 (appariement besoin/objet), 5E-02 (classement en six catégories) et 5E-03 (appariement fonction/engin). `submitAssessment` ajouté à `src/providers/progression-provider.tsx` (et `recordAssessmentSubmission` à `src/lib/progression/model.ts`) pour déposer les évaluations sommatives. `SommativeChoiceJustified`/`SommativeAssociation` acceptent un `onSubmitted` optionnel, pour que la page de mission sache quand débloquer « Mission terminée ». Six missions ajoutées à `content/missions/registry.ts` et `MISSION_SEQUENCE["5e"]`, avec leurs routes dans `src/app/mission/5e-0{1..6}/`. Détail complet dans `docs/rapports/ETAPE_07.md`.
 
+> **État réel au terme de l’ÉTAPE 8** (premier moteur de simulation) : `src/lib/simulation/evacuation.ts` fournit un calcul pur et déterministe pour une évacuation de gravats : volume, trajets, distance, temps et consommation pédagogique. `src/components/mission/EvacuationSimulation.tsx` fournit l’interface 2D réutilisable, avec plan simplifié, paramètres numériques accessibles au clavier, bouton de lancement et mesures annoncées dynamiquement. Les valeurs sont des paramètres pédagogiques fictifs ; aucune mission n’est encore branchée sur ce composant, conformément au découpage de l’ÉTAPE 9. Détail complet dans `docs/rapports/ETAPE_08.md`.
+
 ## 1. Technologies retenues
 
 - Next.js
@@ -84,6 +86,7 @@ Aucun contenu pédagogique important n’est écrit directement dans les composa
 - `Source`
 - `BilanMission`
 - `MissionTimer`
+- `EvacuationSimulation` (premier moteur de simulation 2D, ÉTAPE 8)
 
 `SituationReelle` et `SimulationPedagogique` portent visuellement la distinction obligatoire entre réel et simulation (bandeaux « Situation réelle » / « Simulation pédagogique »), avec des jetons de couleur dédiés (`--real` / `--sim`) et leur propre couleur de texte de contraste (`--real-contrast` / `--sim-contrast`) pour rester lisibles en mode clair comme en mode sombre. Neuf de ces composants (`Observe`, `Hypothese`, `Consigne`, `Manipule`, `Mesure`, `Compare`, `ARetenir`, `LimitesDuModele`, `BilanMission`) partagent un même bloc interne (`PhaseBlock`) pour une présentation cohérente. Aucun de ces composants ne contient de texte de mission : tout le contenu réel arrive en `children` ou en props à partir de l’ÉTAPE 6. Emplacement : `src/components/mission/` (import groupé via `src/components/mission/index.ts`).
 

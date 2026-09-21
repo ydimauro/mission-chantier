@@ -1,3 +1,5 @@
+import type { EvacuationMeasures, EvacuationScenario } from "@/lib/simulation/evacuation";
+
 /**
  * Libellés des composants génériques du moteur pédagogique (ÉTAPE 3,
  * docs/SPEC.md § 65). Ces composants ne portent aucun contenu de mission :
@@ -66,5 +68,45 @@ export const ACTIVITY_LABELS = {
 export const SOMMATIVE_LABELS = {
   justificationLabel: "Explique ton choix.",
   submitButton: "Remettre mon évaluation",
+} as const;
+
+export const EVACUATION_SIMULATION_LABELS = {
+  planLabel: "Plan 2D du Quartier des Ateliers",
+  zoneGravats: "Zone de gravats",
+  zoneTrajet: "Trajet",
+  zoneDepot: "Zone de dépôt",
+  runButton: "Lancer la simulation",
+  resultsHeading: "Mesures de la simulation",
+  genericErrorFallback: "Vérifie les paramètres de la simulation.",
+  fieldPositiveErrorTemplate: "{name} doit être un nombre positif.",
+  fieldLabels: {
+    volumeM3: "Volume de gravats (m³)",
+    truckCapacityM3: "Capacité d’un engin (m³)",
+    truckCount: "Nombre d’engins",
+    routeDistanceM: "Distance d’un trajet (m)",
+    loadingMinutes: "Chargement (min)",
+    unloadingMinutes: "Déchargement (min)",
+    maneuverMinutes: "Manœuvre (min)",
+    travelMinutesPerKm: "Temps de trajet (min/km)",
+    consumptionPerKm: "Consommation pédagogique (unité/km)",
+  } satisfies Record<keyof EvacuationScenario, string>,
+  fieldErrorNames: {
+    volumeM3: "Le volume",
+    truckCapacityM3: "La capacité",
+    truckCount: "Le nombre d’engins",
+    routeDistanceM: "La distance",
+    loadingMinutes: "Le temps de chargement",
+    unloadingMinutes: "Le temps de déchargement",
+    maneuverMinutes: "Le temps de manœuvre",
+    travelMinutesPerKm: "Le temps de trajet",
+    consumptionPerKm: "La consommation",
+  } satisfies Record<keyof EvacuationScenario, string>,
+  measureLabels: {
+    volumeM3: "Volume évacué",
+    numberOfTrips: "Nombre de trajets",
+    distanceM: "Distance totale",
+    elapsedMinutes: "Temps total",
+    pedagogicalConsumption: "Consommation pédagogique",
+  } satisfies Record<keyof EvacuationMeasures, string>,
 } as const;
 
