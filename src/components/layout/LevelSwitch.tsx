@@ -11,7 +11,7 @@ export function LevelSwitch() {
     <div
       role="group"
       aria-label={LEVEL_SWITCH_LABEL}
-      className="flex items-center gap-1 rounded-full border border-border bg-surface-muted p-1"
+      className="flex items-center gap-1 rounded-md border border-border bg-surface-muted p-0.5"
     >
       {LEVELS.map((candidate) => {
         const isActive = candidate === level;
@@ -23,8 +23,8 @@ export function LevelSwitch() {
             onClick={() => setLevel(candidate)}
             className={
               isActive
-                ? "rounded-full bg-brand px-3 py-1.5 text-sm font-semibold text-brand-contrast"
-                : "rounded-full px-3 py-1.5 text-sm font-medium text-ink-muted hover:text-ink"
+                ? "rounded-sm bg-accent px-3 py-1.5 text-sm font-semibold text-slate-900"
+                : "rounded-sm px-3 py-1.5 text-sm font-medium text-ink-muted hover:text-ink"
             }
           >
             {LEVEL_LABELS[candidate]}

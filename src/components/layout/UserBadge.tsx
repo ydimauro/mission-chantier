@@ -13,7 +13,7 @@ export function UserBadge() {
   const label = snapshot.status === "ready" ? snapshot.file.studentCode : USER_BADGE_LABEL;
 
   return (
-    <span className="flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 text-sm font-medium text-ink">
+    <span className="flex items-center gap-2 border-l border-border pl-3 text-sm font-medium text-ink">
       <svg
         viewBox="0 0 24 24"
         width="16"

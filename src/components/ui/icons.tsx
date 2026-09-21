@@ -75,6 +75,36 @@ export function MapPinIcon({ className }: IconProps) {
   );
 }
 
+export function HomeIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <path d="M3 11.5L12 4l9 7.5V21h-6v-6H9v6H3z" />
+    </svg>
+  );
+}
+
+export function BriefcaseIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <rect x="3" y="7" width="18" height="13" rx="2" />
+      <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      <path d="M3 12h18" />
+      <path d="M10 12v2h4v-2" />
+    </svg>
+  );
+}
+
+export function ChartBarIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <line x1="4" y1="20" x2="20" y2="20" />
+      <rect x="6" y="11" width="3" height="7" fill="currentColor" stroke="none" />
+      <rect x="11" y="7" width="3" height="11" fill="currentColor" stroke="none" />
+      <rect x="16" y="4" width="3" height="14" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 export function FlaskIcon({ className }: IconProps) {
   return (
     <svg {...commonProps} className={className}>
