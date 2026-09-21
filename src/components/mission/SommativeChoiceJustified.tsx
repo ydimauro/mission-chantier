@@ -7,6 +7,7 @@ import { SommativeSubmittedNotice } from "@/components/evaluation/SommativeSubmi
 import { ComparisonTable, type ComparisonOption } from "@/components/mission/ComparisonTable";
 import type { AssessmentKind } from "@/lib/schemas/proof";
 import { findAssessmentSubmission } from "@/lib/progression/model";
+import { useShuffledForDisplay } from "@/lib/use-shuffled-for-display";
 import { SOMMATIVE_LABELS } from "@content/engine";
 
 export type { ComparisonOption };
@@ -45,6 +46,7 @@ export function SommativeChoiceJustified({
   const [justification, setJustification] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const shuffledOptions = useShuffledForDisplay(options);
 
   const alreadySubmitted =
     snapshot.status === "ready" && findAssessmentSubmission(snapshot.file, missionId, itemId) !== null;
@@ -70,7 +72,7 @@ export function SommativeChoiceJustified({
 
       <fieldset className="flex flex-col gap-2">
         <legend className="text-base font-medium text-ink">{question}</legend>
-        {options.map((option) => (
+        {shuffledOptions.map((option) => (
           <label key={option.id} className="flex items-center gap-2 text-sm text-ink">
             <input
               type="radio"

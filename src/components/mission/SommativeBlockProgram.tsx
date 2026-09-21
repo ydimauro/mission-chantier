@@ -7,6 +7,7 @@ import { evaluateCondition, type Comparator } from "@/lib/mission/block-program"
 import { formatMessage } from "@/lib/format-message";
 import { formatFrenchNumber } from "@/lib/format-number";
 import { findAssessmentSubmission } from "@/lib/progression/model";
+import { useShuffledForDisplay } from "@/lib/use-shuffled-for-display";
 import { ACTIVITY_LABELS, BLOCK_PROGRAM_LABELS, SOMMATIVE_LABELS } from "@content/engine";
 
 export type BlockProgramComparatorOption = { id: Comparator; label: string };
@@ -53,6 +54,10 @@ export function SommativeBlockProgram({
   const [tested, setTested] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const shuffledComparatorOptions = useShuffledForDisplay(comparatorOptions);
+  const shuffledThresholdOptions = useShuffledForDisplay(thresholdOptions);
+  const shuffledActionOptions = useShuffledForDisplay(actionOptions);
+  const shuffledElseActionOptions = useShuffledForDisplay(elseActionOptions);
 
   const alreadySubmitted =
     snapshot.status === "ready" && findAssessmentSubmission(snapshot.file, missionId, itemId) !== null;
@@ -102,18 +107,18 @@ export function SommativeBlockProgram({
           <span>{BLOCK_PROGRAM_LABELS.conditionIntro}</span>
           <select aria-label={BLOCK_PROGRAM_LABELS.comparatorFieldLabel} value={comparatorId} onChange={(event) => handleConfigChange(setComparatorId)(event.target.value)} className={SELECT_CLASS}>
             <option value="" disabled>{ACTIVITY_LABELS.choicePlaceholder}</option>
-            {comparatorOptions.map((option) => <option key={option.id} value={option.id}>{option.label}</option>)}
+            {shuffledComparatorOptions.map((option) => <option key={option.id} value={option.id}>{option.label}</option>)}
           </select>
           <select aria-label={BLOCK_PROGRAM_LABELS.thresholdFieldLabel} value={thresholdId} onChange={(event) => handleConfigChange(setThresholdId)(event.target.value)} className={SELECT_CLASS}>
             <option value="" disabled>{ACTIVITY_LABELS.choicePlaceholder}</option>
-            {thresholdOptions.map((option) => <option key={option.id} value={option.id}>{option.label}</option>)}
+            {shuffledThresholdOptions.map((option) => <option key={option.id} value={option.id}>{option.label}</option>)}
           </select>
         </div>
         <div className="ml-4 flex flex-wrap items-center gap-2 rounded-md border border-emerald-700 bg-emerald-100 px-3 py-2 text-sm font-semibold text-emerald-950">
           <span>{BLOCK_PROGRAM_LABELS.actionIntro}</span>
           <select aria-label={BLOCK_PROGRAM_LABELS.actionFieldLabel} value={actionId} onChange={(event) => handleConfigChange(setActionId)(event.target.value)} className={SELECT_CLASS}>
             <option value="" disabled>{ACTIVITY_LABELS.choicePlaceholder}</option>
-            {actionOptions.map((option) => <option key={option.id} value={option.id}>{option.label}</option>)}
+            {shuffledActionOptions.map((option) => <option key={option.id} value={option.id}>{option.label}</option>)}
           </select>
         </div>
         {needsElseAction ? (
@@ -121,7 +126,7 @@ export function SommativeBlockProgram({
             <span>{BLOCK_PROGRAM_LABELS.otherwiseIntro}</span>
             <select aria-label={BLOCK_PROGRAM_LABELS.otherwiseFieldLabel} value={elseActionId} onChange={(event) => handleConfigChange(setElseActionId)(event.target.value)} className={SELECT_CLASS}>
               <option value="" disabled>{ACTIVITY_LABELS.choicePlaceholder}</option>
-              {elseActionOptions.map((option) => <option key={option.id} value={option.id}>{option.label}</option>)}
+              {shuffledElseActionOptions.map((option) => <option key={option.id} value={option.id}>{option.label}</option>)}
             </select>
           </div>
         ) : null}

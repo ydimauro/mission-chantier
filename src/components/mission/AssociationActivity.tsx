@@ -7,6 +7,7 @@ import { IndiceProgressif } from "@/components/mission/IndiceProgressif";
 import { ACTIVITY_LABELS } from "@content/engine";
 import { formatMessage } from "@/lib/format-message";
 import { scoreAssociation, type AssociationResult } from "@/lib/mission/activity-scoring";
+import { useShuffledForDisplay } from "@/lib/use-shuffled-for-display";
 
 export type AssociationChoice = {
   id: string;
@@ -21,7 +22,8 @@ export type AssociationItem = {
 
 type AssociationActivityProps = {
   items: readonly AssociationItem[];
-  /** Choix proposés pour chaque élément, dans le même ordre pour tous
+  /** Choix proposés dans un ordre mélangé, identique pour chaque élément
+   * pendant une même tentative,
    * (docs/SPEC.md § 23 « association », avec alternative clavier native :
    * un menu déroulant, plutôt qu’un glisser-déposer, pour rester
    * utilisable au clavier et à la souris sans code séparé). */
@@ -33,6 +35,7 @@ type AssociationActivityProps = {
 export function AssociationActivity({ items, choices, hints, onComplete }: AssociationActivityProps) {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [result, setResult] = useState<AssociationResult | null>(null);
+  const shuffledChoices = useShuffledForDisplay(choices);
 
   function handleVerify() {
     const scored = scoreAssociation(items, answers);
@@ -74,7 +77,7 @@ export function AssociationActivity({ items, choices, hints, onComplete }: Assoc
                 <option value="" disabled>
                   {ACTIVITY_LABELS.choicePlaceholder}
                 </option>
-                {choices.map((choice) => (
+                {shuffledChoices.map((choice) => (
                   <option key={choice.id} value={choice.id}>
                     {choice.label}
                   </option>

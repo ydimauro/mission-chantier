@@ -5,6 +5,7 @@ import { findAssessmentSubmission } from "@/lib/progression/model";
 import { useProgression } from "@/providers/progression-provider";
 import { SommativeSubmittedNotice } from "@/components/evaluation/SommativeSubmittedNotice";
 import { SOMMATIVE_DIAGNOSTIC_LABELS, SOMMATIVE_LABELS } from "@content/engine";
+import { useShuffledForDisplay } from "@/lib/use-shuffled-for-display";
 
 export type DiagnosticTest = {
   id: string;
@@ -46,11 +47,14 @@ export function SommativeDiagnostic({
   const [solution, setSolution] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const shuffledTests = useShuffledForDisplay(tests);
+  const shuffledCauses = useShuffledForDisplay(causes);
+  const shuffledSolutions = useShuffledForDisplay(solutions);
 
   const alreadySubmitted =
     snapshot.status === "ready" && findAssessmentSubmission(snapshot.file, missionId, itemId) !== null;
-  const availableTests = tests.filter((test) => !testedIds.includes(test.id));
-  const tested = tests.filter((test) => testedIds.includes(test.id));
+  const availableTests = shuffledTests.filter((test) => !testedIds.includes(test.id));
+  const tested = shuffledTests.filter((test) => testedIds.includes(test.id));
   const canSubmit = testedIds.length >= 2 && Boolean(cause) && Boolean(solution);
 
   if (submitted || alreadySubmitted) return <SommativeSubmittedNotice />;
@@ -108,7 +112,7 @@ export function SommativeDiagnostic({
         {SOMMATIVE_DIAGNOSTIC_LABELS.causeLabel}
         <select value={cause} onChange={(event) => setCause(event.target.value)} className="rounded-md border border-border bg-surface px-3 py-2">
           <option value="">{SOMMATIVE_DIAGNOSTIC_LABELS.causePlaceholder}</option>
-          {causes.map((choice) => <option key={choice.id} value={choice.id}>{choice.label}</option>)}
+          {shuffledCauses.map((choice) => <option key={choice.id} value={choice.id}>{choice.label}</option>)}
         </select>
       </label>
 
@@ -116,7 +120,7 @@ export function SommativeDiagnostic({
         {SOMMATIVE_DIAGNOSTIC_LABELS.solutionLabel}
         <select value={solution} onChange={(event) => setSolution(event.target.value)} className="rounded-md border border-border bg-surface px-3 py-2">
           <option value="">{SOMMATIVE_DIAGNOSTIC_LABELS.solutionPlaceholder}</option>
-          {solutions.map((choice) => <option key={choice.id} value={choice.id}>{choice.label}</option>)}
+          {shuffledSolutions.map((choice) => <option key={choice.id} value={choice.id}>{choice.label}</option>)}
         </select>
       </label>
 

@@ -7,6 +7,7 @@ import { ACTIVITY_LABELS, SOMMATIVE_LABELS } from "@content/engine";
 import type { AssociationChoice, AssociationItem } from "@/components/mission/AssociationActivity";
 import type { AssessmentKind } from "@/lib/schemas/proof";
 import { findAssessmentSubmission } from "@/lib/progression/model";
+import { useShuffledForDisplay } from "@/lib/use-shuffled-for-display";
 
 type SommativeAssociationProps = {
   missionId: string;
@@ -37,6 +38,7 @@ export function SommativeAssociation({
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const shuffledChoices = useShuffledForDisplay(choices);
 
   const alreadySubmitted =
     snapshot.status === "ready" && findAssessmentSubmission(snapshot.file, missionId, itemId) !== null;
@@ -71,7 +73,7 @@ export function SommativeAssociation({
             <option value="" disabled>
               {ACTIVITY_LABELS.choicePlaceholder}
             </option>
-            {choices.map((choice) => (
+            {shuffledChoices.map((choice) => (
               <option key={choice.id} value={choice.id}>
                 {choice.label}
               </option>
