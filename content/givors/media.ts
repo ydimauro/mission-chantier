@@ -16,7 +16,7 @@ export type GivorsMedia = {
 };
 
 export const CHANTIER_01: GivorsMedia = {
-  file: "/givors/mission_chantier_givors.png",
+  file: "/givors/mission_chantier_givors.jpg",
   title: "Travaux dans le centre-ville de Givors",
   date: "2026-09",
   author: "Yann Di Mauro",

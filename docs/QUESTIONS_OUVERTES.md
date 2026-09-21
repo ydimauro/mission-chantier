@@ -43,11 +43,13 @@ Ce fichier recense les décisions qui attendent l’accord de l’enseignant. Po
 
 **Mise à jour (2026-09-20)** : une première photographie réelle a été déposée par l’enseignant dans `public/givors/mission_chantier_givors.png`, confirmée par lui comme une photographie authentique du chantier de Givors (et non une image générée par IA). Trois autres fichiers présents au même moment dans ce dossier (une capture de la maquette d’interface et deux essais générés par IA) ont été déplacés vers `docs/references/` pour ne jamais être confondus avec une source réelle (voir `docs/references/README.md`).
 
+**Mise à jour (2026-09-21, ÉTAPE 16)** : le PNG d’origine (2,8 Mo, non compressé) dégradait fortement le LCP sur réseau lent (audit Lighthouse, docs/rapports/ETAPE_16.md). Il a été recompressé en JPEG qualité 82 (`public/givors/mission_chantier_givors.jpg`, 333 Ko, dimensions inchangées, contenu visuellement identique) puis le PNG source a été supprimé. `content/givors/media.ts` référence désormais ce fichier `.jpg`.
+
 **Métadonnées provisoires** (à confirmer précisément à l’ÉTAPE 6, sur le modèle de `docs/SPEC.md` § 5) :
 
 ```ts
 {
-  file: "mission_chantier_givors.png",
+  file: "mission_chantier_givors.jpg",
   title: "Travaux dans le centre-ville de Givors",
   date: "2026-09",
   author: "Yann Di Mauro",

@@ -95,4 +95,20 @@ describe("configuration de sécurité Vercel", () => {
     expect(csp).toContain("object-src 'none'");
     expect(csp).toContain("frame-ancestors 'none'");
   });
+
+  it("autorise le style inline requis par next/image (prop fill) sur la page d’accueil (ÉTAPE 16)", () => {
+    // Sans 'unsafe-inline' sur style-src, le navigateur bloque l'attribut
+    // style="position:absolute;..." que next/image injecte pour la prop
+    // `fill` : l'image héros n'est alors plus positionnée en arrière-plan et
+    // recouvre le texte superposé (constaté visuellement sur un export
+    // statique servi avec les en-têtes CSP réels, docs/rapports/ETAPE_16.md).
+    const vercelConfig = JSON.parse(readFileSync(join(projectRoot, "vercel.json"), "utf-8")) as {
+      headers: Array<{ headers: Array<{ key: string; value: string }> }>;
+    };
+    const csp = vercelConfig.headers[0]?.headers.find(
+      (header) => header.key === "Content-Security-Policy",
+    )?.value;
+
+    expect(csp).toContain("style-src 'self' 'unsafe-inline'");
+  });
 });

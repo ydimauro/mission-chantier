@@ -41,7 +41,7 @@ Conséquence directe pour les missions à ancrage réel (5E-00, 5E-01, 5E-02, 5E
 
 Aucune donnée réelle n’a été inventée pour combler ce manque, conformément à la règle 5 de `AGENTS.md`.
 
-> **Mise à jour (2026-09-20)** : une première photographie réelle est désormais disponible (`public/givors/mission_chantier_givors.png`) et intégrée dans 5E-00 et 4E-00 à l’ÉTAPE 6. Les missions 5E-01, 5E-02 et 5E-07 restent en attente de sources complémentaires. Détail et métadonnées dans `docs/QUESTIONS_OUVERTES.md`.
+> **Mise à jour (2026-09-20)** : une première photographie réelle est désormais disponible (`public/givors/mission_chantier_givors.jpg`) et intégrée dans 5E-00 et 4E-00 à l’ÉTAPE 6. Les missions 5E-01, 5E-02 et 5E-07 restent en attente de sources complémentaires. Détail et métadonnées dans `docs/QUESTIONS_OUVERTES.md`.
 
 ## 5. Contraintes non négociables retenues pour la suite du projet
 
