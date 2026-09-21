@@ -115,6 +115,62 @@ export function EyeIcon({ className }: IconProps) {
   );
 }
 
+export function MessageCircleIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <path d="M21 11.5a8.38 8.38 0 0 1-9 8.5 9.8 9.8 0 0 1-4.5-1.1L3 20l1.1-4.1A8.38 8.38 0 0 1 3 11.5a9 9 0 0 1 18 0z" />
+      <line x1="8" y1="12" x2="8.01" y2="12" />
+      <line x1="12" y1="12" x2="12.01" y2="12" />
+      <line x1="16" y1="12" x2="16.01" y2="12" />
+    </svg>
+  );
+}
+
+export function HammerIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <path d="M14 5l5 5-2 2-2-2-8.5 8.5-2-2L13 8l-2-2 3-1z" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+export function BricksIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <path d="M3 5h8v5H3zM13 5h8v5h-8zM7 12h10v5H7zM3 19h8v-5H3zM13 19h8v-5h-8z" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+export function PaintRollerIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <rect x="4" y="4" width="12" height="6" rx="1" fill="currentColor" stroke="none" />
+      <path d="M16 7h2v5h-5v5" />
+      <line x1="13" y1="17" x2="18" y2="22" />
+    </svg>
+  );
+}
+
+export function TreeIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <path d="M12 3l6 7h-3l4 5h-5l3 4H7l3-4H5l4-5H6z" fill="currentColor" stroke="none" />
+      <path d="M12 19v3" />
+    </svg>
+  );
+}
+
+export function TruckIcon({ className }: IconProps) {
+  return (
+    <svg {...commonProps} className={className}>
+      <path d="M3 7h11v9H3zM14 11h4l3 3v2h-7z" fill="currentColor" stroke="none" />
+      <circle cx="7" cy="18" r="2" fill="currentColor" stroke="none" />
+      <circle cx="17" cy="18" r="2" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 export function LightbulbIcon({ className }: IconProps) {
   return (
     <svg {...commonProps} className={className}>

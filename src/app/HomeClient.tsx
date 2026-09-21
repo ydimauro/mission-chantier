@@ -3,9 +3,28 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { EyeIcon, FlagIcon, MapPinIcon, PencilIcon, QuestionIcon } from "@/components/ui/icons";
+import { BricksIcon, FlagIcon, HammerIcon, MapPinIcon, MessageCircleIcon, PaintRollerIcon, PencilIcon, QuestionIcon, TreeIcon, TruckIcon, WarningIcon } from "@/components/ui/icons";
 import { CHANTIER_01 } from "@content/givors/media";
 import { HOME_CONTENT } from "@content/pages/placeholders";
+
+function ObservationChoiceIcon({ id }: { id: (typeof HOME_CONTENT.observationChoices)[number]["id"] }) {
+  switch (id) {
+    case "demolir":
+      return <HammerIcon className="h-6 w-6 text-slate-700" />;
+    case "construire":
+      return <BricksIcon className="h-6 w-6 text-orange-600" />;
+    case "renover":
+      return <PaintRollerIcon className="h-6 w-6 text-amber-500" />;
+    case "amenager":
+      return <TreeIcon className="h-6 w-6 text-green-600" />;
+    case "materiaux":
+      return <TruckIcon className="h-6 w-6 text-amber-500" />;
+    case "circulation":
+      return <WarningIcon className="h-6 w-6 text-orange-600" />;
+    case "inconnu":
+      return <QuestionIcon className="h-6 w-6 text-slate-700" />;
+  }
+}
 
 export function HomeClient() {
   const [selectedChoices, setSelectedChoices] = useState<string[]>([]);
@@ -38,16 +57,16 @@ export function HomeClient() {
       <section aria-label="Premières observations" className="grid gap-3 lg:grid-cols-[1.45fr_1fr]">
         <div className="rounded-lg border border-border bg-surface p-4 shadow-sm sm:p-5">
           <div className="flex items-start gap-3">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-real text-real-contrast"><EyeIcon /></span>
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-real text-real-contrast"><MessageCircleIcon /></span>
             <div>
               <h2 className="text-xl font-bold text-ink">{HOME_CONTENT.observationTitle}</h2>
               <p className="mt-1 text-sm text-ink-muted">{HOME_CONTENT.observationPrompt}</p>
             </div>
           </div>
-          <div className="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-4 grid grid-cols-3 gap-2">
             {HOME_CONTENT.observationChoices.map((choice) => (
-              <label key={choice.id} className="flex min-h-12 cursor-pointer items-center justify-between gap-3 rounded-md border border-border bg-surface-muted px-3 py-2 text-sm font-semibold text-ink hover:border-brand">
-                <span>{choice.label}</span>
+              <label key={choice.id} className="flex min-h-12 cursor-pointer items-center justify-between gap-2 rounded-md border border-border bg-surface-muted px-2 py-2 text-xs font-semibold leading-4 text-ink hover:border-brand">
+                <span className="flex items-center gap-2"><ObservationChoiceIcon id={choice.id} />{choice.label}</span>
                 <input type="checkbox" checked={selectedChoices.includes(choice.id)} onChange={() => toggleChoice(choice.id)} className="h-4 w-4 shrink-0 accent-brand" />
               </label>
             ))}
