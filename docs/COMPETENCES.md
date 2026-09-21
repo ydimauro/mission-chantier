@@ -113,7 +113,7 @@ Chaque compétence effectivement déclarée ÉVALUÉE dans le parcours essentiel
 
 Niveaux utilisés : Non évaluée, Maîtrise insuffisante, Maîtrise fragile, Maîtrise satisfaisante, Très bonne maîtrise.
 
-Règles retenues pour l’ÉTAPE 4 (implémentation ultérieure, décrites ici pour validation pédagogique) :
+Règles retenues à l’ÉTAPE 4 et appliquées par le moteur de maîtrise :
 
 1. Une compétence reste « Non évaluée » tant qu’aucune preuve sommative ou de transfert n’existe pour elle.
 2. Une seule preuve, quel que soit son score, ne peut jamais produire « Maîtrise satisfaisante » ni « Très bonne maîtrise ».

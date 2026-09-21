@@ -358,7 +358,7 @@ ALORS arrêter
 - **Problématique** : « Sur un nouveau chantier, sais-tu réutiliser ce que tu as appris ? »
 - **Objectifs** : évaluer le transfert des apprentissages, pas uniquement la mémorisation.
 - **Connaissances** : mobilisation transversale de l’ensemble du parcours 5e.
-- **Compétences évaluées en transfert** : C1, C2, C3, C4, C7, C8 (compétences non couvertes en 5e, comme C5 et C9, ne sont pas exigées en maîtrise sur cette finale, cohérent avec leur statut « introduction seulement » en 5e, voir `docs/COMPETENCES.md`).
+- **Compétences évaluées en transfert** : C1, C2, C3, C4, C7, C8. C5 reste seulement introduite en 5e. C6 et C9 sont évaluées dans la mission dédiée 5E-10, mais ne sont pas réévaluées dans cette finale afin de préserver une charge réalisable en 45 minutes (voir `docs/COMPETENCES.md`).
 - **Activité** : situation inédite combinant choix d’engin, lecture de contraintes, simulation courte et justification.
 - **Manipulation / simulation** : simulation similaire dans sa mécanique à celle de 5E-08 / 5E-12, mais nouveau contexte et nouveaux paramètres.
 - **Trace écrite** : conclusion écrite courte demandée en fin d’évaluation (pas un cours complet, une synthèse de la démarche suivie).

@@ -333,7 +333,7 @@ SINON autoriser le déplacement
 - **Problématique** : « Sur un espace totalement différent, sais-tu mobiliser ce que tu as appris en 4e ? »
 - **Objectifs** : évaluation finale globale, transfert des apprentissages de l’ensemble du cycle 4.
 - **Connaissances** : mobilisation transversale du parcours 4e (et rappel du parcours 5e si pertinent).
-- **Compétences évaluées en transfert** : C2, C3, C4, C5, C7, C8, avec C6 et C9 mobilisées si le scénario retenu comporte un volet programmation (à confirmer lors du développement effectif, voir `docs/COMPETENCES.md` § 3.2).
+- **Compétences évaluées en transfert** : C2, C3, C4, C5, C7, C8. Le scénario final développé ne comporte pas de programmation afin de rester réalisable en 45 minutes ; C6 et C9 disposent déjà de preuves en 4E-06 et 4E-11 (voir `docs/COMPETENCES.md` § 3.2).
 - **Activité** : situation inédite combinant analyse de contraintes, diagnostic partiel, simulation et proposition d’organisation.
 - **Manipulation / simulation** : mécanique similaire aux moteurs déjà développés (simulation, éventuellement diagnostic), nouveau contexte et nouveaux paramètres.
 - **Trace écrite** : synthèse écrite courte de la démarche suivie, demandée en fin d’évaluation.

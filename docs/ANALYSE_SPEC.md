@@ -73,7 +73,7 @@ L’enseignant a choisi **Vercel**. Décision et conséquences détaillées dans
 2. **Charge de la mission 5E-12 / 4E-11 (intégratives)** : nombreuses compétences mobilisées simultanément ; durée calée au maximum acceptable (voir `docs/SEANCES_5E.md` / `docs/SEANCES_4E.md`), à surveiller lors des tests utilisateurs (ÉTAPE 10 et 14).
 3. **Double usage de C8** (simulation en 5E-08/5E-12, protocole de test réel en 4E-08) : à ne pas fusionner par erreur lors du développement, ce sont deux preuves de nature différente.
 4. **Fichier `.mctkey`** : doit rester totalement hors du dépôt Git versionné dès l’ÉTAPE 2 ; à vérifier par un test automatique dès l’ÉTAPE 4 (voir tests n° 25 de `docs/SPEC.md` § 64).
-5. **Export/ZIP des fichiers élèves corrigés** : faisabilité technique dans un contexte 100 % client (pas de backend) à confirmer techniquement à l’ÉTAPE 5 (bibliothèque de génération ZIP côté navigateur).
+5. **Export/ZIP des fichiers élèves corrigés** : génération entièrement côté navigateur avec `fflate`, sans backend, implémentée et testée à l’ÉTAPE 5.
 
 ## 9. Décisions prises à cette étape
 

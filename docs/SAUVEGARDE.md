@@ -94,7 +94,7 @@ revision + 1
 export groupé
 ```
 
-Un export par lot est prévu, idéalement sous forme de ZIP contenant les `.mcjson` corrigés (faisabilité technique côté navigateur à confirmer à l’ÉTAPE 5, voir `docs/ANALYSE_SPEC.md` § 8). L’élève réimporte ensuite son fichier corrigé et retrouve, dans « Ma progression » : résultats des sommatives, note provisoire ou finale, niveaux de maîtrise, compétences, bilan, éléments à retravailler. Le bilan imprimé ou PDF reste complémentaire, jamais le mécanisme principal de retour du résultat.
+L’export par lot produit un ZIP contenant les `.mcjson` corrigés, entièrement dans le navigateur grâce à `fflate` et sans backend (implémenté à l’ÉTAPE 5). L’élève réimporte ensuite son fichier corrigé et retrouve, dans « Ma progression » : résultats des sommatives, note provisoire ou finale, niveaux de maîtrise, compétences, bilan, éléments à retravailler. Le bilan imprimé ou PDF reste complémentaire, jamais le mécanisme principal de retour du résultat.
 
 ## 9. Aménagements et incrément de révision
 
