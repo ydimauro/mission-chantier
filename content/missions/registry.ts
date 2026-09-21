@@ -42,6 +42,71 @@ export const MISSION_4E_00: MissionEntry = {
   durations: { fastMinutes: 15, averageMinutes: 25, slowMinutes: 38, absoluteMaxMinutes: 40 },
 };
 
+export const MISSION_4E_01: MissionEntry = {
+  id: "4E-01",
+  niveau: "4e",
+  href: "/mission/4e-01",
+  status: "essentielle",
+  problematique: "Comment est organisée une pelle hydraulique à l’intérieur ?",
+  activite: "Identifier les sous-systèmes principaux d’une pelle hydraulique et leur rôle.",
+  traceEcrite: "Schéma légendé de la pelle et phrase sur l’évolution des commandes.",
+  evaluation: "Évaluation formative (légendage), avec indices progressifs.",
+  evaluationJustification: null,
+  durations: { fastMinutes: 26, averageMinutes: 33, slowMinutes: 40, absoluteMaxMinutes: 44 },
+};
+
+export const MISSION_4E_02: MissionEntry = {
+  id: "4E-02",
+  niveau: "4e",
+  href: "/mission/4e-02",
+  status: "essentielle",
+  problematique: "Comment l’énergie circule-t-elle jusqu’au mouvement de l’engin ?",
+  activite: "Associer les cinq fonctions d’une chaîne d’énergie aux composants de la pelle.",
+  traceEcrite: "Chaîne d’énergie complète et composants associés.",
+  evaluation: "Évaluation sommative intermédiaire n° 1, corrigée dans /teacher.",
+  evaluationJustification: null,
+  durations: { fastMinutes: 27, averageMinutes: 34, slowMinutes: 42, absoluteMaxMinutes: 45 },
+};
+
+export const MISSION_4E_03: MissionEntry = {
+  id: "4E-03",
+  niveau: "4e",
+  href: "/mission/4e-03",
+  status: "essentielle",
+  problematique: "Comment un fluide peut-il faire bouger un bras d’acier ?",
+  activite: "Faire varier pression et débit dans une simulation hydraulique qualitative, puis observer l’effet.",
+  traceEcrite: "Chaîne hydraulique et observation de deux essais.",
+  evaluation: "Évaluation formative (simulation et observation), avec indices progressifs.",
+  evaluationJustification: null,
+  durations: { fastMinutes: 26, averageMinutes: 34, slowMinutes: 41, absoluteMaxMinutes: 45 },
+};
+
+export const MISSION_4E_04: MissionEntry = {
+  id: "4E-04",
+  niveau: "4e",
+  href: "/mission/4e-04",
+  status: "essentielle",
+  problematique: "Comment une information devient-elle une action de l’engin ?",
+  activite: "Associer les étapes d’une chaîne d’information aux composants d’une sécurité de proximité.",
+  traceEcrite: "Chaîne d’information complète et condition du programme associée.",
+  evaluation: "Évaluation formative (chaîne d’information), avec indices progressifs.",
+  evaluationJustification: null,
+  durations: { fastMinutes: 25, averageMinutes: 32, slowMinutes: 40, absoluteMaxMinutes: 44 },
+};
+
+export const MISSION_4E_05: MissionEntry = {
+  id: "4E-05",
+  niveau: "4e",
+  href: "/mission/4e-05",
+  status: "essentielle",
+  problematique: "Comment trouver la cause d’une panne ?",
+  activite: "Choisir des tests, observer leurs résultats, puis proposer une cause et une solution.",
+  traceEcrite: "Tableau symptôme / hypothèses / tests / cause retenue / solution proposée.",
+  evaluation: "Évaluation sommative intermédiaire n° 2, corrigée dans /teacher.",
+  evaluationJustification: null,
+  durations: { fastMinutes: 28, averageMinutes: 35, slowMinutes: 42, absoluteMaxMinutes: 45 },
+};
+
 export const MISSION_5E_01: MissionEntry = {
   id: "5E-01",
   niveau: "5e",
@@ -230,7 +295,7 @@ export const MISSION_SEQUENCE: Record<Level, readonly MissionEntry[]> = {
     MISSION_5E_12,
     MISSION_5E_FINAL,
   ],
-  "4e": [MISSION_4E_00],
+  "4e": [MISSION_4E_00, MISSION_4E_01, MISSION_4E_02, MISSION_4E_03, MISSION_4E_04, MISSION_4E_05],
 };
 
 export const MISSION_REGISTRY: readonly MissionEntry[] = [
@@ -249,4 +314,9 @@ export const MISSION_REGISTRY: readonly MissionEntry[] = [
   MISSION_5E_12,
   MISSION_5E_FINAL,
   MISSION_4E_00,
+  MISSION_4E_01,
+  MISSION_4E_02,
+  MISSION_4E_03,
+  MISSION_4E_04,
+  MISSION_4E_05,
 ];

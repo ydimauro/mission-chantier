@@ -70,6 +70,27 @@ export const SOMMATIVE_LABELS = {
   submitButton: "Remettre mon évaluation",
 } as const;
 
+export const HYDRAULIC_SIMULATION_LABELS = {
+  pressure: "Pression pédagogique (bar)",
+  flow: "Débit pédagogique (L/min)",
+  run: "Lancer la simulation",
+  measuresTitle: "Mesure de la simulation",
+  speed: "Vitesse qualitative du mouvement",
+  unit: "unité pédagogique",
+} as const;
+
+export const SOMMATIVE_DIAGNOSTIC_LABELS = {
+  testLabel: "Choisis un test à réaliser.",
+  testPlaceholder: "Choisis un test",
+  runTest: "Réaliser ce test",
+  resultsTitle: "Résultats observés",
+  causeLabel: "Cause retenue",
+  causePlaceholder: "Choisis une cause",
+  solutionLabel: "Solution proposée",
+  solutionPlaceholder: "Choisis une solution",
+  testFirstNotice: "Réalise au moins deux tests avant de remettre ton diagnostic.",
+} as const;
+
 export const EVACUATION_SIMULATION_LABELS = {
   planLabel: "Plan 2D du Quartier des Ateliers",
   zoneGravats: "Zone de gravats",

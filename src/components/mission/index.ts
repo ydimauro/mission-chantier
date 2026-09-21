@@ -5,6 +5,8 @@
 export { SituationReelle } from "@/components/mission/SituationReelle";
 export { SimulationPedagogique } from "@/components/mission/SimulationPedagogique";
 export { EvacuationSimulation } from "@/components/mission/EvacuationSimulation";
+export { HydraulicSimulation } from "@/components/mission/HydraulicSimulation";
+export { SommativeDiagnostic } from "@/components/mission/SommativeDiagnostic";
 export { Problematique } from "@/components/mission/Problematique";
 export { Objectif } from "@/components/mission/Objectif";
 export { Observe } from "@/components/mission/Observe";
