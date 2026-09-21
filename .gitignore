@@ -45,3 +45,6 @@ docs/sources/givors/*
 # Données réservées enseignant
 teacher-data/*
 !teacher-data/README.md
+
+.vercel
+.env*
