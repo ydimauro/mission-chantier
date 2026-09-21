@@ -21,13 +21,12 @@ export function HomeClient() {
     <div className="mx-auto flex max-w-7xl flex-col gap-3 px-3 py-3 sm:px-5 sm:py-4">
       <section aria-labelledby="home-title" className="relative min-h-80 overflow-hidden rounded-lg border border-border bg-surface shadow-sm sm:min-h-96">
         <Image src={CHANTIER_01.file} alt={CHANTIER_01.alt} fill loading="eager" sizes="(max-width: 768px) 100vw, 1280px" className="object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/80 via-ink/45 to-transparent" aria-hidden="true" />
         <div className="relative flex min-h-80 flex-col justify-between gap-8 p-5 text-white sm:min-h-96 sm:p-8">
           <p className="ml-auto flex w-fit items-center gap-2 rounded-md bg-accent px-4 py-3 text-base font-bold text-slate-900 shadow-sm">
             <MapPinIcon />
             {HOME_CONTENT.realBadge}
           </p>
-          <div className="max-w-xl rounded-md bg-ink/85 p-5 shadow-sm sm:p-6">
+          <div className="max-w-xl drop-shadow-md">
             <h1 id="home-title" className="text-3xl font-bold sm:text-5xl">{HOME_CONTENT.title}</h1>
             <p className="mt-3 text-base leading-7 sm:text-lg">{HOME_CONTENT.intro}</p>
             <div className="mt-4 h-1 w-11 rounded-full bg-brand" aria-hidden="true" />

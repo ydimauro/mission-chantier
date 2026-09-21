@@ -14,7 +14,7 @@ Il présente désormais :
 - un seul appel à l’action « Commencer ma mission » ;
 - trois repères ordonnés, « Observer », « Comprendre » et « Écrire », pour réduire la charge cognitive.
 
-**Complément visuel** : la page de garde reprend désormais la composition de référence fournie par l’enseignant : cartouche jaune sur l’image, encart sombre pour le titre, panneau d’observation à choix, panneau d’écriture jaune pâle et large bouton orange. Les icônes sont des dessins SVG locaux de l’application, sans bibliothèque ni média externe. Les choix et le champ d’écriture sont volontairement des premières idées locales : la première mission reprend la démarche pédagogique enregistrée dans la progression.
+**Complément visuel** : la page de garde reprend désormais la composition de référence fournie par l’enseignant : cartouche jaune sur l’image, titre et texte directement superposés à la photo du chantier, panneau d’observation à choix, panneau d’écriture jaune pâle et large bouton orange. Les icônes sont des dessins SVG locaux de l’application, sans bibliothèque ni média externe. Les choix et le champ d’écriture sont volontairement des premières idées locales : la première mission reprend la démarche pédagogique enregistrée dans la progression.
 
 L’image d’accueil utilise `loading="eager"`, car elle est au-dessus de la ligne de flottaison. Aucun média externe ni nouvelle donnée sur Givors n’est introduit.
 
