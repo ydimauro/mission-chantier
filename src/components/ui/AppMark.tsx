@@ -19,15 +19,11 @@ export function AppMark({ size = 32, className }: AppMarkProps) {
       aria-label="Mission Chantier"
       className={className}
     >
-      <rect width="48" height="48" rx="10" fill="#E26721" />
-      <rect x="8" y="31" width="9" height="9" fill="#FFFFFF" />
-      <rect x="10.5" y="33.5" width="4" height="4" fill="#E26721" />
-      <line x1="10" y1="40" x2="39" y2="40" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" />
-      <line x1="17" y1="40" x2="17" y2="12" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" />
-      <line x1="17" y1="12" x2="39" y2="16" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" />
-      <line x1="17" y1="12" x2="9" y2="15" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" />
-      <line x1="36" y1="17" x2="36" y2="27" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" />
-      <rect x="33" y="27" width="6" height="5" rx="1" fill="#FFFFFF" />
+      <path d="M8 6h27v3H8zM13 9h4v29h-4zM8 12h5v3H8zM32 9h3v17h-3zM31 25h5v3h-5z" fill="#E26721" />
+      <path d="M6 38h36v4H6zM20 27h17v11H20z" fill="#1F3650" />
+      <path d="M24 24l5-5 5 5zM24 31h3v3h-3zM30 31h3v3h-3z" fill="#E26721" />
+      <path d="M10 34h3v4h-3zM17 31h3v7h-3z" fill="#1F3650" />
+      <path d="M35 13l5 3-5 3z" fill="#E26721" />
     </svg>
   );
 }
