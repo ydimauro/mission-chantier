@@ -83,3 +83,12 @@ export const IMPORT_RESULT_MESSAGES = {
 } as const;
 
 export const PROGRESSION_PAGE_TITLE = "Ma progression";
+
+export const LOADING_LABEL = "Chargement de ta progression…";
+
+export const LOAD_ERROR_MESSAGES = {
+  title: "Impossible de charger ta progression",
+  body: "Une erreur technique a empêché l’application de lire ta progression enregistrée sur cet ordinateur. Tes données ne sont pas perdues : elles restent enregistrées sur cet ordinateur.",
+  retry: "Réessayer",
+  reload: "Recharger la page",
+} as const;

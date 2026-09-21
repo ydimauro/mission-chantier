@@ -64,7 +64,8 @@ export type ProgressionSnapshot =
   | { status: "no-identity" }
   | { status: "ready"; file: StudentFile }
   | { status: "conflict"; kind: ConflictKind; cache: StudentFile; incoming: StudentFile }
-  | { status: "wrong-file"; sessionCode: string; incoming: StudentFile };
+  | { status: "wrong-file"; sessionCode: string; incoming: StudentFile }
+  | { status: "error" };
 
 export type ImportOutcome =
   | { type: "adopted" }
@@ -81,6 +82,8 @@ type ProgressionContextValue = {
   folderLinked: boolean;
   createIdentity: (identity: NewStudentIdentity) => Promise<void>;
   switchStudent: () => void;
+  /** Relance le chargement initial après un échec (docs/SPEC.md § 65, audit ÉTAPE 10 § 11). */
+  retryLoad: () => void;
   saveNow: () => Promise<ActionResult>;
   recordResponses: (missionId: string, responses: Record<string, unknown>) => void;
   submitAssessment: (
@@ -103,6 +106,8 @@ const ProgressionContext = createContext<ProgressionContextValue | null>(null);
 
 export function ProgressionProvider({ children }: { children: ReactNode }) {
   const [loadedState, setLoadedState] = useState<LoadedState | null>(null);
+  const [loadError, setLoadError] = useState(false);
+  const [loadAttempt, setLoadAttempt] = useState(0);
   const [conflict, setConflict] = useState<ConflictState | null>(null);
   const [wrongFile, setWrongFile] = useState<WrongFileState | null>(null);
 
@@ -110,42 +115,61 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
     let cancelled = false;
 
     void (async () => {
-      const storedCode = readStoredJson<string>(STORAGE_KEYS.activeStudentCode);
-      const fileSystemAccessSupported = isFileSystemAccessSupported();
-      let next: LoadedState = {
-        activeStudentCode: null,
-        file: null,
-        folderLinked: false,
-        fileSystemAccessSupported,
-      };
+      try {
+        const storedCode = readStoredJson<string>(STORAGE_KEYS.activeStudentCode);
+        const fileSystemAccessSupported = isFileSystemAccessSupported();
+        let next: LoadedState = {
+          activeStudentCode: null,
+          file: null,
+          folderLinked: false,
+          fileSystemAccessSupported,
+        };
 
-      if (storedCode) {
-        const cached = await getStudentFile(storedCode);
-        if (cached) {
-          const handle = await getDirectoryHandle(storedCode);
-          next = {
-            activeStudentCode: storedCode,
-            file: cached,
-            folderLinked: Boolean(handle),
-            fileSystemAccessSupported,
-          };
+        if (storedCode) {
+          const cached = await getStudentFile(storedCode);
+          if (cached) {
+            const handle = await getDirectoryHandle(storedCode);
+            next = {
+              activeStudentCode: storedCode,
+              file: cached,
+              folderLinked: Boolean(handle),
+              fileSystemAccessSupported,
+            };
+          }
         }
-      }
 
-      if (!cancelled) {
-        // Lecture asynchrone de localStorage/IndexedDB au montage : le
-        // premier rendu (serveur puis client) reste "loading" dans les deux
-        // cas, ce qui évite toute divergence d’hydratation (même principe
-        // qu’à l’ÉTAPE 1 pour les préférences d’affichage). Détecter la
-        // prise en charge de File System Access ici, et pas au premier
-        // rendu, pour la même raison.
-        setLoadedState(next);
+        if (!cancelled) {
+          // Lecture asynchrone de localStorage/IndexedDB au montage : le
+          // premier rendu (serveur puis client) reste "loading" dans les deux
+          // cas, ce qui évite toute divergence d’hydratation (même principe
+          // qu’à l’ÉTAPE 1 pour les préférences d’affichage). Détecter la
+          // prise en charge de File System Access ici, et pas au premier
+          // rendu, pour la même raison.
+          setLoadedState(next);
+        }
+      } catch (error) {
+        // IndexedDB indisponible, navigation privée restrictive, quota
+        // dépassé, donnée corrompue... : sans ce filet, l’exception reste
+        // une promesse rejetée non gérée, `loadedState` ne passe jamais de
+        // `null` à une valeur, et toute page protégée par
+        // `RequireStudentIdentity` reste bloquée sur "loading" (donc vide)
+        // indéfiniment, sans aucun message (audit ÉTAPE 10 § 2, § 11).
+        console.error("Échec du chargement de la progression enregistrée :", error);
+        if (!cancelled) {
+          setLoadError(true);
+        }
       }
     })();
 
     return () => {
       cancelled = true;
     };
+  }, [loadAttempt]);
+
+  const retryLoad = useCallback(() => {
+    setLoadedState(null);
+    setLoadError(false);
+    setLoadAttempt((attempt) => attempt + 1);
   }, []);
 
   const adoptFile = useCallback(async (file: StudentFile) => {
@@ -368,6 +392,7 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
   }, [wrongFile, adoptFile]);
 
   const snapshot: ProgressionSnapshot = useMemo(() => {
+    if (loadError) return { status: "error" };
     if (!loadedState) return { status: "loading" };
     if (wrongFile) return { status: "wrong-file", ...wrongFile };
     if (conflict) return { status: "conflict", ...conflict };
@@ -375,7 +400,7 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
       return { status: "ready", file: loadedState.file };
     }
     return { status: "no-identity" };
-  }, [loadedState, conflict, wrongFile]);
+  }, [loadedState, loadError, conflict, wrongFile]);
 
   const value = useMemo<ProgressionContextValue>(
     () => ({
@@ -384,6 +409,7 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
       folderLinked: loadedState?.folderLinked ?? false,
       createIdentity,
       switchStudent,
+      retryLoad,
       saveNow,
       recordResponses,
       submitAssessment,
@@ -401,6 +427,7 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
       loadedState,
       createIdentity,
       switchStudent,
+      retryLoad,
       saveNow,
       recordResponses,
       submitAssessment,
