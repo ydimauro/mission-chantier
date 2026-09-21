@@ -3,27 +3,22 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { BricksIcon, FlagIcon, HammerIcon, MapPinIcon, MessageCircleIcon, PaintRollerIcon, PencilIcon, QuestionIcon, TreeIcon, TruckIcon, WarningIcon } from "@/components/ui/icons";
+import { FlagIcon, MapPinIcon, QuestionIcon } from "@/components/ui/icons";
 import { CHANTIER_01 } from "@content/givors/media";
 import { HOME_CONTENT } from "@content/pages/placeholders";
 
+const OBSERVATION_PICTOGRAMS: Record<(typeof HOME_CONTENT.observationChoices)[number]["id"], string> = {
+  demolir: "/pictograms/demolir.svg",
+  construire: "/pictograms/construire.svg",
+  renover: "/pictograms/renover.svg",
+  amenager: "/pictograms/amenager.svg",
+  materiaux: "/pictograms/materiaux.svg",
+  circulation: "/pictograms/circulation.svg",
+  inconnu: "/pictograms/question.svg",
+};
+
 function ObservationChoiceIcon({ id }: { id: (typeof HOME_CONTENT.observationChoices)[number]["id"] }) {
-  switch (id) {
-    case "demolir":
-      return <HammerIcon className="h-6 w-6 text-slate-700" />;
-    case "construire":
-      return <BricksIcon className="h-6 w-6 text-orange-600" />;
-    case "renover":
-      return <PaintRollerIcon className="h-6 w-6 text-amber-500" />;
-    case "amenager":
-      return <TreeIcon className="h-6 w-6 text-green-600" />;
-    case "materiaux":
-      return <TruckIcon className="h-6 w-6 text-amber-500" />;
-    case "circulation":
-      return <WarningIcon className="h-6 w-6 text-orange-600" />;
-    case "inconnu":
-      return <QuestionIcon className="h-6 w-6 text-slate-700" />;
-  }
+  return <Image src={OBSERVATION_PICTOGRAMS[id]} alt="" width={40} height={40} className="h-9 w-9 shrink-0 object-contain" />;
 }
 
 export function HomeClient() {
@@ -57,7 +52,7 @@ export function HomeClient() {
       <section aria-label="Premières observations" className="grid gap-3 lg:grid-cols-[1.45fr_1fr]">
         <div className="rounded-lg border border-border bg-surface p-4 shadow-sm sm:p-5">
           <div className="flex items-start gap-3">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-real text-real-contrast"><MessageCircleIcon /></span>
+            <Image src="/pictograms/observer.svg" alt="" width={48} height={48} className="h-12 w-12 shrink-0 object-contain" />
             <div>
               <h2 className="text-xl font-bold text-ink">{HOME_CONTENT.observationTitle}</h2>
               <p className="mt-1 text-sm text-ink-muted">{HOME_CONTENT.observationPrompt}</p>
@@ -75,7 +70,7 @@ export function HomeClient() {
 
         <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 shadow-sm sm:p-5">
           <div className="flex items-start gap-3">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand text-brand-contrast"><PencilIcon /></span>
+            <Image src="/pictograms/ecrire.svg" alt="" width={48} height={48} className="h-12 w-12 shrink-0 object-contain" />
             <div>
               <h2 className="text-xl font-bold text-ink">{HOME_CONTENT.writingTitle}</h2>
               <p className="mt-1 text-sm font-medium text-ink">{HOME_CONTENT.writingPrompt}</p>
