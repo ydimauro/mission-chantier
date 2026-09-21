@@ -45,4 +45,23 @@ describe("SommativeDiagnostic", () => {
     });
     expect(await screen.findByText("Évaluation enregistrée. Ton résultat sera disponible après correction.")).toBeVisible();
   });
+
+  it("dépose en « final » quand la mission le demande", async () => {
+    const user = userEvent.setup();
+    render(<SommativeDiagnostic missionId="4E-FINAL" itemId="diagnostic" tests={tests} causes={causes} solutions={solutions} kind="final" />);
+
+    await user.selectOptions(screen.getByLabelText("Choisis un test à réaliser."), "a");
+    await user.click(screen.getByRole("button", { name: "Réaliser ce test" }));
+    await user.selectOptions(screen.getByLabelText("Choisis un test à réaliser."), "b");
+    await user.click(screen.getByRole("button", { name: "Réaliser ce test" }));
+    await user.selectOptions(screen.getByLabelText("Cause retenue"), "cause");
+    await user.selectOptions(screen.getByLabelText("Solution proposée"), "solution");
+    await user.click(screen.getByRole("button", { name: "Remettre mon évaluation" }));
+
+    expect(submitAssessment).toHaveBeenCalledWith("4E-FINAL", "diagnostic", "final", {
+      testedIds: ["a", "b"],
+      cause: "cause",
+      solution: "solution",
+    });
+  });
 });

@@ -85,9 +85,9 @@ Une compétence peut être découverte sans être déclarée maîtrisée. Cinq s
 | 4E-09 | ● | | ● | | | | | ● | |
 | 4E-10 | | ● | ● | | | | ● | ● | |
 | 4E-11 | | ● | | ● | ● | ● | ● | ● | ● |
-| 4E-FINAL | | ● | ● | ● | ● | ● | ● | ● | ● |
+| 4E-FINAL | | ● | ● | ● | ● | | ● | ● | |
 
-Note : 4E-FINAL évalue le transfert ; la mobilisation exacte de C6/C9 dépend du scénario retenu (présence ou non d’un volet programmation dans la situation nouvelle), à confirmer lors du développement de l’ÉTAPE 14.
+Note : 4E-FINAL évalue le transfert par le choix technique, les contraintes de circulation, un diagnostic hydraulique et une simulation. Le scénario retenu ne comporte pas de volet programmation : C6 et C9 restent travaillées et évaluées dans 4E-06 et 4E-11, sans être déclarées dans la finale.
 
 ## 4. Preuves multiples pour les compétences évaluées du parcours essentiel
 
@@ -102,10 +102,10 @@ Vérification pour le parcours essentiel (missions RECOMMANDÉE exclues, voir `d
 | C3 | 5E-03, 5E-04, 5E-08, 5E-11, 5E-12 | 4E-09, 4E-10, 4E-FINAL |
 | C4 | 5E-05, 5E-FINAL | 4E-02, 4E-05, 4E-11, 4E-FINAL |
 | C5 | non évaluée en 5e (introduite seulement, cohérent avec § 2.1) | 4E-05, 4E-11, 4E-FINAL |
-| C6 | 5E-10 | 4E-06, 4E-11, 4E-FINAL |
+| C6 | 5E-10 | 4E-06, 4E-11 |
 | C7 | 5E-12, 5E-FINAL | 4E-11, 4E-FINAL |
 | C8 | 5E-08, 5E-11, 5E-12, 5E-FINAL | 4E-03, 4E-08, 4E-09, 4E-10, 4E-11, 4E-FINAL |
-| C9 | 5E-10 (une seule mission dédiée en 5e ; cohérent, l’introduction en 5e reste volontairement limitée) | 4E-06, 4E-11, 4E-FINAL |
+| C9 | 5E-10 (une seule mission dédiée en 5e ; cohérent, l’introduction en 5e reste volontairement limitée) | 4E-06, 4E-11 |
 
 Chaque compétence effectivement déclarée ÉVALUÉE dans le parcours essentiel dispose d’au moins deux contextes distincts, à l’exception de C9 en 5e qui n’a qu’un seul contexte formel (5E-10) ; ce point est documenté comme limite acceptée (la programmation en 5e reste volontairement une introduction, la consolidation de C9 se fait en 4e avec trois contextes).
 

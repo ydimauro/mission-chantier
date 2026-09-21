@@ -6,6 +6,7 @@ import { useProgression } from "@/providers/progression-provider";
 import { SommativeSubmittedNotice } from "@/components/evaluation/SommativeSubmittedNotice";
 import { SOMMATIVE_DIAGNOSTIC_LABELS, SOMMATIVE_LABELS } from "@content/engine";
 import { useShuffledForDisplay } from "@/lib/use-shuffled-for-display";
+import type { AssessmentKind } from "@/lib/schemas/proof";
 
 export type DiagnosticTest = {
   id: string;
@@ -24,6 +25,8 @@ type SommativeDiagnosticProps = {
   tests: readonly DiagnosticTest[];
   causes: readonly DiagnosticChoice[];
   solutions: readonly DiagnosticChoice[];
+  /** "summative" (défaut) pour une sommative intermédiaire, "final" pour la finale. */
+  kind?: AssessmentKind;
   onSubmitted?: () => void;
 };
 
@@ -38,6 +41,7 @@ export function SommativeDiagnostic({
   tests,
   causes,
   solutions,
+  kind = "summative",
   onSubmitted,
 }: SommativeDiagnosticProps) {
   const { snapshot, submitAssessment } = useProgression();
@@ -62,7 +66,7 @@ export function SommativeDiagnostic({
   async function submit() {
     if (!canSubmit) return;
     setSubmitting(true);
-    await submitAssessment(missionId, itemId, "summative", { testedIds, cause, solution });
+    await submitAssessment(missionId, itemId, kind, { testedIds, cause, solution });
     setSubmitting(false);
     setSubmitted(true);
     onSubmitted?.();

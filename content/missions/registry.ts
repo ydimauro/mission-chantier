@@ -165,6 +165,19 @@ export const MISSION_4E_11: MissionEntry = {
   durations: { fastMinutes: 30, averageMinutes: 38, slowMinutes: 43, absoluteMaxMinutes: 45 },
 };
 
+export const MISSION_4E_FINAL: MissionEntry = {
+  id: "4E-FINAL",
+  niveau: "4e",
+  href: "/mission/4e-final",
+  status: "essentielle",
+  problematique: "Sur un espace totalement différent, sais-tu mobiliser ce que tu as appris en 4e ?",
+  activite: "Situation de transfert fictive : choix technique, contraintes de circulation, diagnostic hydraulique et simulation.",
+  traceEcrite: "Synthèse courte de la démarche : choix, contrainte, diagnostic et réglage retenu.",
+  evaluation: "Évaluation finale sommative et certificative (60 % de la note /20), corrigée dans /teacher.",
+  evaluationJustification: null,
+  durations: { fastMinutes: 28, averageMinutes: 35, slowMinutes: 43, absoluteMaxMinutes: 45 },
+};
+
 export const MISSION_5E_01: MissionEntry = {
   id: "5E-01",
   niveau: "5e",
@@ -353,7 +366,7 @@ export const MISSION_SEQUENCE: Record<Level, readonly MissionEntry[]> = {
     MISSION_5E_12,
     MISSION_5E_FINAL,
   ],
-  "4e": [MISSION_4E_00, MISSION_4E_01, MISSION_4E_02, MISSION_4E_03, MISSION_4E_04, MISSION_4E_05, MISSION_4E_06, MISSION_4E_07, MISSION_4E_08, MISSION_4E_09, MISSION_4E_10, MISSION_4E_11],
+  "4e": [MISSION_4E_00, MISSION_4E_01, MISSION_4E_02, MISSION_4E_03, MISSION_4E_04, MISSION_4E_05, MISSION_4E_06, MISSION_4E_07, MISSION_4E_08, MISSION_4E_09, MISSION_4E_10, MISSION_4E_11, MISSION_4E_FINAL],
 };
 
 export const MISSION_REGISTRY: readonly MissionEntry[] = [
@@ -383,4 +396,5 @@ export const MISSION_REGISTRY: readonly MissionEntry[] = [
   MISSION_4E_09,
   MISSION_4E_10,
   MISSION_4E_11,
+  MISSION_4E_FINAL,
 ];
