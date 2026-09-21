@@ -1,36 +1,73 @@
 # BILAN ÉTAPE 21 : audit final
 
-Périmètre : `docs/SPEC.md` § 65 (ÉTAPE 21) : « Exécuter `npm run lint`, `npm run typecheck`, `npm test`, `npm run test:e2e`, `npm run build`. Créer `docs/AUDIT_FINAL.md`. STOP. »
+Date : 2026-09-21
 
-## 1. Pipeline
+Périmètre : `docs/SPEC.md` § 65, exécution du pipeline final, contrôle du déploiement et mise à jour de `docs/AUDIT_FINAL.md`.
+
+## 1. Pipeline obligatoire
 
 | Commande | Résultat |
 | --- | --- |
 | `npm run lint` | réussi |
 | `npm run typecheck` | réussi |
-| `npm test` | 53 fichiers, 302 tests réussis |
-| `npm run test:e2e` | 8 tests réussis |
+| `npm test` | 54 fichiers, 305 tests réussis |
+| `npm run test:e2e` | 8 tests Playwright réussis |
 | `npm run build` | réussi, 36 routes statiques |
 
-Une session Claude Code parallèle avait un `next dev` actif sur ce même dépôt au moment de l'exécution (verrou Next.js au niveau du répertoire de projet, pas du port). `npm run test:e2e` a été exécuté en pointant temporairement `playwright.config.ts` vers ce serveur déjà lancé (`reuseExistingServer: true`, même port), sans jamais l'arrêter ; la configuration a été restaurée à l'identique immédiatement après (vérifié par `git diff` vide sur ce fichier).
+Les cinq commandes imposées réussissent sur l’état final du projet.
 
-## 2. Audit final
+## 2. Déploiement Vercel
 
-Document complet : [docs/AUDIT_FINAL.md](../AUDIT_FINAL.md). Synthèse :
+Le build final a été déployé sur le projet Vercel `mission-chantier` :
 
-- les cinq commandes du pipeline sont vertes ;
-- le déploiement Vercel réel (`https://mission-chantier.vercel.app/`) a été revérifié directement par capture d'écran et sondage de plusieurs routes (`/`, `/privacy`, `/teacher`, `/mission`, `/ressources`) : aucune erreur console, aucune anomalie visuelle ;
-- les 25 règles d'`AGENTS.md` ont été confrontées à l'état actuel du dépôt, sans écart trouvé ;
-- l'historique des bogues réels significatifs du projet est condensé, avec une attention particulière aux deux bogues qui n'étaient reproductibles que sous les en-têtes de sécurité réels du déploiement (jamais en développement local) ;
-- les questions encore ouvertes pour l'enseignant (progression annuelle, police d'accessibilité) sont rappelées : elles n'empêchent pas l'usage de l'application ;
-- les limites déjà documentées (budget JS idéal du § 59, Firefox non testé par automatisation) sont reprises sans être retraitées.
+- domaine public : `https://mission-chantier.vercel.app/` ;
+- déploiement : `dpl_AV6yVzJyTv7hBvzRGi3jzcuJTKxd` ;
+- état : Ready ;
+- routes contrôlées : `/`, `/privacy`, `/teacher`, `/mission`, `/ressources` ;
+- résultat : HTTP 200 sur les cinq routes.
 
-## 3. Constat
+Le domaine `attention-act.vercel.app` appartient à une autre application. Après détection de la confusion pendant l’audit, il a été rétabli sur son déploiement précédent. Mission Chantier reste uniquement sur `mission-chantier.vercel.app`.
 
-Aucune anomalie nouvelle trouvée à cette étape. Le projet est dans l'état attendu par `docs/SPEC.md` § 66 (« définition d'une étape terminée ») pour chacune des 21 étapes.
+## 3. Budget de poids
 
----
+| Mesure | Résultat |
+| --- | ---: |
+| Taille totale de `/out` | 5,99 Mo |
+| Fichiers | 243 |
+| JavaScript | 1,84 Mo |
+| Images | 2,62 Mo |
+| Sons | 0 Mo |
+| Fichiers supérieurs à 1 Mo | 0 |
 
-Fin de l'ÉTAPE 21.
+La cible de 40 Mo est largement respectée et le seuil d’avertissement de 50 Mo n’est pas atteint. Le plus gros fichier pèse 726 Ko.
 
-Fin du parcours d'étapes (`docs/SPEC.md` § 65, ÉTAPE 0 à ÉTAPE 21). STOP.
+## 4. Sécurité et dépendances
+
+`npm audit --omit=dev` ne relève aucune vulnérabilité dans les dépendances de production. Les tests de sécurité statique, l’effacement RGPD, l’absence d’API de transmission et les en-têtes Vercel restent validés.
+
+## 5. Parcours fonctionnels
+
+Les huit scénarios Playwright couvrent :
+
+- le parcours 5e, de Givors à la reprise de progression ;
+- le parcours 4e, de l’analyse au protocole ;
+- le parcours professeur, jusqu’au retour du fichier corrigé et à l’affichage des résultats côté élève ;
+- les sauvegardes Chromium et le repli Firefox ;
+- les conflits cache et fichier ainsi que le mauvais identifiant ;
+- l’effacement RGPD.
+
+## 6. Limites restantes
+
+- Firefox natif n’est pas automatisé dans cet environnement ; son chemin de repli est testé en simulant l’absence de l’API File System Access dans Chromium.
+- La part exacte de l’application dans l’année scolaire attend toujours les horaires hebdomadaires et le nombre de semaines effectives.
+- Aucune source institutionnelle sur le projet urbain de Givors n’a été fournie ; l’ancrage réel repose sur les photographies personnelles autorisées.
+
+Ces limites ne bloquent pas l’utilisation pédagogique.
+
+## 7. Conclusion
+
+L’application satisfait la définition d’une étape terminée de `docs/SPEC.md` § 66. Le pipeline, les parcours, le déploiement, la sécurité et le budget de poids sont validés. Le rapport détaillé se trouve dans [docs/AUDIT_FINAL.md](../AUDIT_FINAL.md).
+
+Fin de l’ÉTAPE 21. Fin du parcours d’étapes 0 à 21.
+
+STOP.

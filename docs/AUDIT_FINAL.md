@@ -2,7 +2,7 @@
 
 Périmètre : `docs/SPEC.md` § 65 (ÉTAPE 21, dernière étape du projet) : exécuter `npm run lint`, `npm run typecheck`, `npm test`, `npm run test:e2e`, `npm run build`, puis produire ce document. STOP.
 
-Date de l'audit : 2026-09-21. Dernier commit audité : `acc1979` (branche `main`, synchronisée avec `origin/main`).
+Date de l'audit : 2026-09-21. Dernier commit applicatif audité : `7a6f0cf` (branche `main`, synchronisée avec `origin/main`).
 
 ## 1. Résultat du pipeline
 
@@ -10,7 +10,7 @@ Date de l'audit : 2026-09-21. Dernier commit audité : `acc1979` (branche `main`
 | --- | --- |
 | `npm run lint` | réussi, aucun avertissement |
 | `npm run typecheck` | réussi |
-| `npm test` (Vitest) | **53 fichiers, 302 tests réussis** |
+| `npm test` (Vitest) | **54 fichiers, 305 tests réussis** |
 | `npm run test:e2e` (Playwright) | **8 tests réussis** (1 fichier depuis l'ÉTAPE 10, 5 fichiers ajoutés à l'ÉTAPE 20) |
 | `npm run build` | réussi, export statique, **36 routes** |
 
@@ -21,7 +21,7 @@ Les cinq commandes exigées par `docs/SPEC.md` § 65 sont vertes.
 Le projet a déjà été touché deux fois par des bogues invisibles en développement local mais actifs sur le déploiement Vercel réel (ÉTAPE 10 : `script-src` sans `'unsafe-inline'` bloquant l'hydratation ; ÉTAPE 16 : `style-src` sans `'unsafe-inline'` cassant le positionnement de l'image d'accueil). L'audit final vérifie donc directement `https://mission-chantier.vercel.app/`, pas seulement le build local :
 
 - capture d'écran complète de l'accueil : image correctement positionnée en arrière-plan, texte superposé lisible, bandeau « Situation réelle », question diagnostique « Que se passe-t-il ici ? », bloc « Écris dans ton cours », bouton « Commencer ma mission », aucune erreur console, aucune violation CSP ;
-- `/privacy`, `/teacher`, `/mission`, `/ressources` répondent tous `200`, sans erreur console.
+- `/privacy`, `/teacher`, `/mission` et `/ressources` répondent tous `200` sur le déploiement final.
 
 Aucune anomalie constatée sur le déploiement réel à la date de cet audit.
 
@@ -42,7 +42,7 @@ Détail de la progression, de la charge cognitive et des compétences C1 à C9 :
 | 2. 45 minutes maximum | Chaque mission déclare quatre estimations (rapide/moyenne/lente/maximum absolu) ; aucune ne dépasse 45 minutes (`docs/rapports/ETAPE_19.md` § 3). |
 | 3. Le cahier papier n'est jamais remplacé | Aucune zone de texte de trace écrite à l'écran ; `EcrisDansTonCours` ne fait que rappeler et confirmer, jamais saisir le contenu du cahier. |
 | 4. Aucune donnée élève transmise sur Internet | Confirmé par `test/static-safety.test.ts` (aucune API réseau interdite, aucune URL externe) et par l'architecture (export statique, aucun backend). |
-| 5. Faits Givors uniquement sourcés | Une seule source réelle (photographies personnelles vérifiées), aucun fait institutionnel inventé (`docs/rapports/ETAPE_18.md`). |
+| 5. Faits Givors uniquement sourcés | Trois photographies personnelles de Givors vérifiées, dont deux avec luminosité retouchée par IA et attribution explicite, aucun fait institutionnel inventé (`docs/rapports/ETAPE_18.md`). |
 | 6. Givors ≠ Quartier des Ateliers | Bandeaux « Situation réelle » / « Simulation pédagogique » systématiques, vérifiés à l'ÉTAPE 18. |
 | 7. Ton neutre sur le projet urbain | Aucun fait institutionnel affirmé sans attribution (aucune source institutionnelle disponible à ce jour). |
 | 8. Contenu séparé du code | `/content` à la racine, hors de `src/`, alias `@content/*` dédié. |
@@ -56,7 +56,7 @@ Détail de la progression, de la charge cognitive et des compétences C1 à C9 :
 | 20. Données fictives annoncées | « Valeur pédagogique fictive » / avertissement de valeurs simplifiées, vérifié à l'ÉTAPE 18. |
 | 21. Aucun service tiers à l'exécution | `test/static-safety.test.ts` interdit les API de transmission (XMLHttpRequest, WebSocket, sendBeacon, etc.) et toute URL externe. |
 | 22. Pas de 3D superflue | Aucune dépendance 3D dans le projet ; simulations en DOM/2D. |
-| 23. Rapport à chaque étape | 21 rapports `docs/rapports/ETAPE_00.md` à `ETAPE_20.md`, tous présents. |
+| 23. Rapport à chaque étape | 22 rapports `docs/rapports/ETAPE_00.md` à `ETAPE_21.md`, tous présents. |
 | 24. Décisions non résolues documentées | `docs/QUESTIONS_OUVERTES.md` (voir § 6 ci-dessous pour l'état actuel). |
 | 25. `docs/SPEC.md` fait référence | Appliqué à chaque étape, y compris pour cet audit. |
 
@@ -93,7 +93,20 @@ Ces deux points n'empêchent pas l'usage de l'application ; ils restent des amé
 - Firefox non testé par automatisation dans cet environnement d'exécution (échec de compositeur graphique headless, `docs/rapports/ETAPE_16.md` § 7) ; le comportement de repli attendu de Firefox est néanmoins vérifié en forçant la même condition (absence de l'API File System Access) sur Chromium.
 - Aucune source institutionnelle officielle sur le projet urbain de Givors n'a été fournie à ce jour : l'ancrage réel repose sur des photographies personnelles vérifiées, pas sur des documents municipaux.
 
-## 9. Conclusion
+## 9. Budget de poids final
+
+| Mesure | Résultat |
+| --- | ---: |
+| Taille totale de `/out` | **5,99 Mo** |
+| Fichiers exportés | 243 |
+| JavaScript | 1,84 Mo |
+| Images | 2,62 Mo |
+| Sons | 0 Mo |
+| Fichiers supérieurs à 1 Mo | 0 |
+
+La cible de 40 Mo est respectée avec une marge de 34,01 Mo. Aucun avertissement à 50 Mo n’est déclenché. Les trois fichiers les plus volumineux sont `pictograms/ecrire.svg` (726 Ko), `pictograms/observer.svg` (510 Ko) et le plus gros bundle JavaScript (388 Ko). Aucune optimisation urgente n’est nécessaire.
+
+## 10. Conclusion
 
 Les cinq commandes du pipeline (`lint`, `typecheck`, `test`, `test:e2e`, `build`) réussissent. Le déploiement réel a été revérifié directement, sans erreur constatée. Les 25 règles d'`AGENTS.md` ont été confrontées à l'état actuel du dépôt sans écart trouvé. Les points encore ouverts sont documentés et n'empêchent pas l'usage pédagogique de l'application.
 
