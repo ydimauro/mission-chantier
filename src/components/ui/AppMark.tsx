@@ -19,9 +19,9 @@ export function AppMark({ size = 32, className }: AppMarkProps) {
       aria-label="Mission Chantier"
       className={className}
     >
-      <rect width="48" height="48" rx="10" fill="#C2410C" />
+      <rect width="48" height="48" rx="10" fill="#E26721" />
       <rect x="8" y="31" width="9" height="9" fill="#FFFFFF" />
-      <rect x="10.5" y="33.5" width="4" height="4" fill="#C2410C" />
+      <rect x="10.5" y="33.5" width="4" height="4" fill="#E26721" />
       <line x1="10" y1="40" x2="39" y2="40" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" />
       <line x1="17" y1="40" x2="17" y2="12" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" />
       <line x1="17" y1="12" x2="39" y2="16" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" />
