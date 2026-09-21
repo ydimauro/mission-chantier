@@ -1,0 +1,14 @@
+import type { DiagnosticChoice, DiagnosticTest } from "@/components/mission/SommativeDiagnostic";
+import type { BlockProgramActionOption, BlockProgramComparatorOption, BlockProgramScenario, BlockProgramThresholdOption } from "@/components/mission/SommativeBlockProgram";
+
+export const MISSION_4E_11 = { id: "4E-11", objectifs: ["Programmer un capteur et diagnostiquer un dysfonctionnement.", "Optimiser une organisation de chantier à partir d’une simulation."], problematique: "Peux-tu concevoir un chantier qui utilise l’information pour être plus sûr et plus efficace ?", consigneProgramme: "Construis le programme du capteur et teste-le.", consigneDiagnostic: "Réalise au moins deux tests pour diagnostiquer le signal du capteur.", consigneSimulation: "Lance une simulation hydraulique puis note ton optimisation." } as const;
+export const BLOCK_PROGRAM_4E_11_COMPARATORS: readonly BlockProgramComparatorOption[] = [{ id: "<", label: "inférieure à" }, { id: "<=", label: "inférieure ou égale à" }];
+export const BLOCK_PROGRAM_4E_11_THRESHOLDS: readonly BlockProgramThresholdOption[] = [{ id: "2m", label: "2 m", valueM: 2 }, { id: "3m", label: "3 m", valueM: 3 }];
+export const BLOCK_PROGRAM_4E_11_ACTIONS: readonly BlockProgramActionOption[] = [{ id: "arreter", label: "Arrêter l’engin" }, { id: "alerter", label: "Déclencher une alerte visuelle" }];
+export const BLOCK_PROGRAM_4E_11_ELSE_ACTIONS: readonly BlockProgramActionOption[] = [{ id: "autoriser", label: "Autoriser le déplacement" }];
+export const BLOCK_PROGRAM_4E_11_SCENARIOS: readonly BlockProgramScenario[] = [{ id: "1", label: "Scénario 1", distanceM: 1 }, { id: "2", label: "Scénario 2", distanceM: 2.5 }, { id: "3", label: "Scénario 3", distanceM: 4 }];
+export const DIAGNOSTIC_4E_11_TESTS: readonly DiagnosticTest[] = [{ id: "capteur", label: "Vérifier le capteur", result: "Le capteur détecte un obstacle proche." }, { id: "cable", label: "Vérifier le câble", result: "Le câble est correctement branché." }, { id: "calculateur", label: "Vérifier le calculateur", result: "Le calculateur reçoit le signal." }];
+export const DIAGNOSTIC_4E_11_CAUSES: readonly DiagnosticChoice[] = [{ id: "reglage", label: "Seuil de sécurité mal réglé" }, { id: "cable", label: "Câble débranché" }];
+export const DIAGNOSTIC_4E_11_SOLUTIONS: readonly DiagnosticChoice[] = [{ id: "regler", label: "Régler le seuil de sécurité" }, { id: "brancher", label: "Rebrancher le câble" }];
+export const MISSION_4E_11_TRACE = { title: "Synthèse du chantier intelligent", prompt: "Dans ton cahier, écris les contraintes, ton programme capteur, les tests de diagnostic, le résultat de simulation et ton optimisation. Ouvre ensuite ton cahier de 4E-00 et écris trois choses que tu comprends mieux aujourd’hui." } as const;
+export const MISSION_4E_11_BILAN = "Tes choix et tes essais ont été enregistrés. Ils seront corrigés par le professeur ou la professeure.";

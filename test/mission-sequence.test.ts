@@ -62,6 +62,8 @@ describe("prochaine mission d'un niveau", () => {
     expect(findNextMission("4e", ["4E-00"])?.id).toBe("4E-01");
     expect(findNextMission("4e", ["4E-00", "4E-01", "4E-02", "4E-03", "4E-04"])?.id).toBe("4E-05");
     expect(findNextMission("4e", ["4E-00", "4E-01", "4E-02", "4E-03", "4E-04", "4E-05"])?.id).toBe("4E-06");
+    expect(findNextMission("4e", ["4E-00", "4E-01", "4E-02", "4E-03", "4E-04", "4E-05", "4E-06"])?.id).toBe("4E-07");
+    expect(findNextMission("4e", ["4E-00", "4E-01", "4E-02", "4E-03", "4E-04", "4E-05", "4E-06", "4E-07", "4E-08", "4E-09", "4E-10"])?.id).toBe("4E-11");
   });
 
   it("ignore les missions terminées d'un autre niveau", () => {

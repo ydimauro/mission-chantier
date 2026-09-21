@@ -120,6 +120,51 @@ export const MISSION_4E_06: MissionEntry = {
   durations: { fastMinutes: 28, averageMinutes: 36, slowMinutes: 43, absoluteMaxMinutes: 45 },
 };
 
+export const MISSION_4E_07: MissionEntry = {
+  id: "4E-07", niveau: "4e", href: "/mission/4e-07", status: "recommandee",
+  problematique: "Comment limiter les conflits entre les engins et les personnes sur le chantier ?",
+  activite: "Comparer des organisations de flux et identifier les zones adaptées.",
+  traceEcrite: "Tableau comparatif de deux organisations et choix justifié.",
+  evaluation: "Évaluation formative (organisation des flux), avec indices progressifs.", evaluationJustification: null,
+  durations: { fastMinutes: 22, averageMinutes: 29, slowMinutes: 37, absoluteMaxMinutes: 41 },
+};
+
+export const MISSION_4E_08: MissionEntry = {
+  id: "4E-08", niveau: "4e", href: "/mission/4e-08", status: "essentielle",
+  problematique: "À quelle distance le capteur détecte-t-il correctement un obstacle ?",
+  activite: "Construire un protocole, répéter les essais à plusieurs distances et proposer un seuil de sécurité.",
+  traceEcrite: "Protocole, tableau de mesures, seuil proposé et limite explicitée.",
+  evaluation: "Évaluation sommative intermédiaire n° 4, corrigée dans /teacher.", evaluationJustification: null,
+  durations: { fastMinutes: 29, averageMinutes: 37, slowMinutes: 43, absoluteMaxMinutes: 45 },
+};
+
+export const MISSION_4E_09: MissionEntry = {
+  id: "4E-09", niveau: "4e", href: "/mission/4e-09", status: "essentielle",
+  problematique: "Une solution technique peut-elle être parfaite sur tous les critères ?",
+  activite: "Comparer trois solutions selon des critères de performance et d’environnement.",
+  traceEcrite: "Tableau comparatif et conclusion nuancée.",
+  evaluation: "Évaluation formative (lecture de données comparatives), avec indices progressifs.", evaluationJustification: null,
+  durations: { fastMinutes: 26, averageMinutes: 33, slowMinutes: 41, absoluteMaxMinutes: 45 },
+};
+
+export const MISSION_4E_10: MissionEntry = {
+  id: "4E-10", niveau: "4e", href: "/mission/4e-10", status: "essentielle",
+  problematique: "Comment répondre à un cahier des charges simplifié pour organiser un chantier ?",
+  activite: "Proposer une organisation répondant à quatre contraintes et vérifier un réglage par simulation.",
+  traceEcrite: "Contraintes, décisions, réglage testé et justification.",
+  evaluation: "Évaluation formative (conception guidée), avec indices progressifs.", evaluationJustification: null,
+  durations: { fastMinutes: 28, averageMinutes: 36, slowMinutes: 43, absoluteMaxMinutes: 45 },
+};
+
+export const MISSION_4E_11: MissionEntry = {
+  id: "4E-11", niveau: "4e", href: "/mission/4e-11", status: "essentielle",
+  problematique: "Peux-tu concevoir un chantier qui utilise l’information pour être plus sûr et plus efficace ?",
+  activite: "Programmer un capteur, diagnostiquer un signal et optimiser un réglage de chantier.",
+  traceEcrite: "Synthèse structurée et réflexion sur le cahier de 4E-00.",
+  evaluation: "Évaluation sommative intégrative n° 5, corrigée dans /teacher.", evaluationJustification: null,
+  durations: { fastMinutes: 30, averageMinutes: 38, slowMinutes: 43, absoluteMaxMinutes: 45 },
+};
+
 export const MISSION_5E_01: MissionEntry = {
   id: "5E-01",
   niveau: "5e",
@@ -308,7 +353,7 @@ export const MISSION_SEQUENCE: Record<Level, readonly MissionEntry[]> = {
     MISSION_5E_12,
     MISSION_5E_FINAL,
   ],
-  "4e": [MISSION_4E_00, MISSION_4E_01, MISSION_4E_02, MISSION_4E_03, MISSION_4E_04, MISSION_4E_05, MISSION_4E_06],
+  "4e": [MISSION_4E_00, MISSION_4E_01, MISSION_4E_02, MISSION_4E_03, MISSION_4E_04, MISSION_4E_05, MISSION_4E_06, MISSION_4E_07, MISSION_4E_08, MISSION_4E_09, MISSION_4E_10, MISSION_4E_11],
 };
 
 export const MISSION_REGISTRY: readonly MissionEntry[] = [
@@ -333,4 +378,9 @@ export const MISSION_REGISTRY: readonly MissionEntry[] = [
   MISSION_4E_04,
   MISSION_4E_05,
   MISSION_4E_06,
+  MISSION_4E_07,
+  MISSION_4E_08,
+  MISSION_4E_09,
+  MISSION_4E_10,
+  MISSION_4E_11,
 ];

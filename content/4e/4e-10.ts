@@ -1,0 +1,8 @@
+import type { AssociationChoice, AssociationItem } from "@/components/mission/AssociationActivity";
+
+export const MISSION_4E_10 = { id: "4E-10", objectifs: ["Lis un cahier des charges simplifié.", "Propose une organisation et vérifie un réglage par simulation."], problematique: "Comment répondre à un cahier des charges simplifié pour organiser un chantier ?", consigne: "Associe chaque contrainte à la décision qui y répond, puis lance une simulation hydraulique." } as const;
+export const ASSOCIATION_4E_10_CHOICES: readonly AssociationChoice[] = [{ id: "passage", label: "Créer un passage protégé" }, { id: "stockage", label: "Prévoir une zone de stockage" }, { id: "securite", label: "Baliser une zone interdite" }, { id: "mouvement", label: "Régler le mouvement hydraulique" }];
+export const ASSOCIATION_4E_10_ITEMS: readonly AssociationItem[] = [{ id: "p", prompt: "Les personnes doivent traverser le chantier.", correctChoiceId: "passage" }, { id: "s", prompt: "Les gravats attendent avant évacuation.", correctChoiceId: "stockage" }, { id: "z", prompt: "Une pelle effectue une manœuvre.", correctChoiceId: "securite" }, { id: "h", prompt: "Le bras doit déplacer une charge sans à-coup.", correctChoiceId: "mouvement" }];
+export const ASSOCIATION_4E_10_HINTS = ["Relie chaque exigence à une action concrète.", "La sécurité concerne les personnes et les zones de manœuvre."] as const;
+export const MISSION_4E_10_TRACE = { title: "Ma proposition de chantier", prompt: "Dans ton cahier, écris les quatre contraintes, ta décision pour chacune, le réglage testé et une justification." } as const;
+export const MISSION_4E_10_BILAN = "Tu sais proposer une organisation qui répond à plusieurs contraintes et la vérifier par une simulation.";

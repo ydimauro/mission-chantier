@@ -33,6 +33,11 @@ import * as mission4e03 from "@content/4e/4e-03";
 import * as mission4e04 from "@content/4e/4e-04";
 import * as mission4e05 from "@content/4e/4e-05";
 import * as mission4e06 from "@content/4e/4e-06";
+import * as mission4e07 from "@content/4e/4e-07";
+import * as mission4e08 from "@content/4e/4e-08";
+import * as mission4e09 from "@content/4e/4e-09";
+import * as mission4e10 from "@content/4e/4e-10";
+import * as mission4e11 from "@content/4e/4e-11";
 
 /**
  * Typographie française obligatoire (docs/SPEC.md § 49, AGENTS.md règle 19) :
@@ -74,6 +79,11 @@ describe("typographie française des contenus", () => {
     mission4e04,
     mission4e05,
     mission4e06,
+    mission4e07,
+    mission4e08,
+    mission4e09,
+    mission4e10,
+    mission4e11,
   };
 
   for (const [moduleName, moduleExports] of Object.entries(modules)) {
