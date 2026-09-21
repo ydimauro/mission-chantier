@@ -15,7 +15,7 @@ import { MissionCompletionFlow } from "@/components/mission/MissionCompletionFlo
 import { MissionTimer } from "@/components/mission/MissionTimer";
 import { Source } from "@/components/mission/Source";
 import { useProgression } from "@/providers/progression-provider";
-import { CHANTIER_01 } from "@content/givors/media";
+import { CHANTIER_VUE_RUE } from "@content/givors/media";
 import {
   ASSOCIATION_5E_01_CHOICES,
   ASSOCIATION_5E_01_HINTS,
@@ -35,16 +35,16 @@ export function Mission5E01Client() {
       <div className="mx-auto flex max-w-3xl flex-col gap-6 px-4 py-10">
         <SituationReelle>
           <Image
-            src={CHANTIER_01.file}
-            alt={CHANTIER_01.alt}
-            width={1844}
-            height={853}
+            src={CHANTIER_VUE_RUE.file}
+            alt={CHANTIER_VUE_RUE.alt}
+            width={CHANTIER_VUE_RUE.width}
+            height={CHANTIER_VUE_RUE.height}
             className="mb-3 h-auto w-full rounded-md object-cover"
             priority
           />
           <p>{MISSION_5E_01.heroIntro}</p>
           <div className="mt-2">
-            <Source citation={`${CHANTIER_01.source}, ${CHANTIER_01.date}`} />
+            <Source citation={`${CHANTIER_VUE_RUE.source}, ${CHANTIER_VUE_RUE.date}`} />
           </div>
         </SituationReelle>
 

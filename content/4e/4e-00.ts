@@ -1,4 +1,5 @@
 import type { PrologueContent } from "@/components/mission/PrologueGivorsSeTransforme";
+import { CHANTIER_ENGIN } from "@content/givors/media";
 
 /**
  * 4E-00 : Retour sur le chantier (docs/SEANCES_4E.md, ÉTAPE 6)
@@ -8,6 +9,7 @@ import type { PrologueContent } from "@/components/mission/PrologueGivorsSeTrans
  */
 export const MISSION_4E_00_CONTENT: PrologueContent = {
   missionId: "4E-00",
+  media: CHANTIER_ENGIN,
   heroIntro:
     "Tu vas retrouver un chantier à Givors, cette fois pour repérer les systèmes techniques qui permettent ces transformations.",
   objectifs: [

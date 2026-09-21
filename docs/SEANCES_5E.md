@@ -28,7 +28,7 @@ Légende des champs : Statut (ESSENTIELLE / RECOMMANDÉE / APPROFONDISSEMENT) : 
 - **Approfondissement** : sans objet, volontairement bref pour ne pas déborder du temps cible.
 - **Durées** : rapide 15 · moyen 25 · lent 38 · maximum absolu 40 (contrainte spécifique du cahier des charges : 40 min maximum pour cette mission).
 - **Critères de réussite** : l’élève a observé au moins une photographie, formulé une hypothèse personnelle et écrit sa réponse dans le cahier.
-- **Sources nécessaires** : 1 à 3 photographies réelles de Givors issues de `docs/sources/givors/` puis copiées dans `public/givors/` après vérification des droits. **Aucune source exploitable disponible à ce jour** (voir `docs/ANALYSE_SPEC.md` § 4 et `docs/QUESTIONS_OUVERTES.md`).
+- **Sources nécessaires** : 1 à 3 photographies réelles de Givors issues de `docs/sources/givors/` puis copiées dans `public/givors/` après vérification des droits. **Une photographie réelle est disponible et utilisée** ; deux photographies supplémentaires restent facultatives.
 
 ---
 

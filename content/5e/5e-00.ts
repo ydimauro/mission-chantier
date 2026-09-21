@@ -1,4 +1,5 @@
 import type { PrologueContent } from "@/components/mission/PrologueGivorsSeTransforme";
+import { CHANTIER_VUE_RUE } from "@content/givors/media";
 
 /**
  * 5E-00 : Que se passe-t-il à Givors ? (docs/SEANCES_5E.md, ÉTAPE 6)
@@ -6,6 +7,7 @@ import type { PrologueContent } from "@/components/mission/PrologueGivorsSeTrans
  */
 export const MISSION_5E_00_CONTENT: PrologueContent = {
   missionId: "5E-00",
+  media: CHANTIER_VUE_RUE,
   heroIntro:
     "Tu vas observer un vrai chantier à Givors, puis comprendre comment des objets et des systèmes techniques permettent de transformer la ville.",
   objectifs: [

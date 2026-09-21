@@ -19,7 +19,7 @@ export const MISSION_5E_FINAL = {
   ],
   problematique: "Sur un nouveau chantier, sais-tu réutiliser ce que tu as appris ?",
   intro:
-    "L’école de Rocheval agrandit sa cour de récréation. Un petit chantier est ouvert pour creuser une tranchée, poser une clôture et évacuer la terre retirée.",
+    "Situation fictive : l’école de Rocheval agrandit sa cour de récréation. Un petit chantier est ouvert pour creuser une tranchée, poser une clôture et évacuer la terre retirée.",
   consigneChoix: "Choisis l’engin le plus adapté pour creuser la tranchée et évacuer la terre.",
   choixQuestion: "Quel engin choisis-tu ?",
   consigneLecture: "Lis chaque situation et indique la zone qui lui correspond.",

@@ -20,7 +20,7 @@ export const MISSION_5E_00: MissionEntry = {
   status: "essentielle",
   problematique: "Comment transforme-t-on une partie d’une ville ?",
   activite:
-    "Observer une à trois photographies réelles du centre-ville de Givors et répondre à quelques questions diagnostiques courtes.",
+    "Observer une photographie réelle du centre-ville de Givors et répondre à quelques questions diagnostiques courtes.",
   traceEcrite:
     "Titre « Mission Chantier : comment transforme-t-on une partie d’une ville ? » puis réponse personnelle à « À ton avis, quelles étapes sont nécessaires pour transformer ce quartier ? ».",
   evaluation: null,
@@ -35,7 +35,7 @@ export const MISSION_4E_00: MissionEntry = {
   status: "essentielle",
   problematique: "Quels systèmes techniques permettent de réaliser les transformations que tu observes ?",
   activite:
-    "Observer des photographies réelles du centre-ville de Givors et répondre à des questions diagnostiques orientées système technique.",
+    "Observer une photographie réelle du centre-ville de Givors et répondre à des questions diagnostiques orientées système technique.",
   traceEcrite: "Réponse personnelle conservée dans le cahier, reprise en 4E-11.",
   evaluation: null,
   evaluationJustification: "Diagnostique uniquement : sert à connaître les représentations initiales, ne compte jamais dans la note.",

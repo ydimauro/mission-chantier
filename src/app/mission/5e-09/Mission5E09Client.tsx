@@ -43,7 +43,7 @@ export function Mission5E09Client() {
 
         <Consigne>{MISSION_5E_09.observationIntro}</Consigne>
 
-        <SimulationPedagogique>
+        <SimulationPedagogique valeursSimplifiees>
           <div className="flex flex-col gap-3">
             <pre className="overflow-x-auto rounded-md border border-border bg-surface-muted p-3 font-mono text-sm text-ink">
               {MISSION_5E_09.programLines.join("\n")}
@@ -85,7 +85,7 @@ export function Mission5E09Client() {
           </div>
         </SimulationPedagogique>
 
-        <SimulationPedagogique>
+        <SimulationPedagogique valeursSimplifiees>
           <AssociationActivity
             items={ASSOCIATION_5E_09_ITEMS}
             choices={ASSOCIATION_5E_09_CHOICES}

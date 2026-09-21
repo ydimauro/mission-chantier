@@ -14,10 +14,11 @@ import { DiagnosticChecklist, type DiagnosticOption } from "@/components/mission
 import { MissionCompletionFlow } from "@/components/mission/MissionCompletionFlow";
 import { DiagnosticNotice } from "@/components/evaluation/DiagnosticNotice";
 import { useProgression } from "@/providers/progression-provider";
-import { CHANTIER_01 } from "@content/givors/media";
+import type { GivorsMedia } from "@content/givors/media";
 
 export type PrologueContent = {
   missionId: string;
+  media: GivorsMedia;
   heroIntro: string;
   objectifs: readonly string[];
   observeText: string;
@@ -37,22 +38,23 @@ export type PrologueContent = {
  */
 export function PrologueGivorsSeTransforme({ content }: { content: PrologueContent }) {
   const { recordResponses } = useProgression();
+  const media = content.media;
   const [traceEcriteDone, setTraceEcriteDone] = useState(false);
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6 px-4 py-10">
       <SituationReelle>
         <Image
-          src={CHANTIER_01.file}
-          alt={CHANTIER_01.alt}
-          width={1844}
-          height={853}
+          src={media.file}
+          alt={media.alt}
+          width={media.width}
+          height={media.height}
           className="mb-3 h-auto w-full rounded-md object-cover"
           priority
         />
         <p>{content.heroIntro}</p>
         <div className="mt-2">
-          <Source citation={`${CHANTIER_01.source}, ${CHANTIER_01.date}`} />
+          <Source citation={`${media.source}, ${media.date}`} />
         </div>
       </SituationReelle>
 

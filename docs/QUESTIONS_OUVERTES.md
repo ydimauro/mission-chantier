@@ -51,7 +51,7 @@ Ce fichier recense les décisions qui attendent l’accord de l’enseignant. Po
 {
   file: "mission_chantier_givors.jpg",
   title: "Travaux dans le centre-ville de Givors",
-  date: "2026-09",
+  date: "2026-09-20",
   author: "Yann Di Mauro",
   source: "Photographie personnelle",
   alt: "Vue en hauteur d’un chantier de démolition avec pelles mécaniques, gravats et bâtiments environnants",
@@ -59,12 +59,13 @@ Ce fichier recense les décisions qui attendent l’accord de l’enseignant. Po
 }
 ```
 
-**Mise à jour (ÉTAPE 6, 2026-09-20)** : cette photographie est désormais intégrée dans 5E-00 et 4E-00 (`content/givors/media.ts`), avec attribution visible (« Source : Photographie personnelle, 2026-09 ») sous le bandeau « Situation réelle ». Faute d’une seconde photo, 4E-00 réutilise la même image que 5E-00 (`docs/SEANCES_4E.md` l’envisageait comme une option « idéalement » différente, pas une obligation) ; les scénarisations et questions diagnostiques restent différentes entre les deux niveaux.
+**Mise à jour (ÉTAPE 6, 2026-09-20)** : cette photographie est désormais intégrée dans 5E-00 et 4E-00 (`content/givors/media.ts`), avec attribution visible (« Source : Photographie personnelle, 2026-09-20 ») sous le bandeau « Situation réelle ». Faute d’une seconde photo, 4E-00 réutilise la même image que 5E-00 (`docs/SEANCES_4E.md` l’envisageait comme une option « idéalement » différente, pas une obligation) ; les scénarisations et questions diagnostiques restent différentes entre les deux niveaux.
+
+**Date confirmée par l’enseignant (2026-09-21)** : photographie prise le dimanche 20 septembre 2026.
 
 **Reste à confirmer avec l’enseignant** :
 
-- la date précise de la prise de vue (mois indiqué provisoirement : septembre 2026) ;
 - une relecture rapide de la photo pour écarter toute plaque d’immatriculation lisible ou personne identifiable (`docs/SPEC.md` § 5) ; à l’examen, aucune personne n’est visible sur cette photographie, les véhicules visibles sont éloignés et petits dans le cadre ;
-- des photographies complémentaires pour 5E-01, 5E-02 et 5E-07, qui restent en attente d’une source réelle (ÉTAPE 7 et suivantes).
+- des photographies complémentaires si l’enseignant souhaite enrichir l’ancrage réel au-delà de 5E-00, 4E-00 et 5E-01 ; les activités actuelles de 5E-02 et 5E-07 relèvent du Quartier des Ateliers fictif et n’emploient aucun fait réel supplémentaire sur Givors.
 
 **Réponse de l’enseignant** :

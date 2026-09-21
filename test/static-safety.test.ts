@@ -112,3 +112,28 @@ describe("configuration de sécurité Vercel", () => {
     expect(csp).toContain("style-src 'self' 'unsafe-inline'");
   });
 });
+
+describe("audit RGPD et permissions navigateur (ÉTAPE 17)", () => {
+  it("n’utilise aucune API de transmission ou permission sensible interdite", () => {
+    const forbiddenApis = /\b(?:XMLHttpRequest|WebSocket|EventSource|sendBeacon|getUserMedia|geolocation|Notification|DeviceMotionEvent|DeviceOrientationEvent)\b/;
+    const offenders = sourceFiles.filter((file) => forbiddenApis.test(readFileSync(file, "utf-8")));
+    expect(offenders).toEqual([]);
+  });
+
+  it("applique les en-têtes de confidentialité et d’isolation attendus", () => {
+    const vercelConfig = JSON.parse(readFileSync(join(projectRoot, "vercel.json"), "utf-8")) as {
+      headers: Array<{ headers: Array<{ key: string; value: string }> }>;
+    };
+    const headers = new Map(
+      vercelConfig.headers[0]?.headers.map((header) => [header.key, header.value]) ?? [],
+    );
+
+    expect(headers.get("Referrer-Policy")).toBe("no-referrer");
+    expect(headers.get("Cross-Origin-Opener-Policy")).toBe("same-origin");
+    expect(headers.get("Cross-Origin-Resource-Policy")).toBe("same-origin");
+    expect(headers.get("X-Permitted-Cross-Domain-Policies")).toBe("none");
+    expect(headers.get("Permissions-Policy")).toContain("camera=()");
+    expect(headers.get("Permissions-Policy")).toContain("microphone=()");
+    expect(headers.get("Permissions-Policy")).toContain("geolocation=()");
+  });
+});

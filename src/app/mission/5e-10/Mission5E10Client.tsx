@@ -44,7 +44,7 @@ export function Mission5E10Client() {
 
         <Consigne>{MISSION_5E_10.consigne}</Consigne>
 
-        <SimulationPedagogique>
+        <SimulationPedagogique valeursSimplifiees>
           <SommativeBlockProgram
             missionId={MISSION_5E_10.id}
             itemId="securite-arriere"

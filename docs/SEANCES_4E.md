@@ -28,7 +28,7 @@ Légende des champs identique à `docs/SEANCES_5E.md`.
 - **Approfondissement** : sans objet.
 - **Durées** : rapide 15 · moyen 25 · lent 38 · maximum absolu 40.
 - **Critères de réussite** : l’élève a formulé une réponse personnelle écrite dans son cahier.
-- **Sources nécessaires** : photographies réelles de Givors (idéalement différentes de celles utilisées en 5E-00 pour montrer une évolution). **Aucune source exploitable disponible à ce jour** (voir `docs/ANALYSE_SPEC.md` § 4).
+- **Sources nécessaires** : photographies réelles de Givors (idéalement différentes de celles utilisées en 5E-00 pour montrer une évolution). **Une photographie réelle est disponible et réutilisée** ; une vue différente reste souhaitable mais facultative.
 
 ---
 
