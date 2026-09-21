@@ -9,11 +9,9 @@ import type {
  * 5E-10 : Programmer une sécurité simple (docs/SEANCES_5E.md, ÉTAPE 9).
  * Statut ESSENTIELLE, compétences C6, C9, sommative intermédiaire n° 4.
  *
- * Interface volontairement simplifiée (menus déroulants plutôt que blocs
- * glissés) : le véritable environnement de programmation par blocs est
- * prévu à l’ÉTAPE 12 (docs/SPEC.md § 65). Cette mission garde la même
- * logique pédagogique (condition + action, testée sur plusieurs scénarios)
- * et sera revue quand cet environnement existera.
+ * Les choix sont intégrés dans des pseudo-blocs accessibles au clavier.
+ * Cette mission garde une logique condition + action, testée sur plusieurs
+ * scénarios, dans l’environnement partagé livré à l’ÉTAPE 12.
  */
 export const MISSION_5E_10 = {
   id: "5E-10",

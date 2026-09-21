@@ -136,11 +136,16 @@ export const SIMULATION_REPORT_LABELS = {
 } as const;
 
 export const BLOCK_PROGRAM_LABELS = {
+  programTitle: "Mon programme",
+  programDescription: "Construis les blocs dans l’ordre, puis teste le programme.",
+  eventIntro: "QUAND le capteur mesure une distance",
   conditionIntro: "SI distance du capteur",
   actionIntro: "ALORS",
+  otherwiseIntro: "SINON",
   comparatorFieldLabel: "Comparateur",
   thresholdFieldLabel: "Seuil",
-  actionFieldLabel: "Action",
+  actionFieldLabel: "Action si la condition est vraie",
+  otherwiseFieldLabel: "Action sinon",
   testButton: "Tester le programme",
   scenarioOutcomeTemplate: "Scénario {scenario} (distance mesurée : {distance} m) : {outcome}.",
   outcomeTriggered: "action déclenchée ({action})",

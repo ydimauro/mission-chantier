@@ -61,7 +61,7 @@ describe("SommativeBlockProgram (docs/SPEC.md § 23, § 30)", () => {
 
     await user.selectOptions(screen.getByLabelText("Comparateur"), "<");
     await user.selectOptions(screen.getByLabelText("Seuil"), "2m");
-    await user.selectOptions(screen.getByLabelText("Action"), "arreter");
+    await user.selectOptions(screen.getByLabelText("Action si la condition est vraie"), "arreter");
 
     expect(testButton).toBeEnabled();
     await user.click(testButton);
@@ -81,6 +81,7 @@ describe("SommativeBlockProgram (docs/SPEC.md § 23, § 30)", () => {
       comparator: "<",
       thresholdM: 2,
       action: "arreter",
+      otherwise: null,
     });
     expect(await screen.findByText("Évaluation enregistrée. Ton résultat sera disponible après correction.")).toBeInTheDocument();
     expect(onSubmitted).toHaveBeenCalledTimes(1);
@@ -102,7 +103,7 @@ describe("SommativeBlockProgram (docs/SPEC.md § 23, § 30)", () => {
 
     await user.selectOptions(screen.getByLabelText("Comparateur"), "<");
     await user.selectOptions(screen.getByLabelText("Seuil"), "2m");
-    await user.selectOptions(screen.getByLabelText("Action"), "arreter");
+    await user.selectOptions(screen.getByLabelText("Action si la condition est vraie"), "arreter");
     await user.click(screen.getByRole("button", { name: "Tester le programme" }));
 
     expect(screen.getByRole("button", { name: "Remettre mon évaluation" })).toBeEnabled();
@@ -111,6 +112,36 @@ describe("SommativeBlockProgram (docs/SPEC.md § 23, § 30)", () => {
 
     expect(screen.getByRole("button", { name: "Remettre mon évaluation" })).toBeDisabled();
     expect(screen.getByText("Teste ton programme sur les trois scénarios avant de le remettre.")).toBeInTheDocument();
+  });
+
+  it("exige et exécute la branche « SINON » lorsqu’elle est demandée", async () => {
+    const user = userEvent.setup();
+
+    render(
+      <SommativeBlockProgram
+        missionId="4E-06"
+        itemId="securite-deplacement"
+        comparatorOptions={comparatorOptions}
+        thresholdOptions={thresholdOptions}
+        actionOptions={actionOptions}
+        elseActionOptions={[{ id: "autoriser", label: "Autoriser le déplacement" }]}
+        scenarios={scenarios}
+      />,
+    );
+
+    expect(screen.getByText("Mon programme")).toBeInTheDocument();
+    expect(screen.getByText("SINON")).toBeInTheDocument();
+    await user.selectOptions(screen.getByLabelText("Comparateur"), "<");
+    await user.selectOptions(screen.getByLabelText("Seuil"), "2m");
+    await user.selectOptions(screen.getByLabelText("Action si la condition est vraie"), "arreter");
+    expect(screen.getByRole("button", { name: "Tester le programme" })).toBeDisabled();
+    await user.selectOptions(screen.getByLabelText("Action sinon"), "autoriser");
+    await user.click(screen.getByRole("button", { name: "Tester le programme" }));
+
+    expect(
+      screen.getByText("Scénario 2 (distance mesurée : 2,5 m) : action déclenchée (Autoriser le déplacement)."),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/correct/i)).not.toBeInTheDocument();
   });
 
   it("reste affiché comme déjà remis après un remontage (rechargement de page)", () => {

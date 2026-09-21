@@ -107,6 +107,19 @@ export const MISSION_4E_05: MissionEntry = {
   durations: { fastMinutes: 28, averageMinutes: 35, slowMinutes: 42, absoluteMaxMinutes: 45 },
 };
 
+export const MISSION_4E_06: MissionEntry = {
+  id: "4E-06",
+  niveau: "4e",
+  href: "/mission/4e-06",
+  status: "essentielle",
+  problematique: "Peux-tu programmer une sécurité plus complète que celle vue en 5e ?",
+  activite: "Construire un programme avec condition et alternative, puis le tester sur quatre scénarios.",
+  traceEcrite: "Programme final avec légende des blocs QUAND, SI, ALORS et SINON.",
+  evaluation: "Évaluation sommative intermédiaire n° 3, corrigée dans /teacher.",
+  evaluationJustification: null,
+  durations: { fastMinutes: 28, averageMinutes: 36, slowMinutes: 43, absoluteMaxMinutes: 45 },
+};
+
 export const MISSION_5E_01: MissionEntry = {
   id: "5E-01",
   niveau: "5e",
@@ -295,7 +308,7 @@ export const MISSION_SEQUENCE: Record<Level, readonly MissionEntry[]> = {
     MISSION_5E_12,
     MISSION_5E_FINAL,
   ],
-  "4e": [MISSION_4E_00, MISSION_4E_01, MISSION_4E_02, MISSION_4E_03, MISSION_4E_04, MISSION_4E_05],
+  "4e": [MISSION_4E_00, MISSION_4E_01, MISSION_4E_02, MISSION_4E_03, MISSION_4E_04, MISSION_4E_05, MISSION_4E_06],
 };
 
 export const MISSION_REGISTRY: readonly MissionEntry[] = [
@@ -319,4 +332,5 @@ export const MISSION_REGISTRY: readonly MissionEntry[] = [
   MISSION_4E_03,
   MISSION_4E_04,
   MISSION_4E_05,
+  MISSION_4E_06,
 ];
