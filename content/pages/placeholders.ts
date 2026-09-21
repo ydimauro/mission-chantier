@@ -9,13 +9,24 @@
 export const HOME_CONTENT = {
   realBadge: "Situation réelle",
   title: "Givors se transforme",
-  intro: "Observe une transformation réelle de la ville, puis découvre les systèmes techniques qui permettent de la réaliser.",
-  ctaLabel: "Commencer ma mission",
-  steps: [
-    { title: "Observer", body: "Regarde une situation réelle et formule tes premières idées." },
-    { title: "Comprendre", body: "Manipule des simulations clairement identifiées." },
-    { title: "Écrire", body: "Garde une trace dans ton cahier, à chaque mission." },
+  intro: "Tu vas observer un vrai chantier à Givors, puis comprendre comment des objets et des systèmes techniques permettent de transformer la ville.",
+  landmark: "Une ville d’aujourd’hui, des métiers pour demain !",
+  observationTitle: "Que se passe-t-il ici ?",
+  observationPrompt: "Observe l’image et choisis une ou plusieurs réponses.",
+  observationChoices: [
+    { id: "demolir", label: "On démolit" },
+    { id: "construire", label: "On construit" },
+    { id: "renover", label: "On rénove" },
+    { id: "amenager", label: "On aménage" },
+    { id: "materiaux", label: "On déplace des matériaux" },
+    { id: "circulation", label: "On modifie la circulation" },
+    { id: "inconnu", label: "Je ne sais pas encore" },
   ],
+  writingTitle: "Écris dans ton cours",
+  writingPrompt: "À ton avis, comment transforme-t-on une partie d’une ville ?",
+  writingPlaceholder: "Écris ici tes idées…",
+  ctaLabel: "Commencer ma mission",
+  ctaCaption: "Observer · Comprendre · Agir pour demain",
 } as const;
 
 export const CARNET_PLACEHOLDER = {

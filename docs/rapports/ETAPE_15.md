@@ -14,6 +14,8 @@ Il présente désormais :
 - un seul appel à l’action « Commencer ma mission » ;
 - trois repères ordonnés, « Observer », « Comprendre » et « Écrire », pour réduire la charge cognitive.
 
+**Complément visuel** : la page de garde reprend désormais la composition de référence fournie par l’enseignant : cartouche jaune sur l’image, encart sombre pour le titre, panneau d’observation à choix, panneau d’écriture jaune pâle et large bouton orange. Les icônes sont des dessins SVG locaux de l’application, sans bibliothèque ni média externe. Les choix et le champ d’écriture sont volontairement des premières idées locales : la première mission reprend la démarche pédagogique enregistrée dans la progression.
+
 L’image d’accueil utilise `loading="eager"`, car elle est au-dessus de la ligne de flottaison. Aucun média externe ni nouvelle donnée sur Givors n’est introduit.
 
 ## 2. Audit écran par écran
@@ -57,6 +59,8 @@ Le test [home-page.test.tsx](../../test/home-page.test.tsx) vérifie le titre, l
 | `npm run build` | export statique réussi, 36 routes |
 
 Playwright signale l’avertissement connu de Next.js sur `scroll-behavior: smooth` pendant les transitions de test. Il ne signale aucune erreur applicative et n’empêche pas l’E2E de réussir.
+
+Vérification Chromium complémentaire à 1366 × 768 : page de garde sans débordement horizontal, case « On démolit » cochable, champ d’écriture fonctionnel et lien « Commencer ma mission » vers `/mission`.
 
 ---
 
