@@ -6,6 +6,7 @@ import { SommativeSubmittedNotice } from "@/components/evaluation/SommativeSubmi
 import { evaluateCondition, type Comparator } from "@/lib/mission/block-program";
 import { formatMessage } from "@/lib/format-message";
 import { formatFrenchNumber } from "@/lib/format-number";
+import { findAssessmentSubmission } from "@/lib/progression/model";
 import { ACTIVITY_LABELS, BLOCK_PROGRAM_LABELS, SOMMATIVE_LABELS } from "@content/engine";
 
 export type BlockProgramComparatorOption = { id: Comparator; label: string };
@@ -44,7 +45,7 @@ export function SommativeBlockProgram({
   scenarios,
   onSubmitted,
 }: SommativeBlockProgramProps) {
-  const { submitAssessment } = useProgression();
+  const { submitAssessment, snapshot } = useProgression();
   const [comparatorId, setComparatorId] = useState("");
   const [thresholdId, setThresholdId] = useState("");
   const [actionId, setActionId] = useState("");
@@ -52,7 +53,10 @@ export function SommativeBlockProgram({
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  if (submitted) {
+  const alreadySubmitted =
+    snapshot.status === "ready" && findAssessmentSubmission(snapshot.file, missionId, itemId) !== null;
+
+  if (submitted || alreadySubmitted) {
     return <SommativeSubmittedNotice />;
   }
 

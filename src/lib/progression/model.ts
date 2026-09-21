@@ -61,6 +61,39 @@ export function recordMissionResponses(
 }
 
 /**
+ * Retrouve un dépôt d’évaluation déjà enregistré pour un item donné, quel
+ * que soit son statut ("pending" ou "corrected"). Sert aux composants
+ * sommatifs à savoir, dès l’affichage, si le formulaire doit rester
+ * masqué (docs/SPEC.md § 30) plutôt que de se fier uniquement à un état
+ * React local qui se réinitialise à chaque remontage (ex. rechargement de
+ * la page), ce qui permettrait sinon un second dépôt écrasant le premier,
+ * y compris un dépôt déjà corrigé.
+ */
+export function findAssessmentSubmission(
+  file: StudentFile,
+  missionId: string,
+  itemId: string,
+): AssessmentSubmission | null {
+  return file.assessments.find((existing) => existing.missionId === missionId && existing.itemId === itemId) ?? null;
+}
+
+/**
+ * Indique si la confirmation « J’ai terminé d’écrire » (`EcrisDansTonCours`)
+ * a déjà été enregistrée pour une mission, à partir des réponses
+ * persistées plutôt que d’un état React local (même raison que
+ * `findAssessmentSubmission` : un remontage ne doit pas faire perdre cette
+ * information à l’élève).
+ */
+export function isTraceEcriteConfirmee(file: StudentFile, missionId: string): boolean {
+  const missionResponses = file.responses[missionId];
+  return (
+    typeof missionResponses === "object" &&
+    missionResponses !== null &&
+    (missionResponses as Record<string, unknown>).traceEcriteConfirmee === true
+  );
+}
+
+/**
  * Enregistre un dépôt d’évaluation (docs/SPEC.md § 23) : remplace un dépôt
  * existant pour le même item plutôt que de le dupliquer, et augmente la
  * révision (« réponses sauvegardées » avant remise du fichier, § 38).

@@ -5,6 +5,8 @@ import { useProgression } from "@/providers/progression-provider";
 import { Source } from "@/components/mission/Source";
 import { SommativeSubmittedNotice } from "@/components/evaluation/SommativeSubmittedNotice";
 import { ComparisonTable, type ComparisonOption } from "@/components/mission/ComparisonTable";
+import type { AssessmentKind } from "@/lib/schemas/proof";
+import { findAssessmentSubmission } from "@/lib/progression/model";
 import { SOMMATIVE_LABELS } from "@content/engine";
 
 export type { ComparisonOption };
@@ -17,6 +19,8 @@ type SommativeChoiceJustifiedProps = {
   options: readonly ComparisonOption[];
   /** Citation de la source des valeurs, si elles sont réelles (docs/SPEC.md § 52). Absente => fictives. */
   sourceCitation?: string;
+  /** "summative" (défaut) pour une sommative intermédiaire, "final" pour la finale (docs/EVALUATIONS.md § 4.2). */
+  kind?: AssessmentKind;
   /** Appelé après la remise réussie, pour permettre à la mission d’en tenir compte (ex. déblocage de « Mission terminée »). */
   onSubmitted?: () => void;
 };
@@ -33,22 +37,26 @@ export function SommativeChoiceJustified({
   criteriaLabels,
   options,
   sourceCitation,
+  kind = "summative",
   onSubmitted,
 }: SommativeChoiceJustifiedProps) {
-  const { submitAssessment } = useProgression();
+  const { submitAssessment, snapshot } = useProgression();
   const [choiceId, setChoiceId] = useState<string | null>(null);
   const [justification, setJustification] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  if (submitted) {
+  const alreadySubmitted =
+    snapshot.status === "ready" && findAssessmentSubmission(snapshot.file, missionId, itemId) !== null;
+
+  if (submitted || alreadySubmitted) {
     return <SommativeSubmittedNotice />;
   }
 
   async function handleSubmit() {
     if (!choiceId || !justification.trim()) return;
     setSubmitting(true);
-    await submitAssessment(missionId, itemId, "summative", { choiceId, justification: justification.trim() });
+    await submitAssessment(missionId, itemId, kind, { choiceId, justification: justification.trim() });
     setSubmitting(false);
     setSubmitted(true);
     onSubmitted?.();

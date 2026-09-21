@@ -12,14 +12,23 @@ import { EcrisDansTonCours } from "@/components/mission/EcrisDansTonCours";
 import { MissionCompletionFlow } from "@/components/mission/MissionCompletionFlow";
 import { MissionTimer } from "@/components/mission/MissionTimer";
 import { useProgression } from "@/providers/progression-provider";
+import { findAssessmentSubmission, isTraceEcriteConfirmee } from "@/lib/progression/model";
 import type { EvacuationMeasures } from "@/lib/simulation/evacuation";
 import { MISSION_5E_08, MISSION_5E_08_BILAN, MISSION_5E_08_TRACE } from "@content/5e/5e-08";
 
 export function Mission5E08Client() {
-  const { recordResponses } = useProgression();
+  const { recordResponses, snapshot } = useProgression();
   const [measures, setMeasures] = useState<EvacuationMeasures | null>(null);
-  const [submitted, setSubmitted] = useState(false);
-  const [traceDone, setTraceDone] = useState(false);
+  const [submittedThisSession, setSubmittedThisSession] = useState(false);
+  const [traceConfirmedThisSession, setTraceConfirmedThisSession] = useState(false);
+
+  const submitted =
+    submittedThisSession ||
+    (snapshot.status === "ready" &&
+      findAssessmentSubmission(snapshot.file, MISSION_5E_08.id, "evacuation-gravats") !== null);
+  const traceDone =
+    traceConfirmedThisSession ||
+    (snapshot.status === "ready" && isTraceEcriteConfirmee(snapshot.file, MISSION_5E_08.id));
 
   return (
     <RequireStudentIdentity>
@@ -37,7 +46,7 @@ export function Mission5E08Client() {
             hypothesisLabel={MISSION_5E_08.hypothesisLabel}
             conclusionLabel={MISSION_5E_08.conclusionLabel}
             measures={measures}
-            onSubmitted={() => setSubmitted(true)}
+            onSubmitted={() => setSubmittedThisSession(true)}
           >
             <EvacuationSimulation onSimulationRun={setMeasures} />
           </SommativeSimulationReport>
@@ -46,7 +55,7 @@ export function Mission5E08Client() {
         <EcrisDansTonCours
           onDone={() => {
             recordResponses(MISSION_5E_08.id, { traceEcriteConfirmee: true });
-            setTraceDone(true);
+            setTraceConfirmedThisSession(true);
           }}
         >
           <p className="font-semibold">{MISSION_5E_08_TRACE.title}</p>

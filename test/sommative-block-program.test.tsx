@@ -1,12 +1,21 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SommativeBlockProgram } from "@/components/mission/SommativeBlockProgram";
+import { createInitialStudentFile } from "@/lib/progression/model";
+import type { AssessmentSubmission } from "@/lib/schemas/assessment-submission";
 
 const submitAssessment = vi.fn().mockResolvedValue({ ok: true });
+let mockAssessments: AssessmentSubmission[] = [];
 
 vi.mock("@/providers/progression-provider", () => ({
-  useProgression: () => ({ submitAssessment }),
+  useProgression: () => ({
+    submitAssessment,
+    snapshot: {
+      status: "ready",
+      file: { ...createInitialStudentFile({ studentCode: "5E1-001", classe: "5E1", niveau: "5e" }), assessments: mockAssessments },
+    },
+  }),
 }));
 
 const comparatorOptions = [
@@ -24,6 +33,11 @@ const scenarios = [
 ];
 
 describe("SommativeBlockProgram (docs/SPEC.md § 23, § 30)", () => {
+  beforeEach(() => {
+    mockAssessments = [];
+    submitAssessment.mockClear();
+  });
+
   it("n'autorise la remise qu'après un test du programme, sans jugement correct/incorrect", async () => {
     const user = userEvent.setup();
     const onSubmitted = vi.fn();
@@ -97,5 +111,32 @@ describe("SommativeBlockProgram (docs/SPEC.md § 23, § 30)", () => {
 
     expect(screen.getByRole("button", { name: "Remettre mon évaluation" })).toBeDisabled();
     expect(screen.getByText("Teste ton programme sur les trois scénarios avant de le remettre.")).toBeInTheDocument();
+  });
+
+  it("reste affiché comme déjà remis après un remontage (rechargement de page)", () => {
+    mockAssessments = [
+      {
+        missionId: "5E-10",
+        itemId: "securite-arriere",
+        kind: "summative",
+        responses: { comparator: "<", thresholdM: 2, action: "arreter" },
+        submittedAt: "2026-09-20T10:00:00.000Z",
+        status: "pending",
+      },
+    ];
+
+    render(
+      <SommativeBlockProgram
+        missionId="5E-10"
+        itemId="securite-arriere"
+        comparatorOptions={comparatorOptions}
+        thresholdOptions={thresholdOptions}
+        actionOptions={actionOptions}
+        scenarios={scenarios}
+      />,
+    );
+
+    expect(screen.getByText("Évaluation enregistrée. Ton résultat sera disponible après correction.")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Tester le programme" })).not.toBeInTheDocument();
   });
 });

@@ -12,6 +12,7 @@ import { EcrisDansTonCours } from "@/components/mission/EcrisDansTonCours";
 import { MissionCompletionFlow } from "@/components/mission/MissionCompletionFlow";
 import { MissionTimer } from "@/components/mission/MissionTimer";
 import { useProgression } from "@/providers/progression-provider";
+import { findAssessmentSubmission, isTraceEcriteConfirmee } from "@/lib/progression/model";
 import {
   ASSOCIATION_5E_05_CHOICES,
   ASSOCIATION_5E_05_HINTS,
@@ -23,10 +24,17 @@ import {
 } from "@content/5e/5e-05";
 
 export function Mission5E05Client() {
-  const { recordResponses } = useProgression();
+  const { recordResponses, snapshot } = useProgression();
   const [activityDone, setActivityDone] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [traceDone, setTraceDone] = useState(false);
+  const [submittedThisSession, setSubmittedThisSession] = useState(false);
+  const [traceConfirmedThisSession, setTraceConfirmedThisSession] = useState(false);
+
+  const submitted =
+    submittedThisSession ||
+    (snapshot.status === "ready" && findAssessmentSubmission(snapshot.file, MISSION_5E_05.id, "mei-sommative") !== null);
+  const traceDone =
+    traceConfirmedThisSession ||
+    (snapshot.status === "ready" && isTraceEcriteConfirmee(snapshot.file, MISSION_5E_05.id));
 
   return (
     <RequireStudentIdentity>
@@ -52,7 +60,7 @@ export function Mission5E05Client() {
         <EcrisDansTonCours
           onDone={() => {
             recordResponses(MISSION_5E_05.id, { traceEcriteConfirmee: true });
-            setTraceDone(true);
+            setTraceConfirmedThisSession(true);
           }}
         >
           <p className="font-semibold">{MISSION_5E_05_TRACE.title}</p>
@@ -67,7 +75,7 @@ export function Mission5E05Client() {
             itemId="mei-sommative"
             items={ASSOCIATION_5E_05_SOMMATIVE_ITEMS}
             choices={ASSOCIATION_5E_05_CHOICES}
-            onSubmitted={() => setSubmitted(true)}
+            onSubmitted={() => setSubmittedThisSession(true)}
           />
         </SimulationPedagogique>
 

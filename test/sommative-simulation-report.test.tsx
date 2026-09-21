@@ -1,15 +1,29 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SommativeSimulationReport } from "@/components/mission/SommativeSimulationReport";
+import { createInitialStudentFile } from "@/lib/progression/model";
+import type { AssessmentSubmission } from "@/lib/schemas/assessment-submission";
 
 const submitAssessment = vi.fn().mockResolvedValue({ ok: true });
+let mockAssessments: AssessmentSubmission[] = [];
 
 vi.mock("@/providers/progression-provider", () => ({
-  useProgression: () => ({ submitAssessment }),
+  useProgression: () => ({
+    submitAssessment,
+    snapshot: {
+      status: "ready",
+      file: { ...createInitialStudentFile({ studentCode: "5E1-001", classe: "5E1", niveau: "5e" }), assessments: mockAssessments },
+    },
+  }),
 }));
 
 describe("SommativeSimulationReport (docs/SPEC.md § 23, § 30)", () => {
+  beforeEach(() => {
+    mockAssessments = [];
+    submitAssessment.mockClear();
+  });
+
   it("n'autorise la remise qu'avec hypothèse, mesures et conclusion", async () => {
     const user = userEvent.setup();
     const onSubmitted = vi.fn();
@@ -75,5 +89,61 @@ describe("SommativeSimulationReport (docs/SPEC.md § 23, § 30)", () => {
     });
     expect(await screen.findByText("Évaluation enregistrée. Ton résultat sera disponible après correction.")).toBeInTheDocument();
     expect(onSubmitted).toHaveBeenCalledTimes(1);
+  });
+
+  it("dépose en « final » quand la mission le demande (docs/EVALUATIONS.md § 4.2)", async () => {
+    const user = userEvent.setup();
+    const measures = { volumeM3: 10, numberOfTrips: 2, distanceM: 400, elapsedMinutes: 15, pedagogicalConsumption: 2 };
+
+    render(
+      <SommativeSimulationReport
+        missionId="5E-FINAL"
+        itemId="simulation-rocheval"
+        hypothesisLabel="Formule ton hypothèse."
+        conclusionLabel="Écris ta conclusion."
+        measures={measures}
+        kind="final"
+      >
+        <p>Simulation (déjà lancée dans ce test)</p>
+      </SommativeSimulationReport>,
+    );
+
+    await user.type(screen.getByLabelText("Formule ton hypothèse."), "Ce sera rapide.");
+    await user.type(screen.getByLabelText("Écris ta conclusion."), "C’était rapide comme prévu.");
+    await user.click(screen.getByRole("button", { name: "Remettre mon évaluation" }));
+
+    expect(submitAssessment).toHaveBeenCalledWith("5E-FINAL", "simulation-rocheval", "final", {
+      hypothesis: "Ce sera rapide.",
+      measures,
+      conclusion: "C’était rapide comme prévu.",
+    });
+  });
+
+  it("reste affiché comme déjà remis après un remontage (rechargement de page)", () => {
+    mockAssessments = [
+      {
+        missionId: "5E-08",
+        itemId: "evacuation-gravats",
+        kind: "summative",
+        responses: { hypothesis: "Premier essai.", measures: null, conclusion: "Conclusion." },
+        submittedAt: "2026-09-20T10:00:00.000Z",
+        status: "pending",
+      },
+    ];
+
+    render(
+      <SommativeSimulationReport
+        missionId="5E-08"
+        itemId="evacuation-gravats"
+        hypothesisLabel="Formule ton hypothèse."
+        conclusionLabel="Écris ta conclusion."
+        measures={null}
+      >
+        <p>Simulation</p>
+      </SommativeSimulationReport>,
+    );
+
+    expect(screen.getByText("Évaluation enregistrée. Ton résultat sera disponible après correction.")).toBeInTheDocument();
+    expect(screen.queryByLabelText("Formule ton hypothèse.")).not.toBeInTheDocument();
   });
 });

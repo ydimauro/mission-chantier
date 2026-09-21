@@ -11,6 +11,7 @@ import { EcrisDansTonCours } from "@/components/mission/EcrisDansTonCours";
 import { MissionCompletionFlow } from "@/components/mission/MissionCompletionFlow";
 import { MissionTimer } from "@/components/mission/MissionTimer";
 import { useProgression } from "@/providers/progression-provider";
+import { findAssessmentSubmission, isTraceEcriteConfirmee } from "@/lib/progression/model";
 import {
   BLOCK_PROGRAM_5E_10_ACTIONS,
   BLOCK_PROGRAM_5E_10_COMPARATORS,
@@ -22,9 +23,17 @@ import {
 } from "@content/5e/5e-10";
 
 export function Mission5E10Client() {
-  const { recordResponses } = useProgression();
-  const [submitted, setSubmitted] = useState(false);
-  const [traceDone, setTraceDone] = useState(false);
+  const { recordResponses, snapshot } = useProgression();
+  const [submittedThisSession, setSubmittedThisSession] = useState(false);
+  const [traceConfirmedThisSession, setTraceConfirmedThisSession] = useState(false);
+
+  const submitted =
+    submittedThisSession ||
+    (snapshot.status === "ready" &&
+      findAssessmentSubmission(snapshot.file, MISSION_5E_10.id, "securite-arriere") !== null);
+  const traceDone =
+    traceConfirmedThisSession ||
+    (snapshot.status === "ready" && isTraceEcriteConfirmee(snapshot.file, MISSION_5E_10.id));
 
   return (
     <RequireStudentIdentity>
@@ -43,14 +52,14 @@ export function Mission5E10Client() {
             thresholdOptions={BLOCK_PROGRAM_5E_10_THRESHOLDS}
             actionOptions={BLOCK_PROGRAM_5E_10_ACTIONS}
             scenarios={BLOCK_PROGRAM_5E_10_SCENARIOS}
-            onSubmitted={() => setSubmitted(true)}
+            onSubmitted={() => setSubmittedThisSession(true)}
           />
         </SimulationPedagogique>
 
         <EcrisDansTonCours
           onDone={() => {
             recordResponses(MISSION_5E_10.id, { traceEcriteConfirmee: true });
-            setTraceDone(true);
+            setTraceConfirmedThisSession(true);
           }}
         >
           <p className="font-semibold">{MISSION_5E_10_TRACE.title}</p>

@@ -198,7 +198,21 @@ export const MISSION_5E_12: MissionEntry = {
   durations: { fastMinutes: 30, averageMinutes: 38, slowMinutes: 43, absoluteMaxMinutes: 45 },
 };
 
-/** Ordre de parcours, par niveau. Grandira à chaque étape suivante (10 et au-delà). */
+export const MISSION_5E_FINAL: MissionEntry = {
+  id: "5E-FINAL",
+  niveau: "5e",
+  href: "/mission/5e-final",
+  status: "essentielle",
+  problematique: "Sur un nouveau chantier, sais-tu réutiliser ce que tu as appris ?",
+  activite:
+    "Mission de transfert sur un chantier nouveau (école de Rocheval) : choix d’engin justifié, lecture de contraintes, simulation d’évacuation notée.",
+  traceEcrite: "Phrase de synthèse de la démarche (choix, contraintes lues, résultat de simulation) recopiée sur le cahier.",
+  evaluation: "Évaluation finale sommative et certificative (60 % de la note /20), corrigée dans /teacher (docs/EVALUATIONS.md § 4.2).",
+  evaluationJustification: null,
+  durations: { fastMinutes: 28, averageMinutes: 35, slowMinutes: 43, absoluteMaxMinutes: 45 },
+};
+
+/** Ordre de parcours, par niveau. Grandira à chaque étape suivante (11 et au-delà). */
 export const MISSION_SEQUENCE: Record<Level, readonly MissionEntry[]> = {
   "5e": [
     MISSION_5E_00,
@@ -214,6 +228,7 @@ export const MISSION_SEQUENCE: Record<Level, readonly MissionEntry[]> = {
     MISSION_5E_10,
     MISSION_5E_11,
     MISSION_5E_12,
+    MISSION_5E_FINAL,
   ],
   "4e": [MISSION_4E_00],
 };
@@ -232,5 +247,6 @@ export const MISSION_REGISTRY: readonly MissionEntry[] = [
   MISSION_5E_10,
   MISSION_5E_11,
   MISSION_5E_12,
+  MISSION_5E_FINAL,
   MISSION_4E_00,
 ];

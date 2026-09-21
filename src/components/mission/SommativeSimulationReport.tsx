@@ -4,6 +4,8 @@ import { useState, type ReactNode } from "react";
 import { useProgression } from "@/providers/progression-provider";
 import { SommativeSubmittedNotice } from "@/components/evaluation/SommativeSubmittedNotice";
 import { SIMULATION_REPORT_LABELS, SOMMATIVE_LABELS } from "@content/engine";
+import type { AssessmentKind } from "@/lib/schemas/proof";
+import { findAssessmentSubmission } from "@/lib/progression/model";
 
 type SommativeSimulationReportProps = {
   missionId: string;
@@ -14,6 +16,8 @@ type SommativeSimulationReportProps = {
   measures: Record<string, number> | null;
   /** L’interface de simulation elle-même (ex. `EvacuationSimulation`), fournie par la mission. */
   children: ReactNode;
+  /** "summative" (défaut) pour une sommative intermédiaire, "final" pour la finale (docs/EVALUATIONS.md § 4.2). */
+  kind?: AssessmentKind;
   /** Appelé après la remise réussie, pour permettre à la mission d’en tenir compte (ex. déblocage de « Mission terminée »). */
   onSubmitted?: () => void;
 };
@@ -32,15 +36,19 @@ export function SommativeSimulationReport({
   conclusionLabel,
   measures,
   children,
+  kind = "summative",
   onSubmitted,
 }: SommativeSimulationReportProps) {
-  const { submitAssessment } = useProgression();
+  const { submitAssessment, snapshot } = useProgression();
   const [hypothesis, setHypothesis] = useState("");
   const [conclusion, setConclusion] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  if (submitted) {
+  const alreadySubmitted =
+    snapshot.status === "ready" && findAssessmentSubmission(snapshot.file, missionId, itemId) !== null;
+
+  if (submitted || alreadySubmitted) {
     return <SommativeSubmittedNotice />;
   }
 
@@ -49,7 +57,7 @@ export function SommativeSimulationReport({
   async function handleSubmit() {
     if (!canSubmit) return;
     setSubmitting(true);
-    await submitAssessment(missionId, itemId, "summative", {
+    await submitAssessment(missionId, itemId, kind, {
       hypothesis: hypothesis.trim(),
       measures,
       conclusion: conclusion.trim(),

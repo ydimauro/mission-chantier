@@ -11,6 +11,7 @@ import { EcrisDansTonCours } from "@/components/mission/EcrisDansTonCours";
 import { MissionCompletionFlow } from "@/components/mission/MissionCompletionFlow";
 import { MissionTimer } from "@/components/mission/MissionTimer";
 import { useProgression } from "@/providers/progression-provider";
+import { findAssessmentSubmission, isTraceEcriteConfirmee } from "@/lib/progression/model";
 import {
   MISSION_5E_04,
   MISSION_5E_04_BILAN,
@@ -20,9 +21,16 @@ import {
 } from "@content/5e/5e-04";
 
 export function Mission5E04Client() {
-  const { recordResponses } = useProgression();
-  const [submitted, setSubmitted] = useState(false);
-  const [traceDone, setTraceDone] = useState(false);
+  const { recordResponses, snapshot } = useProgression();
+  const [submittedThisSession, setSubmittedThisSession] = useState(false);
+  const [traceConfirmedThisSession, setTraceConfirmedThisSession] = useState(false);
+
+  const submitted =
+    submittedThisSession ||
+    (snapshot.status === "ready" && findAssessmentSubmission(snapshot.file, MISSION_5E_04.id, "choix-engin") !== null);
+  const traceDone =
+    traceConfirmedThisSession ||
+    (snapshot.status === "ready" && isTraceEcriteConfirmee(snapshot.file, MISSION_5E_04.id));
 
   return (
     <RequireStudentIdentity>
@@ -40,14 +48,14 @@ export function Mission5E04Client() {
             question={MISSION_5E_04.question}
             criteriaLabels={MISSION_5E_04_CRITERIA}
             options={MISSION_5E_04_OPTIONS}
-            onSubmitted={() => setSubmitted(true)}
+            onSubmitted={() => setSubmittedThisSession(true)}
           />
         </SimulationPedagogique>
 
         <EcrisDansTonCours
           onDone={() => {
             recordResponses(MISSION_5E_04.id, { traceEcriteConfirmee: true });
-            setTraceDone(true);
+            setTraceConfirmedThisSession(true);
           }}
         >
           <p className="font-semibold">{MISSION_5E_04_TRACE.title}</p>

@@ -5,12 +5,16 @@ import { useProgression } from "@/providers/progression-provider";
 import { SommativeSubmittedNotice } from "@/components/evaluation/SommativeSubmittedNotice";
 import { ACTIVITY_LABELS, SOMMATIVE_LABELS } from "@content/engine";
 import type { AssociationChoice, AssociationItem } from "@/components/mission/AssociationActivity";
+import type { AssessmentKind } from "@/lib/schemas/proof";
+import { findAssessmentSubmission } from "@/lib/progression/model";
 
 type SommativeAssociationProps = {
   missionId: string;
   itemId: string;
   items: readonly AssociationItem[];
   choices: readonly AssociationChoice[];
+  /** "summative" (défaut) pour une sommative intermédiaire, "final" pour la finale (docs/EVALUATIONS.md § 4.2). */
+  kind?: AssessmentKind;
   /** Appelé après la remise réussie, pour permettre à la mission d’en tenir compte (ex. déblocage de « Mission terminée »). */
   onSubmitted?: () => void;
 };
@@ -21,13 +25,23 @@ type SommativeAssociationProps = {
  * désactivées pendant les sommatives, docs/SPEC.md § 30). Le dépôt reste
  * "pending" jusqu’à la correction dans `/teacher`.
  */
-export function SommativeAssociation({ missionId, itemId, items, choices, onSubmitted }: SommativeAssociationProps) {
-  const { submitAssessment } = useProgression();
+export function SommativeAssociation({
+  missionId,
+  itemId,
+  items,
+  choices,
+  kind = "summative",
+  onSubmitted,
+}: SommativeAssociationProps) {
+  const { submitAssessment, snapshot } = useProgression();
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  if (submitted) {
+  const alreadySubmitted =
+    snapshot.status === "ready" && findAssessmentSubmission(snapshot.file, missionId, itemId) !== null;
+
+  if (submitted || alreadySubmitted) {
     return <SommativeSubmittedNotice />;
   }
 
@@ -35,7 +49,7 @@ export function SommativeAssociation({ missionId, itemId, items, choices, onSubm
 
   async function handleSubmit() {
     setSubmitting(true);
-    await submitAssessment(missionId, itemId, "summative", { answers });
+    await submitAssessment(missionId, itemId, kind, { answers });
     setSubmitting(false);
     setSubmitted(true);
     onSubmitted?.();

@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   buildStudentFileName,
   createInitialStudentFile,
+  findAssessmentSubmission,
+  isTraceEcriteConfirmee,
   isWrongFile,
   markMissionCompleted,
   recordAssessmentSubmission,
@@ -87,6 +89,33 @@ describe("modèle de progression", () => {
       );
       expect(second.assessments).toHaveLength(1);
       expect(second.assessments[0]?.responses).toEqual({ choiceId: "grue" });
+    });
+
+    it("retrouve un dépôt existant quel que soit son statut, pour éviter un second dépôt après un remontage", () => {
+      const file = createInitialStudentFile({ studentCode: "4E2-017", classe: "4E2", niveau: "4e" });
+      expect(findAssessmentSubmission(file, "5E-04", "choix-engin")).toBeNull();
+
+      const withPending = recordAssessmentSubmission(file, submission({ status: "pending" }));
+      expect(findAssessmentSubmission(withPending, "5E-04", "choix-engin")).not.toBeNull();
+
+      const withCorrected = recordAssessmentSubmission(file, submission({ status: "corrected", score: 0.8 }));
+      expect(findAssessmentSubmission(withCorrected, "5E-04", "choix-engin")?.status).toBe("corrected");
+
+      expect(findAssessmentSubmission(withPending, "5E-04", "autre-item")).toBeNull();
+    });
+  });
+
+  describe("confirmation de la trace écrite (AGENTS.md règle 3)", () => {
+    it("détecte l'absence de confirmation pour une mission jamais visitée", () => {
+      const file = createInitialStudentFile({ studentCode: "4E2-017", classe: "4E2", niveau: "4e" });
+      expect(isTraceEcriteConfirmee(file, "5E-04")).toBe(false);
+    });
+
+    it("détecte la confirmation une fois enregistrée, pour survivre à un remontage", () => {
+      const file = createInitialStudentFile({ studentCode: "4E2-017", classe: "4E2", niveau: "4e" });
+      const updated = recordMissionResponses(file, "5E-04", { traceEcriteConfirmee: true });
+      expect(isTraceEcriteConfirmee(updated, "5E-04")).toBe(true);
+      expect(isTraceEcriteConfirmee(updated, "5E-05")).toBe(false);
     });
   });
 

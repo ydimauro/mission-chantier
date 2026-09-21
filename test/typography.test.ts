@@ -25,6 +25,7 @@ import * as mission5e09 from "@content/5e/5e-09";
 import * as mission5e10 from "@content/5e/5e-10";
 import * as mission5e11 from "@content/5e/5e-11";
 import * as mission5e12 from "@content/5e/5e-12";
+import * as mission5eFinal from "@content/5e/5e-final";
 import * as mission4e00 from "@content/4e/4e-00";
 
 /**
@@ -59,6 +60,7 @@ describe("typographie française des contenus", () => {
     mission5e10,
     mission5e11,
     mission5e12,
+    mission5eFinal,
     mission4e00,
   };
 
