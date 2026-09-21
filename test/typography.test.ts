@@ -19,6 +19,12 @@ import * as mission5e03 from "@content/5e/5e-03";
 import * as mission5e04 from "@content/5e/5e-04";
 import * as mission5e05 from "@content/5e/5e-05";
 import * as mission5e06 from "@content/5e/5e-06";
+import * as mission5e07 from "@content/5e/5e-07";
+import * as mission5e08 from "@content/5e/5e-08";
+import * as mission5e09 from "@content/5e/5e-09";
+import * as mission5e10 from "@content/5e/5e-10";
+import * as mission5e11 from "@content/5e/5e-11";
+import * as mission5e12 from "@content/5e/5e-12";
 import * as mission4e00 from "@content/4e/4e-00";
 
 /**
@@ -47,6 +53,12 @@ describe("typographie française des contenus", () => {
     mission5e04,
     mission5e05,
     mission5e06,
+    mission5e07,
+    mission5e08,
+    mission5e09,
+    mission5e10,
+    mission5e11,
+    mission5e12,
     mission4e00,
   };
 

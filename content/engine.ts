@@ -110,3 +110,20 @@ export const EVACUATION_SIMULATION_LABELS = {
   } satisfies Record<keyof EvacuationMeasures, string>,
 } as const;
 
+export const SIMULATION_REPORT_LABELS = {
+  runFirstNotice: "Lance la simulation au moins une fois avant d’écrire ta conclusion.",
+} as const;
+
+export const BLOCK_PROGRAM_LABELS = {
+  conditionIntro: "SI distance du capteur",
+  actionIntro: "ALORS",
+  comparatorFieldLabel: "Comparateur",
+  thresholdFieldLabel: "Seuil",
+  actionFieldLabel: "Action",
+  testButton: "Tester le programme",
+  scenarioOutcomeTemplate: "Scénario {scenario} (distance mesurée : {distance} m) : {outcome}.",
+  outcomeTriggered: "action déclenchée ({action})",
+  outcomeNotTriggered: "aucune action déclenchée",
+  runFirstNotice: "Teste ton programme sur les trois scénarios avant de le remettre.",
+} as const;
+

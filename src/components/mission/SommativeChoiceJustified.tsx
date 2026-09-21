@@ -4,14 +4,10 @@ import { useState } from "react";
 import { useProgression } from "@/providers/progression-provider";
 import { Source } from "@/components/mission/Source";
 import { SommativeSubmittedNotice } from "@/components/evaluation/SommativeSubmittedNotice";
+import { ComparisonTable, type ComparisonOption } from "@/components/mission/ComparisonTable";
 import { SOMMATIVE_LABELS } from "@content/engine";
 
-export type ComparisonOption = {
-  id: string;
-  label: string;
-  /** Une valeur par critère, dans le même ordre que `criteriaLabels`. */
-  criteriaValues: readonly string[];
-};
+export type { ComparisonOption };
 
 type SommativeChoiceJustifiedProps = {
   missionId: string;
@@ -60,32 +56,7 @@ export function SommativeChoiceJustified({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-max border-collapse text-sm">
-          <thead>
-            <tr className="border-b border-border text-left text-ink-muted">
-              <th className="py-2 pr-3"> </th>
-              {criteriaLabels.map((label) => (
-                <th key={label} className="py-2 pr-3">
-                  {label}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {options.map((option) => (
-              <tr key={option.id} className="border-b border-border">
-                <td className="py-2 pr-3 font-medium text-ink">{option.label}</td>
-                {option.criteriaValues.map((value, index) => (
-                  <td key={criteriaLabels[index]} className="py-2 pr-3 text-ink">
-                    {value}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <ComparisonTable criteriaLabels={criteriaLabels} options={options} />
 
       <Source citation={sourceCitation} />
 

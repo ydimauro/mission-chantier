@@ -9,6 +9,7 @@ import {
 } from "@/lib/simulation/evacuation";
 import { EVACUATION_SIMULATION_LABELS } from "@content/engine";
 import { formatMessage } from "@/lib/format-message";
+import { formatFrenchNumber } from "@/lib/format-number";
 
 const DEFAULT_SCENARIO: EvacuationScenario = {
   volumeM3: 18,
@@ -33,10 +34,6 @@ const INTEGER_FIELDS: Array<keyof EvacuationScenario> = [
   "truckCount",
   "routeDistanceM",
 ];
-
-function formatMeasure(value: number, maximumFractionDigits = 1): string {
-  return new Intl.NumberFormat("fr-FR", { maximumFractionDigits }).format(value);
-}
 
 function describeError(error: unknown): string {
   if (error instanceof InvalidScenarioFieldError) {
@@ -134,23 +131,23 @@ export function EvacuationSimulation({
           <dl className="mt-3 grid gap-2 sm:grid-cols-2">
             <div>
               <dt className="text-sm text-ink-muted">{EVACUATION_SIMULATION_LABELS.measureLabels.volumeM3}</dt>
-              <dd className="font-semibold">{formatMeasure(measures.volumeM3)} m³</dd>
+              <dd className="font-semibold">{formatFrenchNumber(measures.volumeM3)} m³</dd>
             </div>
             <div>
               <dt className="text-sm text-ink-muted">{EVACUATION_SIMULATION_LABELS.measureLabels.numberOfTrips}</dt>
-              <dd className="font-semibold">{formatMeasure(measures.numberOfTrips, 0)}</dd>
+              <dd className="font-semibold">{formatFrenchNumber(measures.numberOfTrips, 0)}</dd>
             </div>
             <div>
               <dt className="text-sm text-ink-muted">{EVACUATION_SIMULATION_LABELS.measureLabels.distanceM}</dt>
-              <dd className="font-semibold">{formatMeasure(measures.distanceM, 0)} m</dd>
+              <dd className="font-semibold">{formatFrenchNumber(measures.distanceM, 0)} m</dd>
             </div>
             <div>
               <dt className="text-sm text-ink-muted">{EVACUATION_SIMULATION_LABELS.measureLabels.elapsedMinutes}</dt>
-              <dd className="font-semibold">{formatMeasure(measures.elapsedMinutes)} min</dd>
+              <dd className="font-semibold">{formatFrenchNumber(measures.elapsedMinutes)} min</dd>
             </div>
             <div>
               <dt className="text-sm text-ink-muted">{EVACUATION_SIMULATION_LABELS.measureLabels.pedagogicalConsumption}</dt>
-              <dd className="font-semibold">{formatMeasure(measures.pedagogicalConsumption)}</dd>
+              <dd className="font-semibold">{formatFrenchNumber(measures.pedagogicalConsumption)}</dd>
             </div>
           </dl>
         </div>
