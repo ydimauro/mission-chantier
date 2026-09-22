@@ -69,3 +69,27 @@ Ce fichier recense les décisions qui attendent l’accord de l’enseignant. Po
 - des photographies complémentaires si l’enseignant souhaite enrichir l’ancrage réel au-delà de 5E-00, 4E-00 et 5E-01 ; les activités actuelles de 5E-02 et 5E-07 relèvent du Quartier des Ateliers fictif et n’emploient aucun fait réel supplémentaire sur Givors.
 
 **Réponse de l’enseignant** :
+
+## Parcours élève, accueil et ressources : proposition après l’étape 21
+
+**Problème** : l’enseignant signale un manque de repères entre les séances et à la fin des missions. Lecture du code : `/mission` propose seulement la première mission non terminée ; le bilan final ne comporte aucun lien de navigation ; l’accueil répète le diagnostic du prologue et propose une saisie temporaire non sauvegardée sous « Écris dans ton cours » ; `/ressources` est une page d’attente.
+
+**Options** : conserver le parcours séquentiel avec des indications supplémentaires ; ou créer un menu des missions avec reprise, consultation des missions terminées et choix de la mission indiquée par le professeur. Pour la découverte des engins : fiches locales illustrées ou recherche documentaire externe encadrée.
+
+**Recommandation** : préparer une étape 22 dédiée au parcours et aux ressources. Transformer l’accueil en point d’entrée (première visite, reprise du fichier, menu des missions), conserver le diagnostic et la trace papier dans le prologue, ajouter une fin de mission explicite après sauvegarde et un retour au menu. Prévoir un glossaire et des fiches illustrées sourcées sur les engins, accessibles sans Internet. Introduire une découverte courte après les représentations initiales et avant la première activité nécessitant le vocabulaire. La recherche externe resterait une activité facultative pilotée par le professeur, sans transmission de données élèves.
+
+**Conséquences** : vérifier la restauration effective des réponses à la réouverture, préserver les évaluations et leurs règles de correction, préciser les missions accessibles au choix, intégrer la découverte au budget de 40 à 43 minutes plutôt que l’ajouter à une séance déjà complète. Distinguer les illustrations génériques des photographies réelles de Givors. Aucun changement applicatif réalisé à ce stade.
+
+**Décision attendue** : périmètre proposé pour `CONTINUE ÉTAPE 22`, conformément à la règle 1 de `AGENTS.md`.
+
+### Précision : reprise sans sauvegarde sur un poste partagé
+
+**Problème confirmé dans le code** : `recordResponses` conserve les réponses en mémoire uniquement. Leur persistance intervient notamment lors de `saveNow`, `completeMission` ou `submitAssessment`. Fermer la page ou changer d’élève peut donc perdre les réponses depuis la dernière sauvegarde. Les progressions persistées sont distinctes par code élève, mais dépendent du navigateur et de son profil. L’effacement proposé sur `/privacy` efface actuellement toutes les progressions locales du profil, malgré son libellé individuel.
+
+**Options** : conserver la sauvegarde explicite avec rappels ; ou ajouter une sauvegarde locale automatique des réponses et une restauration vérifiée des activités, tout en conservant le fichier `.mcjson` pour la portabilité et la protection contre l’effacement du navigateur.
+
+**Recommandation** : inclure dans l’étape proposée la sauvegarde locale automatique, un indicateur de réussite ou d’échec, la vérification du code actif lors de la reprise et la correction du périmètre de l’effacement individuel.
+
+**Conséquences** : respecter `revision` et `updatedAt`, empêcher les écritures concurrentes obsolètes, tester le passage entre deux élèves et la fermeture puis réouverture. Aucun mécanisme local ne garantit la récupération après effacement des données du navigateur sans fichier de sauvegarde indépendant. Aucune modification applicative réalisée.
+
+**Mise à jour (ÉTAPE 22, 2026-09-22)** : la sauvegarde automatique des réponses, le menu des missions et la page Ressources ont été réalisés. Les réponses sont écrites dans IndexedDB avec une nouvelle révision et une file d’écriture pour conserver leur ordre. Le fichier `.mcjson` reste nécessaire hors du même poste et navigateur.

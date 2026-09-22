@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -80,6 +81,7 @@ type ProgressionContextValue = {
   snapshot: ProgressionSnapshot;
   fileSystemAccessSupported: boolean;
   folderLinked: boolean;
+  autosaveStatus: "idle" | "saving" | "saved" | "error";
   createIdentity: (identity: NewStudentIdentity) => Promise<void>;
   switchStudent: () => void;
   /** Relance le chargement initial après un échec (docs/SPEC.md § 65, audit ÉTAPE 10 § 11). */
@@ -119,6 +121,13 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
   const [loadAttempt, setLoadAttempt] = useState(0);
   const [conflict, setConflict] = useState<ConflictState | null>(null);
   const [wrongFile, setWrongFile] = useState<WrongFileState | null>(null);
+  const [autosaveStatus, setAutosaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const fileRef = useRef<StudentFile | null>(null);
+  const saveQueueRef = useRef<Promise<void>>(Promise.resolve());
+
+  useEffect(() => {
+    fileRef.current = loadedState?.file ?? null;
+  }, [loadedState]);
 
   useEffect(() => {
     let cancelled = false;
@@ -272,19 +281,24 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
     return { ok: true };
   }, [loadedState, persistFile]);
 
-  /**
-   * Enregistre les réponses d’une mission dans l’état en mémoire, sans
-   * augmenter `revision` : ce n’est qu’au moment de `completeMission` (ou
-   * d’un `saveNow` explicite) que la sauvegarde devient significative
-   * (docs/SPEC.md § 33).
-   */
+  /** Sauvegarde locale automatique, dans l’ordre des actions de l’élève.
+   * Chaque réponse reçoit une révision : elle doit pouvoir être reprise sur
+   * un poste partagé après fermeture de la page. */
   const recordResponses = useCallback(
     (missionId: string, responses: Record<string, unknown>) => {
-      setLoadedState((prev) =>
-        prev?.file ? { ...prev, file: recordMissionResponses(prev.file, missionId, responses) } : prev,
-      );
+      setAutosaveStatus("saving");
+      saveQueueRef.current = saveQueueRef.current
+        .then(async () => {
+          const current = fileRef.current;
+          if (!current) return;
+          const saved = touchStudentFile(recordMissionResponses(current, missionId, responses));
+          fileRef.current = saved;
+          await persistFile(saved);
+          setAutosaveStatus("saved");
+        })
+        .catch(() => setAutosaveStatus("error"));
     },
-    [],
+    [persistFile],
   );
 
   /**
@@ -439,6 +453,7 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
       snapshot,
       fileSystemAccessSupported: loadedState?.fileSystemAccessSupported ?? false,
       folderLinked: loadedState?.folderLinked ?? false,
+      autosaveStatus,
       createIdentity,
       switchStudent,
       retryLoad,
@@ -457,6 +472,7 @@ export function ProgressionProvider({ children }: { children: ReactNode }) {
     [
       snapshot,
       loadedState,
+      autosaveStatus,
       createIdentity,
       switchStudent,
       retryLoad,

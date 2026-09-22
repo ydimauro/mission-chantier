@@ -49,6 +49,9 @@ export function Header() {
               <li key={item.href}>
                 <Link
                   href={item.href}
+                  target={item.href === "/ressources" ? "_blank" : undefined}
+                  rel={item.href === "/ressources" ? "noopener noreferrer" : undefined}
+                  aria-label={item.href === "/ressources" ? "Ressources, ouvre un nouvel onglet" : undefined}
                   aria-current={pathname === item.href ? "page" : undefined}
                   className={`relative flex min-h-9 items-center gap-1.5 px-2 text-xs font-semibold text-ink-muted hover:bg-surface-muted hover:text-ink ${pathname === item.href ? "text-ink after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:bg-brand" : ""}`}
                 >

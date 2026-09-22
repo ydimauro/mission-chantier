@@ -21,7 +21,7 @@ test("sauvegarde Edge/Chrome : le dossier de sauvegarde automatique est proposé
   await expect(page.locator("#contenu-principal").getByText("E2E-BACKUP-CHROME")).toBeVisible({ timeout: 5_000 });
   // Chromium (moteur partagé avec Edge) expose window.showDirectoryPicker :
   // l'application doit proposer la sauvegarde automatique dans un dossier.
-  await expect(page.getByRole("button", { name: "Choisir mon dossier de sauvegarde" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Choisir où enregistrer mon fichier .mcjson" })).toBeVisible();
   await expect(page.getByText("Ce navigateur ne permet pas la sauvegarde automatique")).toBeHidden();
 });
 
@@ -38,9 +38,9 @@ test("sauvegarde Firefox : repli sur l'export manuel quand l'API dossier est abs
   await createIdentity(page, "E2E-BACKUP-FIREFOX");
   await page.goto("/progression");
   await expect(page.locator("#contenu-principal").getByText("E2E-BACKUP-FIREFOX")).toBeVisible({ timeout: 5_000 });
-  await expect(page.getByRole("button", { name: "Choisir mon dossier de sauvegarde" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Choisir où enregistrer mon fichier .mcjson" })).toHaveCount(0);
   await expect(
-    page.getByText("Ce navigateur ne permet pas la sauvegarde automatique dans un dossier."),
+    page.getByText(/Ce navigateur ne permet pas à l’application de choisir un dossier/),
   ).toBeVisible();
 
   await page.getByRole("button", { name: "J’ai enregistré mon fichier." }).click();

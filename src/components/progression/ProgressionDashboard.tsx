@@ -6,7 +6,6 @@ import { formatMessage } from "@/lib/format-message";
 import {
   DASHBOARD_LABELS,
   FIREFOX_FALLBACK,
-  FOLDER_LABELS,
   IMPORT_RESULT_MESSAGES,
   RESULTS_LABELS,
   SWITCH_STUDENT_CONFIRM,
@@ -18,6 +17,7 @@ import { COMPETENCIES } from "@content/competencies";
 import { GradeDisplay, MasteryBadge } from "@/components/evaluation";
 import { computeMasteryLevel } from "@/lib/evaluations/mastery";
 import { computeStudentGrade } from "@/lib/evaluations/student-summary";
+import { FolderSetupNotice } from "@/components/progression/FolderSetupNotice";
 
 const dateFormatter = new Intl.DateTimeFormat("fr-FR", {
   dateStyle: "long",
@@ -34,12 +34,11 @@ type Notice = { tone: "success" | "error"; message: string } | null;
 export function ProgressionDashboard({ file }: { file: StudentFile }) {
   const {
     fileSystemAccessSupported,
-    folderLinked,
     saveNow,
     exportFile,
     importFile,
-    chooseFolder,
     switchStudent,
+    autosaveStatus,
   } = useProgression();
 
   const [notice, setNotice] = useState<Notice>(null);
@@ -58,15 +57,6 @@ export function ProgressionDashboard({ file }: { file: StudentFile }) {
         ? { tone: "success", message: DASHBOARD_LABELS.saveSuccess }
         : { tone: "error", message: result.reason },
     );
-  }
-
-  async function handleChooseFolder() {
-    const result = await chooseFolder();
-    if (result.ok) {
-      setNotice({ tone: "success", message: FOLDER_LABELS.folderActive });
-    } else if (result.reason === "permission-denied") {
-      setNotice({ tone: "error", message: FOLDER_LABELS.permissionDenied });
-    }
   }
 
   async function handleImportChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -124,6 +114,12 @@ export function ProgressionDashboard({ file }: { file: StudentFile }) {
         <dt className="text-sm text-ink-muted">{DASHBOARD_LABELS.updatedAt}</dt>
         <dd className="text-sm font-semibold text-ink">{formatUpdatedAt(file.updatedAt)}</dd>
       </dl>
+
+      {autosaveStatus !== "idle" ? (
+        <p role="status" className="rounded-md border border-border bg-surface-muted px-4 py-3 text-sm text-ink">
+          {autosaveStatus === "saving" ? "Enregistrement de ton travail…" : autosaveStatus === "saved" ? "Travail enregistré sur ce poste." : "L’enregistrement automatique a échoué. Utilise « Enregistrer ma progression » et préviens ton professeur ou ta professeure."}
+        </p>
+      ) : null}
 
       {hasCorrectedResults ? (
         <section aria-labelledby="corrected-results-title" className="rounded-md border border-border bg-surface p-5">
@@ -187,35 +183,13 @@ export function ProgressionDashboard({ file }: { file: StudentFile }) {
         </label>
       </div>
 
-      {fileSystemAccessSupported ? (
+      <FolderSetupNotice />
+
+      {!fileSystemAccessSupported ? (
         <div className="rounded-md border border-border bg-surface-muted p-4">
-          <button
-            type="button"
-            onClick={() => void handleChooseFolder()}
-            className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-ink"
-          >
-            {FOLDER_LABELS.chooseFolder}
-          </button>
-          {folderLinked ? (
-            <p className="mt-2 text-sm text-ink-muted">{FOLDER_LABELS.folderActive}</p>
-          ) : null}
+          {firefoxSaved ? <p className="text-sm text-ink">{FIREFOX_FALLBACK.confirmedMessage}</p> : <button type="button" onClick={() => setFirefoxSaved(true)} className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-ink">{FIREFOX_FALLBACK.confirmLabel}</button>}
         </div>
-      ) : (
-        <div className="rounded-md border border-border bg-surface-muted p-4">
-          <p className="text-sm text-ink-muted">{FIREFOX_FALLBACK.notice}</p>
-          {firefoxSaved ? (
-            <p className="mt-2 text-sm text-ink">{FIREFOX_FALLBACK.confirmedMessage}</p>
-          ) : (
-            <button
-              type="button"
-              onClick={() => setFirefoxSaved(true)}
-              className="mt-2 rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-ink"
-            >
-              {FIREFOX_FALLBACK.confirmLabel}
-            </button>
-          )}
-        </div>
-      )}
+      ) : null}
 
       {confirmingSwitch ? (
         <div className="rounded-md border border-border bg-surface-muted p-4">

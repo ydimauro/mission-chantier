@@ -10,13 +10,13 @@ test("un nouvel élève de 5e accède à 5E-00 sans rester bloqué au chargement
   await page.getByRole("button", { name: "Commencer" }).click();
 
   await expect(page.getByText("Parcours 5e")).toBeVisible({ timeout: 5_000 });
-  await expect(page.getByText("5E-00", { exact: true })).toBeVisible();
+  await expect(page.getByText("5E-00", { exact: true }).first()).toBeVisible();
   await expect(page.getByRole("link", { name: "Commencer la mission" })).toBeVisible();
   await expect(page.getByText("Chargement de ta progression…")).toBeHidden();
 
   await page.reload();
   await expect(page.getByText("Parcours 5e")).toBeVisible({ timeout: 5_000 });
-  await expect(page.getByText("5E-00", { exact: true })).toBeVisible();
+  await expect(page.getByText("5E-00", { exact: true }).first()).toBeVisible();
 
   await page.getByRole("link", { name: "Commencer la mission" }).click();
   await expect(page).toHaveTitle(/5E-00.*Givors/i);

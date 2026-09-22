@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useProgression } from "@/providers/progression-provider";
+import { isTraceEcriteConfirmee } from "@/lib/progression/model";
 import { BilanMission } from "@/components/mission/BilanMission";
 import { CheckCircleIcon } from "@/components/ui/icons";
 import {
@@ -27,8 +29,15 @@ type Phase = "idle" | "saving" | "awaiting-export-confirmation" | "done";
  * chacune d’elles.
  */
 export function MissionCompletionFlow({ missionId, bilanText, canComplete }: MissionCompletionFlowProps) {
-  const { completeMission, exportFile, fileSystemAccessSupported, folderLinked } = useProgression();
+  const { completeMission, exportFile, fileSystemAccessSupported, folderLinked, snapshot } = useProgression();
   const [phase, setPhase] = useState<Phase>("idle");
+  const restoredCompletion = snapshot.status === "ready" && (() => {
+    const answers = snapshot.file.responses[missionId];
+    const hasActivityResponse = answers !== null && typeof answers === "object" && Object.keys(answers as Record<string, unknown>).some((key) => key !== "traceEcriteConfirmee");
+    const hasAssessment = snapshot.file.assessments.some((assessment) => assessment.missionId === missionId);
+    return isTraceEcriteConfirmee(snapshot.file, missionId) && (hasActivityResponse || hasAssessment);
+  })();
+  const readyToComplete = canComplete || restoredCompletion;
 
   async function handleComplete() {
     setPhase("saving");
@@ -48,6 +57,8 @@ export function MissionCompletionFlow({ missionId, bilanText, canComplete }: Mis
           <CheckCircleIcon />
           {MISSION_TERMINEE_CONFIRMED_MESSAGE}
         </p>
+        <p className="mt-3 text-sm text-ink">Ta mission est terminée et ta progression est sauvegardée. Suis maintenant la consigne de ton professeur ou de ta professeure.</p>
+        <Link href="/mission" className="mt-3 inline-flex rounded-full bg-brand px-4 py-2 text-sm font-semibold text-brand-contrast">Retour aux missions</Link>
       </BilanMission>
     );
   }
@@ -79,7 +90,7 @@ export function MissionCompletionFlow({ missionId, bilanText, canComplete }: Mis
   return (
     <button
       type="button"
-      disabled={!canComplete || phase === "saving"}
+      disabled={!readyToComplete || phase === "saving"}
       onClick={() => void handleComplete()}
       className="rounded-full bg-brand px-6 py-3 text-base font-semibold text-brand-contrast disabled:opacity-50"
     >

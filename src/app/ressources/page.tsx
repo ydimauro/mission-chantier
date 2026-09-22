@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
-import { PlaceholderSection } from "@/components/ui/PlaceholderSection";
-import { RESSOURCES_PLACEHOLDER } from "@content/pages/placeholders";
+import { ResourcesClient } from "@/components/resources/ResourcesClient";
 
-export const metadata: Metadata = { title: RESSOURCES_PLACEHOLDER.title };
+export const metadata: Metadata = { title: "Ressources" };
 
 export default function RessourcesPage() {
-  return (
-    <PlaceholderSection
-      title={RESSOURCES_PLACEHOLDER.title}
-      body={RESSOURCES_PLACEHOLDER.body}
-    />
-  );
+  return <ResourcesClient />;
 }

@@ -36,14 +36,18 @@ export const SWITCH_STUDENT_CONFIRM =
   "Veux-tu changer d’élève sur ce poste ? Ta progression reste enregistrée sur cet ordinateur, tu pourras la retrouver en entrant à nouveau ton code.";
 
 export const FOLDER_LABELS = {
-  chooseFolder: "Choisir mon dossier de sauvegarde",
-  folderActive: "Sauvegarde automatique activée dans ton dossier.",
+  title: "Où enregistrer mon fichier ?",
+  chooseFolder: "Choisir où enregistrer mon fichier .mcjson",
+  chooseHelp: "Choisis un dossier que tu retrouveras facilement. L’application y enregistrera automatiquement ton fichier de progression et une copie de sécurité.",
+  folderActive: "Sauvegarde automatique activée dans le dossier choisi.",
+  folderActiveHelp: "Ton fichier .mcjson est mis à jour dans ce dossier pendant ton travail.",
   permissionDenied: "Le dossier de sauvegarde n’est plus accessible. Choisis-le à nouveau.",
 } as const;
 
 export const FIREFOX_FALLBACK = {
   notice:
-    "Ce navigateur ne permet pas la sauvegarde automatique dans un dossier. Exporte ton fichier de progression à la fin de la séance.",
+    "Ce navigateur ne permet pas à l’application de choisir un dossier pour toi. Exporte ton fichier .mcjson à la fin de la séance et choisis son emplacement dans la fenêtre du navigateur si elle apparaît.",
+  exportLabel: "Exporter et choisir l’emplacement du fichier .mcjson",
   confirmLabel: "J’ai enregistré mon fichier.",
   confirmedMessage: "Merci. N’oublie pas de réimporter ce fichier la prochaine fois.",
 } as const;

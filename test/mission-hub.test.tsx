@@ -24,10 +24,10 @@ describe("MissionHub (audit ÉTAPE 10 § 3)", () => {
     render(<MissionHub />);
 
     expect(screen.getByText("Parcours 5e")).toBeInTheDocument();
-    expect(screen.getByText("5E-00")).toBeInTheDocument();
+    expect(screen.getAllByText("5E-00")).toHaveLength(2);
     expect(
-      screen.getByText("Comment transforme-t-on une partie d’une ville ?"),
-    ).toBeInTheDocument();
+      screen.getAllByText("Comment transforme-t-on une partie d’une ville ?"),
+    ).toHaveLength(2);
     expect(screen.getByText("Essentielle")).toBeInTheDocument();
     expect(screen.getByText("Missions terminées : 0 sur 14.")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Commencer la mission" })).toHaveAttribute(

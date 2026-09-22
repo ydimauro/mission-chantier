@@ -21,17 +21,19 @@ Chaque fichier élève contient :
 
 Chaque sauvegarde significative augmente `revision`. `updatedAt` est une information secondaire utile, mais la logique principale de comparaison repose sur `revision`, jamais sur l’horodatage seul (horloges de postes non fiables en environnement scolaire).
 
+Lorsqu’un élève répond dans une activité, l’application enregistre automatiquement cette réponse dans IndexedDB, avec une nouvelle révision. Le message « Travail enregistré sur ce poste » apparaît dans « Ma progression ». Cette sauvegarde permet de retrouver le travail sur le même navigateur et le même poste, y compris après le passage d’un autre élève utilisant son propre code.
+
 ## 3. Sauvegarde sous Edge / Chrome (File System Access API)
 
 Lorsque l’API est disponible :
 
-- l’élève choisit un dossier ;
+- l’élève choisit un dossier grâce au bouton explicite « Choisir où enregistrer mon fichier .mcjson », proposé dans « Ma mission » puis dans « Ma progression » ;
 - autosave réel dans ce dossier ;
 - fichier principal `mission-chantier-<studentCode>.mcjson` ;
 - copie de sécurité `.bak` mise à jour avant d’écraser le fichier principal, lorsque cela est techniquement raisonnable ;
 - confirmation réelle de l’écriture affichée à l’élève.
 
-Dossier conseillé :
+Dossier conseillé, choisi librement par l’élève ou avec le professeur :
 
 ```text
 Documents/
