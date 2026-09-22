@@ -97,3 +97,5 @@ Ce fichier recense les décisions qui attendent l’accord de l’enseignant. Po
 **Mise à jour (ÉTAPE 24, 2026-09-22)** : des illustrations vectorielles pédagogiques locales ont été ajoutées à chaque fiche Ressources. Elles ne remplacent pas les photographies réelles de Givors et ne sont jamais étiquetées comme telles.
 
 **Mise à jour (ÉTAPE 25, 2026-09-22)** : le bloc d’observations initiales est rétabli sur l’accueil. Ses choix sont repris après l’identification dans la première mission du niveau, sans écriture préalable dans une progression locale. Le diagnostic de 5E-00 reprend les cases cochées ; 4E-00 affiche le rappel des choix et conserve son diagnostic spécifique.
+
+**Mise à jour (ÉTAPE 26, 2026-09-22)** : les fiches Ressources utilisent des photographies libres de droit téléchargées depuis Wikimedia Commons, converties localement en WebP et attribuées. Elles sont clairement distinguées des photographies de la situation réelle de Givors. La liste complète des sources et licences est dans `docs/SOURCES_RESSOURCES.md`.

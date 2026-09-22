@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { RESOURCE_CATEGORIES, RESOURCE_ENTRIES, type ResourceCategory } from "@content/pages/resources";
-import { ResourceIllustration } from "@/components/resources/ResourceIllustration";
+import { ResourcePhoto } from "@/components/resources/ResourcePhoto";
 
 export function ResourcesClient() {
   const [category, setCategory] = useState<ResourceCategory | "Toutes">("Toutes");
@@ -32,7 +32,7 @@ export function ResourcesClient() {
       <section aria-labelledby="resources-list-title">
         <label className="flex flex-col gap-1 text-sm font-semibold text-ink">Rechercher un mot, un engin ou une mission<input value={query} onChange={(event) => setQuery(event.target.value)} type="search" placeholder="Exemple : pelle, capteur, 5E-03" className="rounded-md border border-border bg-surface px-3 py-2 text-base font-normal" /></label>
         <h2 id="resources-list-title" className="mt-5 text-lg font-bold text-ink">{entries.length} ressource{entries.length > 1 ? "s" : ""}</h2>
-        <ul className="mt-3 grid gap-3 sm:grid-cols-2">{entries.map((entry) => <li key={entry.id} className="rounded-md border border-border bg-surface p-4"><ResourceIllustration category={entry.category} term={entry.term}/><p className="mt-3 text-xs font-bold uppercase tracking-wide text-ink-muted">{entry.category} · {entry.subcategory}</p><h3 className="mt-1 text-lg font-bold text-ink">{entry.term}</h3><p className="mt-2 text-sm leading-6 text-ink">{entry.description}</p><p className="mt-3 text-xs text-ink-muted">Illustration pédagogique · Utilisé dans : {entry.missions.join(", ")}</p></li>)}</ul>
+        <ul className="mt-3 grid gap-3 sm:grid-cols-2">{entries.map((entry) => <li key={entry.id} className="rounded-md border border-border bg-surface p-4"><ResourcePhoto resourceId={entry.id} term={entry.term}/><p className="mt-3 text-xs font-bold uppercase tracking-wide text-ink-muted">{entry.category} · {entry.subcategory}</p><h3 className="mt-1 text-lg font-bold text-ink">{entry.term}</h3><p className="mt-2 text-sm leading-6 text-ink">{entry.description}</p><p className="mt-3 text-xs text-ink-muted">Utilisé dans : {entry.missions.join(", ")}</p></li>)}</ul>
         {entries.length === 0 ? <p className="mt-4 rounded-md border border-border bg-surface-muted p-4 text-sm text-ink">Aucune ressource ne correspond à cette recherche.</p> : null}
       </section>
     </div>
