@@ -9,6 +9,7 @@ describe("ressources", () => {
     render(<ResourcesClient />);
     expect(screen.getByRole("button", { name: "Engins" })).toBeInTheDocument();
     expect(screen.getByText("Pelle hydraulique")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Illustration pédagogique : Pelle hydraulique" })).toBeInTheDocument();
     await user.type(screen.getByRole("searchbox"), "capteur");
     expect(screen.getByText("Capteur de proximité")).toBeInTheDocument();
     expect(screen.queryByText("Bulldozer")).not.toBeInTheDocument();

@@ -93,3 +93,5 @@ Ce fichier recense les décisions qui attendent l’accord de l’enseignant. Po
 **Conséquences** : respecter `revision` et `updatedAt`, empêcher les écritures concurrentes obsolètes, tester le passage entre deux élèves et la fermeture puis réouverture. Aucun mécanisme local ne garantit la récupération après effacement des données du navigateur sans fichier de sauvegarde indépendant. Aucune modification applicative réalisée.
 
 **Mise à jour (ÉTAPE 22, 2026-09-22)** : la sauvegarde automatique des réponses, le menu des missions et la page Ressources ont été réalisés. Les réponses sont écrites dans IndexedDB avec une nouvelle révision et une file d’écriture pour conserver leur ordre. Le fichier `.mcjson` reste nécessaire hors du même poste et navigateur.
+
+**Mise à jour (ÉTAPE 24, 2026-09-22)** : des illustrations vectorielles pédagogiques locales ont été ajoutées à chaque fiche Ressources. Elles ne remplacent pas les photographies réelles de Givors et ne sont jamais étiquetées comme telles.
