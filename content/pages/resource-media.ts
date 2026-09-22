@@ -26,16 +26,15 @@ const PHOTOS = {
   distributeur: { file: "/ressources/photos/distributeur.webp", author: "Dietmar Rabich", license: "CC BY-SA 4.0" },
   flexibles: { file: "/ressources/photos/flexibles.webp", author: "Shixart1985", license: "CC BY 2.0" },
   cable: { file: "/ressources/photos/cable.webp", author: "Petar Milošević", license: "CC BY-SA 4.0" },
-  capteur: { file: "/ressources/photos/capteur.webp", author: "Lucasbosch", license: "CC BY-SA 3.0" },
   casque: { file: "/ressources/photos/casque.webp", author: "רנדום", license: "CC BY-SA 3.0" },
-  gilet: { file: "/ressources/photos/gilet.webp", author: "Rakás", license: "CC BY-SA 4.0" },
-  "zone-interdite": { file: "/ressources/photos/zone-interdite.webp", author: "Steve F", license: "CC BY-SA 2.0" },
+  gilet: { file: "/ressources/photos/gilet.webp", author: "Magnus Mertens", license: "CC BY-SA 2.0 de" },
+  "zone-interdite": { file: "/ressources/photos/zone-interdite.webp", author: "MarkBuckawicki", license: "CC0" },
 } as const satisfies Record<string, ResourcePhoto>;
 
 const photoByResourceId: Record<string, keyof typeof PHOTOS> = {
   pelle: "pelle", bulldozer: "bulldozer", chargeuse: "chargeuse", tombereau: "tombereau", grue: "grue", compacteur: "compacteur", telescopique: "telescopique",
   terre: "terre", gravats: "gravats", sable: "sable", acier: "acier", carburant: "carburant", batterie: "batterie",
-  godet: "pelle", cabine: "cabine", chenilles: "chenilles", joystick: "joystick", pompe: "verin", verin: "verin", moteur: "moteur", distributeur: "distributeur", flexibles: "flexibles", cable: "cable", capteur: "capteur", calculateur: "capteur",
+  godet: "pelle", cabine: "cabine", chenilles: "chenilles", joystick: "joystick", pompe: "verin", verin: "verin", moteur: "moteur", distributeur: "distributeur", flexibles: "flexibles", cable: "cable",
   casque: "casque", gilet: "gilet", "zone-interdite": "zone-interdite",
 };
 

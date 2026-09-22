@@ -27,9 +27,8 @@ Les crédits sont aussi affichés sous chaque photographie. Les licences CC BY e
 | `distributeur.webp` | Dietmar Rabich | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Duisburg,_Landschaftspark_Duisburg-Nord_--_2020_--_7824-6.jpg |
 | `flexibles.webp` | Shixart1985 | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:Close-up_view_of_complex_machinery_components_in_a_rural_field.jpg |
 | `cable.webp` | Petar Milošević | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Electric_guide_3%C3%972.5_mm.jpg |
-| `capteur.webp` | Lucasbosch | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Pepperl%2BFuchs_inductive_proximity_switch_3RG4113-3AG33-PF.jpg |
 | `casque.webp` | רנדום | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Yellow_hard_hat.jpg |
-| `gilet.webp` | Rakás | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Mormon_Helping_Hands_(high-visibility_vest,_Hungarian).jpg |
-| `zone-interdite.webp` | Steve F | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:Netting_the_floors_behind_easi-edge_safety_barrier._-_geograph.org.uk_-_540007.jpg |
+| `gilet.webp` | Magnus Mertens | CC BY-SA 2.0 de | https://commons.wikimedia.org/wiki/File:Warnweste_gelb.jpg |
+| `zone-interdite.webp` | MarkBuckawicki | CC0 | https://commons.wikimedia.org/wiki/File:Danger_Keep_Out_Sign.JPG |
 
 Les fiches du glossaire n’affichent pas de photographie afin de privilégier la lecture des définitions.

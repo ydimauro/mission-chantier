@@ -13,6 +13,12 @@ describe("ressources", () => {
     await user.type(screen.getByRole("searchbox"), "capteur");
     expect(screen.getByText("Capteur de proximité")).toBeInTheDocument();
     expect(screen.queryByText("Bulldozer")).not.toBeInTheDocument();
+    expect(screen.queryByRole("img", { name: /Photographie d’illustration/ })).not.toBeInTheDocument();
+
+    await user.clear(screen.getByRole("searchbox"));
+    await user.type(screen.getByRole("searchbox"), "calculateur");
+    expect(screen.getByText("Calculateur")).toBeInTheDocument();
+    expect(screen.queryByRole("img", { name: /Photographie d’illustration/ })).not.toBeInTheDocument();
   });
 
   it("allège le glossaire en n’affichant pas de photographie", async () => {
