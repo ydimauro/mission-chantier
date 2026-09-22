@@ -21,6 +21,7 @@ const PHOTOS = {
   cabine: { file: "/ressources/photos/cabine.webp", author: "Grendelkhan", license: "CC BY-SA 4.0" },
   chenilles: { file: "/ressources/photos/chenilles.webp", author: "Bugsybanana", license: "CC BY-SA 4.0" },
   joystick: { file: "/ressources/photos/joystick.webp", author: "Mithilrkadam", license: "CC BY-SA 4.0" },
+  pompe: { file: "/ressources/photos/pompe.webp", author: "Image fournie par l’enseignant", license: "Autorisation fournie" },
   verin: { file: "/ressources/photos/verin.webp", author: "Federal Bureau of Investigation", license: "Domaine public" },
   moteur: { file: "/ressources/photos/moteur.webp", author: "G.N.C.", license: "CC BY-SA 3.0" },
   distributeur: { file: "/ressources/photos/distributeur.webp", author: "Dietmar Rabich", license: "CC BY-SA 4.0" },
@@ -34,7 +35,7 @@ const PHOTOS = {
 const photoByResourceId: Record<string, keyof typeof PHOTOS> = {
   pelle: "pelle", bulldozer: "bulldozer", chargeuse: "chargeuse", tombereau: "tombereau", grue: "grue", compacteur: "compacteur", telescopique: "telescopique",
   terre: "terre", gravats: "gravats", sable: "sable", acier: "acier", carburant: "carburant", batterie: "batterie",
-  godet: "pelle", cabine: "cabine", chenilles: "chenilles", joystick: "joystick", pompe: "verin", verin: "verin", moteur: "moteur", distributeur: "distributeur", flexibles: "flexibles", cable: "cable",
+  godet: "pelle", cabine: "cabine", chenilles: "chenilles", joystick: "joystick", pompe: "pompe", verin: "verin", moteur: "moteur", distributeur: "distributeur", flexibles: "flexibles", cable: "cable",
   casque: "casque", gilet: "gilet", "zone-interdite": "zone-interdite",
 };
 

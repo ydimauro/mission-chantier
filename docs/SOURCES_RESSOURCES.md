@@ -22,6 +22,7 @@ Les crédits sont aussi affichés sous chaque photographie. Les licences CC BY e
 | `cabine.webp` | Grendelkhan | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Doosan_DX_225_LC_excavator_cab_at_job_site_in_Campbell.jpg |
 | `chenilles.webp` | Bugsybanana | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Kobelco_Excavator_(26159).jpg |
 | `joystick.webp` | Mithilrkadam | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Industrial_joystick_top.jpg |
+| `pompe.webp` | Image fournie par l’enseignant | Autorisation fournie | Image transmise dans la conversation le 2026-09-22, convertie en WebP local. |
 | `verin.webp` | Federal Bureau of Investigation | Domaine public | https://commons.wikimedia.org/wiki/File:EFTA00002718_-_Yellow_excavator_arm_rests_inside_a_metal_garage_its_hydraulic_cylinders_and_hoses_visible_in_the_foreground.jpg |
 | `moteur.webp` | G.N.C. | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Electric_motor.jpg |
 | `distributeur.webp` | Dietmar Rabich | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Duisburg,_Landschaftspark_Duisburg-Nord_--_2020_--_7824-6.jpg |
