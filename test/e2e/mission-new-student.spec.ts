@@ -1,7 +1,9 @@
 import { expect, test } from "@playwright/test";
 
-test("un nouvel élève de 5e accède à 5E-00 sans rester bloqué au chargement", async ({ page }) => {
-  await page.goto("/mission");
+test("un nouvel élève de 5e retrouve son observation de l’accueil dans 5E-00", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("checkbox", { name: "On démolit" }).check();
+  await page.getByRole("link", { name: "Ouvrir mes missions" }).click();
 
   await expect(page.getByRole("heading", { name: "Qui es-tu ?" })).toBeVisible({ timeout: 5_000 });
   await page.getByLabel("Code élève").fill("E2E-5E-00");
@@ -10,17 +12,20 @@ test("un nouvel élève de 5e accède à 5E-00 sans rester bloqué au chargement
   await page.getByRole("button", { name: "Commencer" }).click();
 
   await expect(page.getByText("Parcours 5e")).toBeVisible({ timeout: 5_000 });
+  await expect(page).toHaveURL(/\/mission$/);
   await expect(page.getByText("5E-00", { exact: true }).first()).toBeVisible();
-  await expect(page.getByRole("link", { name: "Commencer la mission" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Poursuivre la mission" })).toBeVisible();
   await expect(page.getByText("Chargement de ta progression…")).toBeHidden();
 
   await page.reload();
   await expect(page.getByText("Parcours 5e")).toBeVisible({ timeout: 5_000 });
   await expect(page.getByText("5E-00", { exact: true }).first()).toBeVisible();
 
-  await page.getByRole("link", { name: "Commencer la mission" }).click();
+  await page.getByRole("link", { name: "Poursuivre la mission" }).click();
   await expect(page).toHaveTitle(/5E-00.*Givors/i);
   await expect(page.getByText("Situation réelle", { exact: true })).toBeVisible({ timeout: 5_000 });
   await expect(page.getByRole("heading", { name: "Problématique" })).toBeVisible();
+  await expect(page.getByText("Sur l’accueil, tu avais choisi :")).toBeVisible();
+  await expect(page.getByRole("checkbox", { name: "On démolit" })).toBeChecked();
   await expect(page.getByText("Écris dans ton cours")).toBeVisible();
 });

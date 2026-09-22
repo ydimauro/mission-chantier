@@ -31,6 +31,7 @@ import {
  */
 export function MissionHub() {
   const { snapshot } = useProgression();
+
   if (snapshot.status !== "ready") return null;
 
   const { niveau, completedMissionIds, responses, assessments } = snapshot.file;

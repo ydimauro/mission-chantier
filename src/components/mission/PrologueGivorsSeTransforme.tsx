@@ -14,6 +14,7 @@ import { DiagnosticChecklist, type DiagnosticOption } from "@/components/mission
 import { MissionCompletionFlow } from "@/components/mission/MissionCompletionFlow";
 import { DiagnosticNotice } from "@/components/evaluation/DiagnosticNotice";
 import { useProgression } from "@/providers/progression-provider";
+import { HOME_CONTENT } from "@content/pages/placeholders";
 import type { GivorsMedia } from "@content/givors/media";
 
 export type PrologueContent = {
@@ -37,9 +38,17 @@ export type PrologueContent = {
  * par leur contenu (content/5e/5e-00.ts, content/4e/4e-00.ts).
  */
 export function PrologueGivorsSeTransforme({ content }: { content: PrologueContent }) {
-  const { recordResponses } = useProgression();
+  const { recordResponses, snapshot } = useProgression();
   const media = content.media;
   const [traceEcriteDone, setTraceEcriteDone] = useState(false);
+  const savedResponses = snapshot.status === "ready" ? snapshot.file.responses[content.missionId] : null;
+  const possibleHomeChoices = savedResponses !== null && typeof savedResponses === "object" ? (savedResponses as Record<string, unknown>).observationsAccueil : null;
+  const homeChoices: string[] = Array.isArray(possibleHomeChoices) ? possibleHomeChoices.filter((choice): choice is string => typeof choice === "string") : [];
+  const initialSelected = homeChoices.filter((choice) => content.diagnosticOptions.some((option) => option.id === choice));
+  const choiceLabels = homeChoices.flatMap((choice) => {
+    const label = HOME_CONTENT.observationChoices.find((option) => option.id === choice)?.label;
+    return label ? [label] : [];
+  });
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6 px-4 py-10">
@@ -64,9 +73,12 @@ export function PrologueGivorsSeTransforme({ content }: { content: PrologueConte
 
       <Observe>{content.observeText}</Observe>
 
+      {choiceLabels.length > 0 ? <p className="rounded-md border border-border bg-surface-muted p-3 text-sm text-ink">Sur l’accueil, tu avais choisi : <strong>{choiceLabels.join(", ")}</strong>. Tu peux garder ou modifier ces choix.</p> : null}
+
       <DiagnosticChecklist
         question={content.diagnosticQuestion}
         options={content.diagnosticOptions}
+        initialSelected={initialSelected}
         onChange={(selected) => recordResponses(content.missionId, { diagnostic: selected })}
       />
 

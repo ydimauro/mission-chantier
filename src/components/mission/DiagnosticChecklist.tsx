@@ -10,6 +10,7 @@ export type DiagnosticOption = {
 type DiagnosticChecklistProps = {
   question: string;
   options: readonly DiagnosticOption[];
+  initialSelected?: readonly string[];
   onChange?: (selectedIds: readonly string[]) => void;
 };
 
@@ -19,8 +20,8 @@ type DiagnosticChecklistProps = {
  * Réponses stockées en `responses`, jamais dans `assessments` (rien à
  * corriger ici, ce n’est pas une évaluation formative ou sommative).
  */
-export function DiagnosticChecklist({ question, options, onChange }: DiagnosticChecklistProps) {
-  const [selected, setSelected] = useState<readonly string[]>([]);
+export function DiagnosticChecklist({ question, options, initialSelected = [], onChange }: DiagnosticChecklistProps) {
+  const [selected, setSelected] = useState<readonly string[]>(initialSelected);
 
   function toggle(id: string) {
     const next = selected.includes(id)

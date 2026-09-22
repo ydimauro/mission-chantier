@@ -95,3 +95,5 @@ Ce fichier recense les décisions qui attendent l’accord de l’enseignant. Po
 **Mise à jour (ÉTAPE 22, 2026-09-22)** : la sauvegarde automatique des réponses, le menu des missions et la page Ressources ont été réalisés. Les réponses sont écrites dans IndexedDB avec une nouvelle révision et une file d’écriture pour conserver leur ordre. Le fichier `.mcjson` reste nécessaire hors du même poste et navigateur.
 
 **Mise à jour (ÉTAPE 24, 2026-09-22)** : des illustrations vectorielles pédagogiques locales ont été ajoutées à chaque fiche Ressources. Elles ne remplacent pas les photographies réelles de Givors et ne sont jamais étiquetées comme telles.
+
+**Mise à jour (ÉTAPE 25, 2026-09-22)** : le bloc d’observations initiales est rétabli sur l’accueil. Ses choix sont repris après l’identification dans la première mission du niveau, sans écriture préalable dans une progression locale. Le diagnostic de 5E-00 reprend les cases cochées ; 4E-00 affiche le rappel des choix et conserve son diagnostic spécifique.

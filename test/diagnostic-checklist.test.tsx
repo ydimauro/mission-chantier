@@ -29,4 +29,11 @@ describe("DiagnosticChecklist (docs/SPEC.md § 21)", () => {
     await user.click(screen.getByLabelText("Option A"));
     expect(onChange).toHaveBeenLastCalledWith(["b"]);
   });
+
+  it("reprend les choix transmis par l’accueil", () => {
+    render(<DiagnosticChecklist question="Que vois-tu ?" options={options} initialSelected={["b"]} />);
+
+    expect(screen.getByLabelText("Option B")).toBeChecked();
+    expect(screen.getByLabelText("Option A")).not.toBeChecked();
+  });
 });
