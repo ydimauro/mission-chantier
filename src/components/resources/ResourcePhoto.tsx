@@ -7,7 +7,7 @@ export function ResourcePhoto({ resourceId, term }: { resourceId: string; term: 
 
   return (
     <figure>
-      <Image src={photo.file} alt={`Photographie d’illustration : ${term}`} width={640} height={360} className="h-32 w-full rounded-md border border-border object-cover" />
+      <Image src={photo.file} alt={`Photographie d’illustration : ${term}`} width={640} height={360} className="aspect-video h-auto w-full rounded-md border border-border bg-surface-muted object-contain" />
       <figcaption className="mt-2 text-xs text-ink-muted">
         Photographie d’illustration, hors Givors · {photo.author} · {photo.license}
       </figcaption>
