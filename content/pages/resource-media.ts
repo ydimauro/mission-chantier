@@ -37,7 +37,6 @@ const photoByResourceId: Record<string, keyof typeof PHOTOS> = {
   terre: "terre", gravats: "gravats", sable: "sable", acier: "acier", carburant: "carburant", batterie: "batterie",
   godet: "pelle", cabine: "cabine", chenilles: "chenilles", joystick: "joystick", pompe: "verin", verin: "verin", moteur: "moteur", distributeur: "distributeur", flexibles: "flexibles", cable: "cable", capteur: "capteur", calculateur: "capteur",
   casque: "casque", gilet: "gilet", "zone-interdite": "zone-interdite",
-  besoin: "joystick", contrainte: "zone-interdite", "matiere-energie-information": "moteur", "chaine-energie": "moteur", "chaine-information": "capteur", simulation: "capteur", protocole: "cable",
 };
 
 export function getResourcePhoto(resourceId: string): ResourcePhoto {

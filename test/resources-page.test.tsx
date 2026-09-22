@@ -14,4 +14,14 @@ describe("ressources", () => {
     expect(screen.getByText("Capteur de proximité")).toBeInTheDocument();
     expect(screen.queryByText("Bulldozer")).not.toBeInTheDocument();
   });
+
+  it("allège le glossaire en n’affichant pas de photographie", async () => {
+    const user = userEvent.setup();
+    render(<ResourcesClient />);
+
+    await user.click(screen.getByRole("button", { name: "Glossaire" }));
+
+    expect(screen.getByText("Besoin")).toBeInTheDocument();
+    expect(screen.queryByRole("img", { name: /Photographie d’illustration/ })).not.toBeInTheDocument();
+  });
 });

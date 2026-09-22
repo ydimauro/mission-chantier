@@ -32,4 +32,4 @@ Les crédits sont aussi affichés sous chaque photographie. Les licences CC BY e
 | `gilet.webp` | Rakás | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Mormon_Helping_Hands_(high-visibility_vest,_Hungarian).jpg |
 | `zone-interdite.webp` | Steve F | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:Netting_the_floors_behind_easi-edge_safety_barrier._-_geograph.org.uk_-_540007.jpg |
 
-Certaines ressources de glossaire réemploient une photographie déjà pertinente pour leur notion, sans créer de requête externe au moment de l’utilisation.
+Les fiches du glossaire n’affichent pas de photographie afin de privilégier la lecture des définitions.
