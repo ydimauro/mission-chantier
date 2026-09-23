@@ -17,7 +17,7 @@ const PHOTOS = {
   sable: { file: "/ressources/photos/sable.webp", author: "Bill Nicholls", license: "CC BY-SA 2.0" },
   acier: { file: "/ressources/photos/acier.webp", author: "Shixart1985", license: "CC BY 2.0" },
   carburant: { file: "/ressources/photos/carburant.webp", author: "Mr. Satterly", license: "CC0" },
-  batterie: { file: "/ressources/photos/batterie.webp", author: "RudolfSimon", license: "CC BY-SA 3.0" },
+  batterie: { file: "/ressources/photos/batterie.webp", author: "Image fournie par l’enseignant", license: "Autorisation fournie" },
   godet: { file: "/ressources/photos/godet.webp", author: "Image fournie par l’enseignant", license: "Autorisation fournie" },
   cabine: { file: "/ressources/photos/cabine.webp", author: "Grendelkhan", license: "CC BY-SA 4.0" },
   chenilles: { file: "/ressources/photos/chenilles.webp", author: "Bugsybanana", license: "CC BY-SA 4.0" },
