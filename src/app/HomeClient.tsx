@@ -64,7 +64,7 @@ export function HomeClient() {
         </div>
       </section>
 
-      <p className="text-center text-xs text-ink-muted">La première mission reprend tes choix puis contient l’écriture dans ton cahier.</p>
+      <p className="text-center text-xs text-ink-muted">La première mission reprend tes choix puis contient l’écriture dans ton cours.</p>
     </div>
   );
 }

@@ -28,7 +28,7 @@ export const MISSION_5E_FINAL = {
   conclusionLabel: "Écris ta conclusion : ton hypothèse est-elle confirmée ? Pourquoi ?",
   traceTitle: "Synthèse de ta démarche",
   tracePrompt:
-    "Sur ton cahier, écris une phrase qui résume ta démarche sur cette mission : ce que tu as choisi et pourquoi.",
+    "Dans ton cours, écris une phrase qui résume ta démarche sur cette mission : ce que tu as choisi et pourquoi.",
 } as const;
 
 export const COMPARISON_5E_FINAL_CRITERIA = ["Masse", "Terrain", "Bruit", "Coût"] as const;

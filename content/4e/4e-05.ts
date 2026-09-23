@@ -33,7 +33,7 @@ export const DIAGNOSTIC_4E_05_SOLUTIONS: readonly DiagnosticChoice[] = [
 
 export const MISSION_4E_05_TRACE = {
   title: "La démarche de diagnostic",
-  prompt: "Dans ton cahier, complète un tableau : symptôme / hypothèses / tests réalisés / cause retenue / solution proposée.",
+  prompt: "Dans ton cours, complète un tableau : symptôme / hypothèses / tests réalisés / cause retenue / solution proposée.",
 } as const;
 
 export const MISSION_4E_05_BILAN =

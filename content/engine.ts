@@ -22,7 +22,7 @@ export const OBJECTIF_LABEL_PLURIEL = "Objectifs";
 export const OBSERVE_LABEL = "Observe";
 
 export const HYPOTHESE_LABEL = "Formule une hypothèse";
-export const HYPOTHESE_RAPPEL_CAHIER = "Note ton hypothèse dans ton cahier.";
+export const HYPOTHESE_RAPPEL_COURS = "Note ton hypothèse dans ton cours.";
 
 export const CONSIGNE_LABEL = "Consigne";
 
@@ -152,4 +152,3 @@ export const BLOCK_PROGRAM_LABELS = {
   outcomeNotTriggered: "aucune action déclenchée",
   runFirstNotice: "Teste ton programme sur les trois scénarios avant de le remettre.",
 } as const;
-

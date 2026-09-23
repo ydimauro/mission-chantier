@@ -36,7 +36,7 @@ export const MISSION_4E_00: MissionEntry = {
   problematique: "Quels systèmes techniques permettent de réaliser les transformations que tu observes ?",
   activite:
     "Observer une photographie réelle du centre-ville de Givors et répondre à des questions diagnostiques orientées système technique.",
-  traceEcrite: "Réponse personnelle conservée dans le cahier, reprise en 4E-11.",
+  traceEcrite: "Réponse personnelle conservée dans le cours, reprise en 4E-11.",
   evaluation: null,
   evaluationJustification: "Diagnostique uniquement : sert à connaître les représentations initiales, ne compte jamais dans la note.",
   durations: { fastMinutes: 15, averageMinutes: 25, slowMinutes: 38, absoluteMaxMinutes: 40 },
@@ -160,7 +160,7 @@ export const MISSION_4E_11: MissionEntry = {
   id: "4E-11", niveau: "4e", href: "/mission/4e-11", status: "essentielle",
   problematique: "Peux-tu concevoir un chantier qui utilise l’information pour être plus sûr et plus efficace ?",
   activite: "Programmer un capteur, diagnostiquer un signal et optimiser un réglage de chantier.",
-  traceEcrite: "Synthèse structurée et réflexion sur le cahier de 4E-00.",
+  traceEcrite: "Synthèse structurée et réflexion sur le cours de 4E-00.",
   evaluation: "Évaluation sommative intégrative n° 5, corrigée dans /teacher.", evaluationJustification: null,
   durations: { fastMinutes: 30, averageMinutes: 38, slowMinutes: 43, absoluteMaxMinutes: 45 },
 };
@@ -328,7 +328,7 @@ export const MISSION_5E_12: MissionEntry = {
   status: "essentielle",
   activite: "Mission intégrative : choisir des engins, organiser la circulation, simuler l’évacuation des gravats et justifier.",
   problematique: "Peux-tu organiser toi-même une partie du chantier du Quartier des Ateliers ?",
-  traceEcrite: "Synthèse structurée (besoin, contraintes, choix, résultat de simulation, justification), puis boucle réflexive sur le cahier de 5E-00.",
+  traceEcrite: "Synthèse structurée (besoin, contraintes, choix, résultat de simulation, justification), puis boucle réflexive sur le cours de 5E-00.",
   evaluation: "Évaluation formative sur l’ensemble du parcours de la mission (mobilisation transversale, non sommative).",
   evaluationJustification: null,
   durations: { fastMinutes: 30, averageMinutes: 38, slowMinutes: 43, absoluteMaxMinutes: 45 },
@@ -342,7 +342,7 @@ export const MISSION_5E_FINAL: MissionEntry = {
   problematique: "Sur un nouveau chantier, sais-tu réutiliser ce que tu as appris ?",
   activite:
     "Mission de transfert sur un chantier nouveau (école de Rocheval) : choix d’engin justifié, lecture de contraintes, simulation d’évacuation notée.",
-  traceEcrite: "Phrase de synthèse de la démarche (choix, contraintes lues, résultat de simulation) recopiée sur le cahier.",
+  traceEcrite: "Phrase de synthèse de la démarche (choix, contraintes lues, résultat de simulation) recopiée dans le cours.",
   evaluation: "Évaluation finale sommative et certificative (60 % de la note /20), corrigée dans /teacher (docs/EVALUATIONS.md § 4.2).",
   evaluationJustification: null,
   durations: { fastMinutes: 28, averageMinutes: 35, slowMinutes: 43, absoluteMaxMinutes: 45 },

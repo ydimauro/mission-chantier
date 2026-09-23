@@ -6,7 +6,7 @@ import type { AssociationChoice, AssociationItem } from "@/components/mission/As
  * évaluation formative sur l’ensemble du parcours de la mission. Combine
  * choix d’engins, organisation de la circulation et simulation
  * d’évacuation (réutilisation de 5E-03/5E-07/5E-08), puis boucle réflexive
- * sur le cahier de 5E-00 (non notée).
+ * sur le cours de 5E-00 (non notée).
  */
 export const MISSION_5E_12 = {
   id: "5E-12",
@@ -22,10 +22,10 @@ export const MISSION_5E_12 = {
   consigneSimulation: "Simule l’évacuation des gravats avec les engins que tu as choisis, puis observe les résultats.",
   syntheseTitle: "Synthèse de ta mission",
   synthesePrompt:
-    "Décris, sur ton cahier : le besoin, les contraintes, tes choix, le résultat de ta simulation et ta justification.",
-  reflexionTitle: "Retour sur ton cahier de la première séance",
+    "Décris dans ton cours : le besoin, les contraintes, tes choix, le résultat de ta simulation et ta justification.",
+  reflexionTitle: "Retour sur ton cours de la première séance",
   reflexionPrompt:
-    "Ouvre ton cahier à la première séance (5E-00). Relis ce que tu avais écrit. Qu’ajouterais-tu aujourd’hui ? Qu’avais-tu oublié ? Cite trois choses que tu comprends mieux maintenant.",
+    "Ouvre ton cours à la première séance (5E-00). Relis ce que tu avais écrit. Qu’ajouterais-tu aujourd’hui ? Qu’avais-tu oublié ? Cite trois choses que tu comprends mieux maintenant.",
 } as const;
 
 export const ASSOCIATION_5E_12_ENGINS_CHOICES: readonly AssociationChoice[] = [

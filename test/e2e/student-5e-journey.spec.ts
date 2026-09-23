@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 /**
- * ÉTAPE 20 (docs/SPEC.md § 65) : parcours élève 5e complet — Givors → cahier
+ * ÉTAPE 20 (docs/SPEC.md § 65) : parcours élève 5e complet — Givors → cours
  * → mission → évaluation → sauvegarde → reprise.
  */
 test("un élève de 5e observe Givors, dépose une évaluation, sauvegarde puis reprend sa progression", async ({
@@ -23,10 +23,11 @@ test("un élève de 5e observe Givors, dépose une évaluation, sauvegarde puis 
   await expect(page).toHaveTitle(/5E-00.*Givors/i);
   await expect(page.getByRole("heading", { name: "Problématique" })).toBeVisible();
 
-  // Le cahier papier reste l'outil de trace écrite : /carnet n'affiche jamais
-  // de contenu de mission, seulement un rappel de ce principe.
+  // Le cours sur papier reste l'outil de trace écrite : /carnet affiche les
+  // consignes d'écriture et l'état de leur confirmation.
   await page.goto("/carnet");
-  await expect(page.getByRole("heading", { name: "Mon carnet" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Mon cours" })).toBeVisible();
+  await expect(page.getByText("À écrire", { exact: true }).first()).toBeVisible();
 
   // Navigation directe vers une mission avec évaluation sommative (5E-04) :
   // aucune séquence imposée une fois l'identité créée (RequireStudentIdentity

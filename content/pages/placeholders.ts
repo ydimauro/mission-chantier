@@ -26,11 +26,6 @@ export const HOME_CONTENT = {
   ctaCaption: "Observer · Comprendre · Agir pour demain",
 } as const;
 
-export const CARNET_PLACEHOLDER = {
-  title: "Mon carnet",
-  body: "Cet espace rappellera, mission après mission, ce que tu dois écrire dans ton cahier papier. L’application ne remplace jamais le cahier.",
-} as const;
-
 export const RESSOURCES_PLACEHOLDER = {
   title: "Ressources",
   body: "Tu trouveras ici le lexique, les sources utilisées et des informations sur des métiers liés au chantier et à la ville.",

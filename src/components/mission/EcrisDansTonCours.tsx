@@ -6,12 +6,12 @@ import { ECRIS_DANS_TON_COURS_DONE_LABEL, ECRIS_DANS_TON_COURS_LABEL } from "@co
 
 type EcrisDansTonCoursProps = {
   children: ReactNode;
-  /** Appelé quand l’élève confirme avoir écrit dans son cahier papier. */
+  /** Appelé quand l’élève confirme avoir écrit dans son cours sur papier. */
   onDone?: () => void;
 };
 
 /**
- * Rappelle ce que l’élève doit écrire sur son cahier papier. Le bouton de
+ * Rappelle ce que l’élève doit écrire dans son cours. Le bouton de
  * confirmation ne valide jamais à lui seul une compétence (docs/SPEC.md § 12) :
  * il ne fait qu’enregistrer que l’élève déclare avoir terminé d’écrire.
  */

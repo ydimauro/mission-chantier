@@ -24,7 +24,7 @@ export const MISSION_4E_FINAL = {
   conclusionLabel: "Explique ce que montre la simulation et le réglage que tu retiens.",
   traceTitle: "Synthèse de ma démarche de transfert",
   tracePrompt:
-    "Dans ton cahier, écris quatre phrases : ton choix d’engin, une contrainte de circulation, le test de diagnostic utile et le réglage hydraulique retenu.",
+    "Dans ton cours, écris quatre phrases : ton choix d’engin, une contrainte de circulation, le test de diagnostic utile et le réglage hydraulique retenu.",
 } as const;
 
 export const COMPARISON_4E_FINAL_CRITERIA = ["Charge pédagogique", "Espace", "Précision", "Énergie pédagogique"] as const;
